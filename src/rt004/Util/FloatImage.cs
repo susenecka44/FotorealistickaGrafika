@@ -1,11 +1,9 @@
 ﻿using System.Diagnostics;
-using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
 // ReSharper disable InconsistentNaming
 // ReSharper disable IdentifierTypo
 
-namespace rt004
+namespace Util
 {
   /// <summary>
   /// Multi-channel float raster image.
