@@ -349,6 +349,7 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-# HDR images must be opt-in
+# HDR images and logs must be opt-in
 *.hdr
 *.pfm
+log.txt
