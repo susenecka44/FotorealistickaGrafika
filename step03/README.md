@@ -1,13 +1,14 @@
-# Step 3 - Raster image output
+# Step03 - Raster image output
 * Your program should create an HDR raster image with the given
   resolution and write it to a disk file – PFM and Radiance HDR
   formats are available in the
-  [project template](https://github.com/pepcape/RT004/tree/main/src)
+  [project template](../src)
 * Implement any "non-trivial" image content (e.g. defined by a formula)
   – please test your command-line/config parameters, try to modify
   the image resolution and content
 * **Checkpoint 1** - send me an URL of your repository, I'll check
-  it (access, compile, run, HDR image)
+  it (access, compile, run, HDR image). I'll try to modify your
+  config file as well.
 
 ## Useful links
 * HDR image viewer [Picturenaut](http://www.hdrlabs.com/picturenaut/)
