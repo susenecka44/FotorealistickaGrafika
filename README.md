@@ -31,6 +31,8 @@ complaints.
 * It seems like the `System.Numerics` library doesn't support `double`
   types (yet?), so I'm going to use the lightweighted `OpenTK.Mathematics`
   library instead, distributed in [NuGet form](https://www.nuget.org/packages/OpenTK.Mathematics/5.0.0-pre.8)
+* Visual Studio 2022 supports direct **MarkDown editing** (with live
+  result preview) starting from the 17.5 update
 
 # Your Documentation
 Use the [separate file DOC.md](DOC.md) to avoid merge conflicts.

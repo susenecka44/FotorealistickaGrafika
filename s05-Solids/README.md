@@ -6,7 +6,7 @@
   this function calculates the intersection. You probably want to work
   with the "parametric" intersections - `P0 + t * p1`, the actual
   real-world coordinates can be calculated later.
-* Think about the persistence of your solids (i.e. how will they be
+* Think about the **persistence** of your solids (i.e. how will they be
   loaded from the configuration/scene-definition file in the future).
 
 ## Notes
@@ -14,7 +14,7 @@
   **2D texture coordinates** in the system. Think about it today -
   you don't have to implement it right away, but be prepared for it...
 * You don't have to use object-oriented design today.
-  Remember that in the near future you will be required to.(see
+  Remember that in the near future you will be required to (see
   the [step08](../step08)).
 
 # Your Documentation
