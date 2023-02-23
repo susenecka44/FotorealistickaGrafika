@@ -27,5 +27,12 @@
   Remember that in the near future you will be required to (see
   the [step08](../step08)).
 
+## References
+* MFF slides
+  * [The Phong Shading Model](https://cgg.mff.cuni.cz/~pepca/lectures/pdf/prg-03-phong.pdf)
+  * [Reflectance Models (BRDF)](https://cgg.mff.cuni.cz/~pepca/lectures/pdf/prg-05-brdf.pdf) -
+    see slide 55 (Schlick's substitute for the Fresnel term)
+* [BRDF on Wikipedia](https://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function)
+
 # Your Documentation
 Use the [separate file DOC.md](DOC.md) to avoid merge conflicts.
