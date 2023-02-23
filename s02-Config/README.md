@@ -5,3 +5,6 @@
 * Setup a simple command-line parameter and config-file parsing system
   – any simple text based (or XML-based) format is possible.
 * Some simple logging/debug system could be useful but you can postpone it...
+
+# Your Documentation
+Use the [separate file DOC.md](DOC.md) to avoid merge conflicts.

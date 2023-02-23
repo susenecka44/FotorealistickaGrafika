@@ -22,3 +22,6 @@
   but to think about them could be useful...
 * You don't need to use object-oriented design today at all, but in the near
   future you will be asked for it (see the [step08](../step08)).
+
+# Your Documentation
+Use the [separate file DOC.md](DOC.md) to avoid merge conflicts.
