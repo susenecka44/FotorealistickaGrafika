@@ -15,7 +15,7 @@
   you don't have to implement it right away, but be prepared for it...
 * You don't have to use object-oriented design today.
   Remember that in the near future you will be required to (see
-  the [step08](../step08)).
+  the [step09](../s09-OOP)).
 
 ## References
 * MFF slides
