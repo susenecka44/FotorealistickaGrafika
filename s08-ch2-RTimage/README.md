@@ -13,9 +13,10 @@ should be used in the scene.
 
 # Sample
 A sample scene with three spheres and two point light sources
-is provided for reference: [scene definition](sample-scene.md),
-[result image](sample-raycasting.jpg). You should get similar result
-if you use the same scene definition.
+is provided for reference: [scene definition](sample-scene.md).
+You should get similar result if you use the same scene definition.
+
+![Sample result](sample-raycasting.jpg)
 
 # Your Documentation
 Use the [separate file DOC.md](DOC.md) to avoid merge conflicts.
