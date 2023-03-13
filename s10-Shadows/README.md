@@ -1,9 +1,21 @@
 # Step10 - Shadows
 * You have to include **simple ("sharp") shadows** computed
   by single shadow rays.
+* This is done by throwing **secondary "shading" rays** from each
+  intersection point to each light source. The contribution of the
+  light source is counted only if no obstacle is found!
 
 ## Notes
-* Nothing yet
+* Beware of numerical (rounding) errors: **the solid must not
+  intersect its own shading ray** (use of some suitable constant
+  is recommended, e.g. `double EPSILON = 1.0e-6`) for
+  parameter `t` tests.
+* If you are using **directional light sources**
+  ("shining from infinity"), their obstacle presence test could
+  be different.
+* Consider using **unit direction vectors** for your shading rays.
+  It could be little more complicated (distance of the light source),
+  but can lead to more robust computation
 
 ## References
 * Nothing yet
