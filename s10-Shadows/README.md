@@ -6,7 +6,7 @@
   light source is counted only if no obstacle is found!
 
 ## Notes
-* Beware of numerical (rounding) errors: **the solid must not
+* Beware of numerical/rounding errors: **the solid must not
   intersect its own shading ray** (use of some suitable constant
   is recommended, e.g. `double EPSILON = 1.0e-6`) for
   parameter `t` tests.
@@ -16,6 +16,7 @@
 * Consider using **unit direction vectors** for your shading rays.
   It could be little more complicated (distance of the light source),
   but can lead to more robust computation
+* Think about future extension "soft shadows"
 
 ## References
 * Nothing yet
