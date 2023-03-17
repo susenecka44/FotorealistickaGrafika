@@ -31,12 +31,19 @@ the scene.
 * **Approximate Fresnel term** (by Ch. Schlick) -
   [slide #55 of the BRDF slideshow](https://cgg.mff.cuni.cz/~pepca/lectures/pdf/prg-05-brdf.pdf)
 
-# Sample
+# Samples
 A sample scene with four spheres, one infinite plane, and two point light sources
 is provided for reference: [scene definition](sample-scene.md).
 You should get similar result if you use the same scene definition.
 
 ![Sample result](sample-raytracing-norefractions.jpg)
+
+A sample scene with nine spheres, and one infinite plane:
+[scene definition frustum](sample-scene-frustum.md). Very wide viewing angle (120&deg;
+horizontally) causes extreme perspective distortion near image border.
+You should get similar result if you use the same scene definition.
+
+![Sample result frustum](sample-raytracing-frustum.jpg)
 
 # Your Documentation
 Use the [separate file DOC.md](DOC.md) to avoid merge conflicts.
