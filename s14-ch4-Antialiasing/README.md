@@ -5,6 +5,10 @@
 * Any *unbiased method* will suffice, I'd recommend
   **Jittering** for its simplicity
 
+# Checkpoint 4
+I'll check your program, find/edit a scene with transparent materials and
+play with anti-aliasing a little bit...
+
 ## Notes
 * Add **spp ("samples-per-pixel")** to your configuration file
   * if there is some specific condition about this number,
