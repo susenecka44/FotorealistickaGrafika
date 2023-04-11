@@ -9,6 +9,10 @@ More details will be provided in this repository. Checkpoint
 information will be included in the associated step directories
 (e.g. `s03-ch1-HDRimage` contains definition of the `Step 03` and `Checkpoint 1` as well).
 
+Every `tNN-*` directory refers to one optional topic. You
+should pick at least two topics for your individual ray-tracer
+extensions.
+
 ## src
 The src directory contains support files from the lecturer. Default
 version uses `.NET 7.0`, you can use the `.NET 6.0` variant if necessary.
