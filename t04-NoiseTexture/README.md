@@ -19,6 +19,7 @@
 ## References
 * MFF slides
   * [Textures](https://cgg.mff.cuni.cz/~pepca/lectures/pdf/prg-12-textures.pdf)
+* [Perlin noise](https://en.wikipedia.org/wiki/Perlin_noise)
 
 # Your Documentation
 Use the [separate file DOC.md](DOC.md) to avoid merge conflicts.

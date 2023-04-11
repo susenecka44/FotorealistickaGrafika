@@ -9,8 +9,8 @@
   (*3D texture concept* can be more straightforward in other cases)
 
 ## Notes
-* I recommend storing all *intersection data* in special data object. Texture
-  objects will be able to modify this intersection object prior to its actual use
+* I recommend storing all *intersection data* in a special data object (`Intersection`).
+  Texture objects will be able to modify the `Intersection` prior to its actual use
   in the `shade()` function...
 * Use **formulae** for simple geometric textures (checkerboard, polka dots,
   stripes, concentric circles, etc.)
