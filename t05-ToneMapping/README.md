@@ -10,6 +10,8 @@
 ## Notes
 * Use some 3rd party image library: `ImageSharp` is a good choice; you can use
   its `NuGet` version
+* You can use either some form of **auto-exposure** or the level of exposure could
+  be defined in the config file
 
 ## References
 * MFF slides
