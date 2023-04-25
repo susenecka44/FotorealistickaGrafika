@@ -11,11 +11,15 @@
 ## Notes
 * **Universal principle** of distributed ray-tracing:
   some simple specific quantity (e.g. ray direction) is replaced by an integral of some
-  function on suitable region. The function creates the original quantity but the
-  result is much harder to calculate.
+  function on suitable region. The function integral is used instead of the original value
+  but the result is much harder to calculate.
   * an example: instead of a single shadow test ray, we need to calculate a set of "partial
     shadow rays" and calculate the partial shadowing factor from that set (not to mention
     the need to define the area of the light source and its sampling)
+* Use **Monte-Carlo estimator** for integral calculation/approximation.
+  * you will need a suitable **sampling method** (**jittering** is recommended in most cases)
+  * 16 to 400 samples per pixel is sufficient in most cases, experiment with this value
+    and try to find the reasonable ("turning") point
 * You have two options how to implement **"the distribution"**
   * either you introduce a **one-to-many** fork into the calculation (potential for
     "exponential avalanche" if the recursion is affected)

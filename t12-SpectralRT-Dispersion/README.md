@@ -1,6 +1,6 @@
 # Topic12 - Spectral Ray-Tracer and Dispersion of Light
 * You'll need to extend a **color definition** in the whole ray-tracer - it must
-  be multi-channel (spectral).
+  be **multi-channel (spectral)**
   * eight to sixteen spectral components will suffice
   * you have to check your code
     (general `for`-loop over the whole `float[]` array must be used every single time
@@ -17,8 +17,8 @@
 ## Notes
 * Spectral ray-tracers usually don't use stochastic sampling of the wavelength. Fixed
   spectral color representation is used instead.
-* A **ray (starting from primary ray)** represents all the wavelengths until it is refracted
-  for the first time. At thit point it slits into individual (single-wavelength) rays,
+* **A ray (starting from the primary ray)** represents all the wavelengths until it is refracted
+  for the first time. At thit point it splits into individual (single-wavelength) rays,
   which willl never be further divided.
   * so basically two types of rays are used in a spectral ray-tracer: **multi-wavelength**
     ("white-light") rays and **single-wavelength** ("color") rays. The MW ray can be

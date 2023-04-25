@@ -1,7 +1,7 @@
 # Topic11 - Scene Animation and Motion Blur
 * For implementation of **motion blur** we need to define scene motion/animation first...
   * basically we need to imagine that the scene **changes in time**. One of the simplest ways
-    is to redefine node transformation in the scene hierarchy (see
+    is to redefine **node's geometric transformation** in the scene hierarchy (see
     [Scene hierarchy](../s12-Hierarchy/README.md))
   * transformations (or any other quantities in the scene definition) could
     be **time-dependent**
