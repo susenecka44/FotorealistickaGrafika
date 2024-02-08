@@ -30,4 +30,5 @@
     we will need a 1D sampling only (jittering is recommended)
 
 # Your Documentation
-Use the [separate file DOC.md](DOC.md) to avoid merge conflicts.
+Use the usual README file [/solution/README.md](../solution/README.md).
+Append the current documentation to it, keeping all previous sections.

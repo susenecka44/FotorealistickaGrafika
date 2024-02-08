@@ -2,7 +2,7 @@
 * Implement some **acceleration method** for ray-scene intersection
   * *scene division* (BVH - R-tree)
   * *3D space division* (KD-tree, Octree)
-* Acceleration of **triangle mesh** object[s] is recommended 
+* Acceleration of **triangle mesh** object[s] is recommended
   * large set of small spheres is suitable as well (e.g. particle system)
 
 ## Notes
@@ -20,4 +20,5 @@
 * [Ray vs. Triangle (Moller-Trumbore)](https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm)
 
 # Your Documentation
-Use the [separate file DOC.md](DOC.md) to avoid merge conflicts.
+Use the usual README file [/solution/README.md](../solution/README.md).
+Append the current documentation to it, keeping all previous sections.

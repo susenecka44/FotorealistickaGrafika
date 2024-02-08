@@ -21,4 +21,5 @@
 * [Task Parallel Library (TPL)](https://learn.microsoft.com/en-us/dotnet/standard/parallel-programming/task-parallel-library-tpl)
 
 # Your Documentation
-Use the [separate file DOC.md](DOC.md) to avoid merge conflicts.
+Use the usual README file [/solution/README.md](../solution/README.md).
+Append the current documentation to it, keeping all previous sections.

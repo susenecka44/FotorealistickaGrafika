@@ -18,7 +18,7 @@ internal class Program
     // TODO: put anything interesting into the image.
     // TODO: use fi.PutPixel() function, pixel should be a float[3] array [R, G, B]
 
-    //fi.SaveHDR(fileName);   // Doesn't work well yet...
+    //fi.SaveHDR(fileName);   // Works ok with the PFM format
     fi.SavePFM(fileName);
 
     Console.WriteLine("HDR image is finished.");

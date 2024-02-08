@@ -34,4 +34,5 @@
 * **Critical angle and Total internal reflection** - [Wikipedia page is sufficient](https://en.wikipedia.org/wiki/Total_internal_reflection)
 
 # Your Documentation
-Use the [separate file DOC.md](DOC.md) to avoid merge conflicts.
+Use the usual README file [/solution/README.md](../solution/README.md).
+Append the current documentation to it, keeping all previous sections.
