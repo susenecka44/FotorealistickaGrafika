@@ -36,7 +36,7 @@ Please place all your files in separate [solution](solution/README.md)
 directory in the repository.
 
 The naming conventions in the standard Visual Studio project creation procedures
-allow you to simply copy a [pilot task project](src/README.md) to the `solution` directory.
+allow you to simply copy a [pilot task project](src/rt004) to the `solution` directory.
 Rewrite the `README.md` which will be your default file for documentation!
 
 Files and directories that should be copied from `src` to the `solution` directory:
@@ -107,7 +107,7 @@ Please invite me - https://gitlab.mff.cuni.cz/pelikan.
   you should write me (<pepca@cgg.mff.cuni.cz>) as soon as possible.
   Of course you could report positive experience in Linux/macOS as well.
 * You can work in your repositories without major restrictions.
-  A recommended place for your solutions is the [solution](solution/README.md)
+  The recommended place for your solutions is the [solution](solution)
   directory.
 * You can tag your GIT history (e.g. `Chk 1` etc.) for archiving your
   progress at the checkpoints. It is always a good idea to write me an email! 

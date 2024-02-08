@@ -1,13 +1,13 @@
 # Step01 - GIT repository setup
-* Create your own GIT repository – [GitLab](https://gitlab.mff.cuni.cz/) and
+* Create **your own private GIT repository** – [GitLab](https://gitlab.mff.cuni.cz/) and
   [GitHub](https://github.com/) are two recommended platforms.
-  Use the `git fork` command from this repository for a comfortable way to
-  integrate future updates.
-* Setup your own Visual Studio project – you can copy (fork) it from the
-  [RT004 repository](https://github.com/pepcape/RT004/tree/main/src).
-  There is a `.NET 6.0` variant of the solution for your convenience.
+* Link the original (this) repository as **"remote"** - you can use the command
+  `git remote add origin https://github.com/pepcape/RT004.git`
+* Setup your own **Visual Studio project** – you can copy it from the
+  [RT004/src/rt004](https://github.com/pepcape/RT004/tree/main/src/rt004).
+  The recommended location for your solution is the [solution](../solution) directory.
 * Write your initial documentation page using the
   [Markdown syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax),
   [Another MarkDown page](https://www.markdownguide.org/basic-syntax/)
-* Grant me the R/O permissions if your repository is private –
+* Grant me **permissions** ("reporter", "collaborator") to your repository –
   <https://gitlab.mff.cuni.cz/pelikan>, <https://github.com/pepcape>
