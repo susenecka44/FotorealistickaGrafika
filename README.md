@@ -32,8 +32,7 @@ Contact me <pepca@cgg.mff.cuni.cz> for any suggestions, comments or
 complaints.
 
 ## Your solution
-Please place all your files in separate [solution](solution/README.md)
-directory in the repository.
+Please place all your files in new directories located in [solution](solution).
 
 The naming conventions in the standard Visual Studio project creation procedures
 allow you to simply copy a [pilot task project](src/rt004) to the `solution` directory.
@@ -59,7 +58,7 @@ your finished checkpoints and extensions.
 
 ## AI assistants
 The use of **AI assistants (based on Large Language Models)** is not prohibited,
-on the contrary! We welcome you to use them under two conditions:
+you can use them under two conditions:
 1. you must **acknowledge** for each checkpoint that the AI assistant significantly
    helped you.
 2. you must **document your use of the assistant**. For example, if you use
@@ -107,12 +106,12 @@ Please invite me - https://gitlab.mff.cuni.cz/pelikan.
   you should write me (<pepca@cgg.mff.cuni.cz>) as soon as possible.
   Of course you could report positive experience in Linux/macOS as well.
 * You can work in your repositories without major restrictions.
-  The recommended place for your solutions is the [solution](solution)
+  The recommended location for your solutions is the [solution](solution)
   directory.
 * You can tag your GIT history (e.g. `Chk 1` etc.) for archiving your
   progress at the checkpoints. It is always a good idea to write me an email! 
 * It seems like the `System.Numerics` library doesn't support `double`
-  types (yet?), so I'm going to use the lightweighted **`OpenTK.Mathematics`**
+  types yet, so I'm going to use the lightweighted **`OpenTK.Mathematics`**
   library instead, distributed in [NuGet form](https://www.nuget.org/packages/OpenTK.Mathematics/5.0.0-pre.8)
 * **Visual Studio 2022** supports direct **MarkDown editing** (with live
   result preview) starting from the 17.5 update
