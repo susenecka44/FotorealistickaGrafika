@@ -113,5 +113,18 @@ Please invite me - https://gitlab.mff.cuni.cz/pelikan.
 * It seems like the `System.Numerics` library doesn't support `double`
   types yet, so I'm going to use the lightweighted **`OpenTK.Mathematics`**
   library instead, distributed in [NuGet form](https://www.nuget.org/packages/OpenTK.Mathematics/5.0.0-pre.8)
+* Use `$(ProjectDir)` as the starting directory for your project -
+  it is more convenient to reference input/config files in this case
+* Put all your **input config (scene description) files** under GIT control,
+  it helps other people (me) to test your project
+* Update your `README.md` file[s] frequently, preferably after each checkpoint,
+  I'd like to see your progress
 * **Visual Studio 2022** supports direct **MarkDown editing** (with live
   result preview) starting from the 17.5 update
+* While both parsing and writing floating point numbers, use strictly
+  **neutral/invariant culture** - no floating "commas" `3,14`,
+  only "dots" `3.14`. Remember to force this on English operating systems,
+  (use `CultureInfo.InvariantCulture`), your code has to work on Czech/Slovak
+  OS as well...
+* Update your repository clone ("pull from remote") often, I'll update
+  the original from time to time (small fixes in support files...)

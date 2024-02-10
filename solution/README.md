@@ -1,5 +1,9 @@
 # Documentation of the solution
 
+## Memo to be removed
+See the [root README.md](../README.md) for instructions on how to create/clone
+your own solution in this directory. The section is called "Your solution".
+
 ## Author
 Your name
 
