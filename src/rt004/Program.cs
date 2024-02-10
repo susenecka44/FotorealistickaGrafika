@@ -13,14 +13,17 @@ internal class Program
     string fileName = "demo.pfm";
 
     // HDR image.
-    FloatImage fi = new FloatImage(wid, hei, 3);
+    FloatImage fi = new(wid, hei, 3);
 
     // TODO: put anything interesting into the image.
-    // TODO: use fi.PutPixel() function, pixel should be a float[3] array [R, G, B]
 
-    //fi.SaveHDR(fileName);   // Works ok with the PFM format
-    fi.SavePFM(fileName);
+    // Example - putting one green pixel close to the upper left corner...
+    float[] green = { 0.1f, 1.0f, 0.1f };   // R, G, B
+    fi.PutPixel(1, 1, green);
 
-    Console.WriteLine("HDR image is finished.");
+    //fi.SaveHDR(fileName);     // HDR format is still buggy
+    fi.SavePFM(fileName);     // Works ok with the PFM format
+
+    Console.WriteLine($"HDR image '{fileName}' is finished.");
   }
 }
