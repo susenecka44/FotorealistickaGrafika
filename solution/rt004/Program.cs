@@ -14,7 +14,7 @@ class Options
     public int Height { get; set; } = 400; // Default value = 400
 
     [Option('f', "file", Required = false, HelpText = "Output file name.")]
-    public string FileName { get; set; } = "picture.pfm";
+    public string FileName { get; set; } = "picture.hdr";
 
     [Option('c', "config", Required = false, HelpText = "Configuration file path.")]
     public string ConfigFile { get; set; }
@@ -94,7 +94,7 @@ internal class Program
                 }
             }
         }
-
+        
         fi.SaveHDR(fileName);     // HDR format is still buggy
        // fi.SavePFM(fileName);     // Works ok with the PFM format
 
