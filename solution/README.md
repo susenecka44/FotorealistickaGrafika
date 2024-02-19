@@ -20,7 +20,7 @@ List all the arguments here, with default values.
 |----------|-------------|---------------|
 | `-w`, `--width` | Image width. | `600` |
 | `-h`, `--height` | Image height. | `400` |
-| `-f`, `--file` | Output file name. | `"picture.pfm"` |
+| `-f`, `--file` | Output file name. | `"picture.hdr"` |
 | `-c`, `--config` | Configuration file path. | |
 
 ### Input Data
