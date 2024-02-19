@@ -8,8 +8,8 @@ internal class Program
   {
     // Parameters.
     // TODO: parse command-line arguments and/or your config file.
-    int wid = 600;
-    int hei = 450;
+    int wid = 6;
+    int hei = 4;
     string fileName = "demo.pfm";
 
     // HDR image.
