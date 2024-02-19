@@ -1,28 +1,16 @@
-# Documentation of the solution
+# Pilot source code
+You can use the files in this directory as a starting point for your
+own solution.
 
-## Memo to be removed
-See the [root README.md](../README.md) for instructions on how to create/clone
-your own solution in this directory. The section is called "Your solution".
+## The `src` directory
+Includes the `rt004` project - a command-line program that can create
+HDR files. This is a good starting point for your future raytracer.
 
-## Author
-Your name
+Used platform is `.NET 6.0 Command line` with two simple helpers:
+* `FloatImage.cs` - HDR raster image stored in memory, able to export to
+  the `.pfm` format.
+* Mathematics package `OpenTK.Mathematics` for simple types
+  (vectors, matrices...) based on the `double` floating point type.
 
------
-You should make a copy of the rest of this template for
-each checkpoint. You can remove irrelevant parts for the
-clarity of the document.
-
-## Checkpoint X (tag `Chk X`)
-Briefly describe the objectives of the checkpoint.
-
-### Command line arguments
-List all the arguments here, with default values.
-
-### Input data
-Define the format of the input data if it is relevant to the program.
-
-### Algorithm
-Any details of the algorithms worth mentioning should go here.
-
-### Use of AI
-Document how an AI assistant helped you or declare that you haven't used AI.
+## The `shared` directory
+The `FloatImage.cs` file is the only support file so far.
