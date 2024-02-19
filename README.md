@@ -77,6 +77,10 @@ We recommend using one of the following platforms - there are more
 detailed instructions for each of them. The only bigger difference
 is in the 3rd step (granting permissions to a lab supervisor).
 
+Although you will grant me access (and I will be notified by email),
+you will need to **email me at least initially**! I need to associate
+your name with your GIT account and email address.
+
 ### GitHub
 1. You have to set up a new **private repository** yourself.
 2. Connect it to
@@ -105,18 +109,26 @@ Please invite me - https://gitlab.mff.cuni.cz/pelikan.
 * If anything doesn't work well in your **Linux/macOS environment**,
   you should write me (<pepca@cgg.mff.cuni.cz>) as soon as possible.
   Of course you could report positive experience in Linux/macOS as well.
-* You can work in your repositories without major restrictions.
-  The recommended location for your solutions is the [solution](solution)
-  directory.
-* You can tag your GIT history (e.g. `Chk 1` etc.) for archiving your
-  progress at the checkpoints. It is always a good idea to write me an email! 
 * It seems like the `System.Numerics` library doesn't support `double`
   types yet, so I'm going to use the lightweighted **`OpenTK.Mathematics`**
   library instead, distributed in [NuGet form](https://www.nuget.org/packages/OpenTK.Mathematics/5.0.0-pre.8)
-* Use `$(ProjectDir)` as the starting directory for your project -
-  it is more convenient to reference input/config files in this case
+* You can work in your repositories without major restrictions.
+  The recommended location for your solutions is the [solution](solution)
+  directory.
+* You can tag your **GIT history** (e.g. `Chk 1` etc.) for archiving your
+  progress at the checkpoints. It is always a good idea to write me an email!
+* With one exception ([s03-ch1-HDRimage](s03-ch1-HDRimage/README.md) there is no
+  need to use **branches to communicate with me**. Please keep your best
+  working version in the **`main`** branch (of course, you can use branches for your
+  temporary work states)
+* I need to be able to **compile your projects** easily. Please keep your solution
+  (`.sln`) and project files (`.csproj`) working all the time
+* Use `$(ProjectDir)` as the start directory for your project -
+  it is easier to reference input/config files in this case
 * Put all your **input config (scene description) files** under GIT control,
-  it helps other people (me) to test your project
+  it helps other people (me) to test your project. Fill the text box
+  `Debug/rt004 Debug Properties/Command line arguments` with reasonable
+  values, as this item is also versioned
 * Update your `README.md` file[s] frequently, preferably after each checkpoint,
   I'd like to see your progress
 * **Visual Studio 2022** supports direct **MarkDown editing** (with live

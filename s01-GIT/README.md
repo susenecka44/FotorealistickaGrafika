@@ -11,3 +11,6 @@
   [Another MarkDown page](https://www.markdownguide.org/basic-syntax/)
 * Grant me **permissions** ("reporter", "collaborator") to your repository –
   <https://gitlab.mff.cuni.cz/pelikan>, <https://github.com/pepcape>
+* Although you will grant me access (and I will be notified by email),
+  you will need to **email me at least initially**! I need to associate
+  your name with your GIT account and email address.
