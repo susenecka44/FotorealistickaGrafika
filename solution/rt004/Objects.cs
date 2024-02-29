@@ -69,3 +69,47 @@ public class Sphere : IHittable
         return false;
     }
 }
+
+public class Cube : IHittable
+{
+    public Vector3 Min, Max;
+
+    public Cube(Vector3 min, Vector3 max)
+    {
+        Min = min;
+        Max = max;
+    }
+
+    private bool HitSlab(float min, float max, float rayOrigin, float rayDirection, ref float tMin, ref float tMax)
+    {
+        float invD = 1.0f / rayDirection;
+        float t0 = (min - rayOrigin) * invD;
+        float t1 = (max - rayOrigin) * invD;
+        if (invD < 0.0f)
+        {
+            (t0, t1) = (t1, t0);
+        }
+        tMin = t0 > tMin ? t0 : tMin;
+        tMax = t1 < tMax ? t1 : tMax;
+        return tMax >= tMin;
+    }
+
+    public bool Hit(Ray r, float tMin, float tMax, out HitRecord rec)
+    {
+        rec = new HitRecord();
+
+        if (!HitSlab(Min.X, Max.X, r.Origin.X, r.Direction.X, ref tMin, ref tMax) ||
+            !HitSlab(Min.Y, Max.Y, r.Origin.Y, r.Direction.Y, ref tMin, ref tMax) ||
+            !HitSlab(Min.Z, Max.Z, r.Origin.Z, r.Direction.Z, ref tMin, ref tMax))
+        {
+            return false;
+        }
+
+        rec.T = tMin;
+        rec.P = r.PointAtParameter(rec.T);
+        return true;
+    }
+}
+
+
+
