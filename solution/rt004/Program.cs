@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using System.Text.Json;
+using System.Numerics;
 using Util;
 
 namespace rt004;
@@ -17,7 +18,7 @@ class Options
     public string FileName { get; set; } = "picture.hdr";
 
     [Option('c', "config", Required = false, HelpText = "Configuration file path.")]
-    public string ConfigFile { get; set; }
+    public string? ConfigFile { get; set; }
 }
 
 internal class Program
@@ -52,49 +53,31 @@ internal class Program
     {
         FloatImage fi = new FloatImage(width, height, 3);
 
-        float[] color1 = { 0.0f, 0.0f, 1.0f }; // Blue
-        float[] color2 = { 1.0f, 0.0f, 0.0f }; // Red
-        float[] white = { 1.0f, 1.0f, 1.0f }; // White
+        float[] Blue = { 0.0f, 0.0f, 1.0f }; // Blue
+        float[] Red = { 1.0f, 0.0f, 0.0f }; // Red
+        float[] White = { 1.0f, 1.0f, 1.0f }; // White
 
 
-        // Gradient
-        for (int y = 0; y < height; y++)
+        Camera camera = new Camera();
+        Vector3[,] image = new Vector3[width, height];
+        List<IHittable> world = new List<IHittable>();
+        // Add objects to world
+        world.Add(new Sphere(new Vector3(0, 0, -1), 0.5f));
+
+        for (int j = height - 1; j >= 0; --j)
         {
-            for (int x = 0; x < width; x++)
+            for (int i = 0; i < width; ++i)
             {
-                float ratio = (float)x / (width - 1); 
-
-                float[] mixedColor = {
-                color1[0] * (1 - ratio) + color2[0] * ratio,
-                color1[1] * (1 - ratio) + color2[1] * ratio,
-                color1[2] * (1 - ratio) + color2[2] * ratio,
-            };
-
-                fi.PutPixel(x, y, mixedColor);
+                float u = (float)i / (width - 1);
+                float v = (float)j / (height - 1);
+                Ray r = camera.GetRay(u, v);
+                Vector3 color = RayColor(r, world);
+                image[i, j] = color;
             }
         }
 
-        // Draw white circles
+        // Implement RayColor function to determine the color of a pixel based on ray-object intersections
 
-        int centerX = width / 2;
-        int centerY = height / 2;
-        int outlineWidth = 1;
-        for (int i = 1; i < width; i += 10)
-        {
-            int radius = i;
-            for (int y = centerY - radius - outlineWidth; y <= centerY + radius + outlineWidth; y++)
-            {
-                for (int x = centerX - radius - outlineWidth; x <= centerX + radius + outlineWidth; x++)
-                {
-                    double distanceFromCenter = Math.Sqrt(Math.Pow(x - centerX, 2) + Math.Pow(y - centerY, 2));
-                    if (distanceFromCenter >= radius - outlineWidth && distanceFromCenter <= radius + outlineWidth)
-                    {
-                        fi.PutPixel(x, y, white);
-                    }
-                }
-            }
-        }
-        
         fi.SaveHDR(fileName);     // HDR format is still buggy
        // fi.SavePFM(fileName);     // Works ok with the PFM format
 
