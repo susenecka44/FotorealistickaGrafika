@@ -32,7 +32,7 @@ public class Camera
     public Camera()
     {
         float aspectRatio = 16.0f / 9.0f; // This sets the shape of the viewport
-        float viewportHeight = 2.0f;  // You can set the height to any value
+        float viewportHeight = 10.0f;  // You can set the height to any value
         float viewportWidth = aspectRatio * viewportHeight; // Width is determined based on the aspect ratio and height
         float focalLength = 1.0f;
 

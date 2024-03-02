@@ -62,15 +62,16 @@ internal class Program
 
         Camera camera = new Camera(); 
         Raytracing raytracer = new Raytracing();
-        PointLight light = new PointLight(new Vector3(-1, -1, 0), new Vector3(255, 238, 237));
+        PointLight light = new PointLight(new Vector3(-5, -5, 1), new Vector3(255, 234, 231));
 
-        
+
         // create a scene to be rendered & add objects to it
         List<IHittable> scene = new List<IHittable>();
        // scene.Add(new Sphere(new Vector3(0, 0, -1), 0.5f));
-         scene.Add(new Sphere(new Vector3(0.5f, 0, -1), 0.5f));
-        scene.Add(new Cube(new Vector3(0.5f, 0, -1), new Vector3(1f, 0, -1)));
-       // scene.Add(new Sphere(new Vector3(0, 0.5f, -1), 0.5f));
+        scene.Add(new Sphere(new Vector3(0.5f, 0, -1), 0.8f));
+       // scene.Add(new Cube1(new Vector3(0.8f, 0.3f, -1), new Vector3(0.1f, 0.1f, -0.1f)));
+
+        // scene.Add(new Sphere(new Vector3(0, 0.5f, -1), 0.5f));
 
         // Raytrace every pixel 
         for (int j = height - 1; j >= 0; --j)

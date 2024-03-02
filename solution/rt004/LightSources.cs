@@ -5,15 +5,16 @@ using System.Text;
 using System.Numerics;
 using System.Threading.Tasks;
 
-interface LightSource
+public interface LightSource
 {
+    public Vector3 Position { get; set; }
+    public Vector3 Color { get; set; }
 
 }
-
 public class PointLight : LightSource
 {
-    public Vector3 Position { get; }
-    public Vector3 Color { get; }
+    public Vector3 Position { get; set; }
+    public Vector3 Color { get; set; }
 
     public PointLight(Vector3 position, Vector3 color)
     {
