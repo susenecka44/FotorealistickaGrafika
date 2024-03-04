@@ -5,7 +5,7 @@ using System.Text;
 using System.Numerics;
 using System.Threading.Tasks;
 
-public interface LightSource
+public abstract class LightSource
 {
     public Vector3 Position { get; set; }
     public Vector3 Color { get; set; }
@@ -13,9 +13,6 @@ public interface LightSource
 }
 public class PointLight : LightSource
 {
-    public Vector3 Position { get; set; }
-    public Vector3 Color { get; set; }
-
     public PointLight(Vector3 position, Vector3 color)
     {
         Position = position;

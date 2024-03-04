@@ -60,16 +60,20 @@ internal class Program
         // create an image in which we'll the colours from raytracing be inserted
         FloatImage fi = new FloatImage(width, height, 3);
 
-        Camera camera = new Camera(); 
-        Raytracing raytracer = new Raytracing();
+        Camera camera = new Camera();
+        Raycasting raycaster = new Raycasting();
         PointLight light = new PointLight(new Vector3(-5, -5, 1), new Vector3(255, 234, 231));
 
 
         // create a scene to be rendered & add objects to it
         List<IHittable> scene = new List<IHittable>();
-       // scene.Add(new Sphere(new Vector3(0, 0, -1), 0.5f));
-        scene.Add(new Sphere(new Vector3(0.9f, 0, -1), 0.8f));
-       // scene.Add(new Cube1(new Vector3(0.8f, 0.3f, -1), new Vector3(0.1f, 0.1f, -0.1f)));
+        // scene.Add(new Sphere(new Vector3(0, 0, -1), 0.5f));
+
+        scene.Add(new Sphere(new Vector3(-10, 0, -10), 10));
+        scene.Add(new Sphere(new Vector3(0, 0, -1), 0.5f));
+
+
+        // scene.Add(new Cube1(new Vector3(0.8f, 0.3f, -1), new Vector3(0.1f, 0.1f, -0.1f)));
 
         // scene.Add(new Sphere(new Vector3(0, 0.5f, -1), 0.5f));
 
@@ -81,7 +85,7 @@ internal class Program
                 float u = (float)i / (width - 1);
                 float v = (float)j / (height - 1);
                 Ray r = camera.GetRay(u, v);
-                Vector3 color = raytracer.RayColor(r, scene, light);
+                Vector3 color = raycaster.RayColor(r, scene, light);
                 float[] convertedColor = { color.X / 255.0F, color.Y / 255.0F, color.Z / 255.0F };   // R, G, B
                 fi.PutPixel(i, j, convertedColor);
             }

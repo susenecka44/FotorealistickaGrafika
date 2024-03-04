@@ -5,7 +5,7 @@ using System.Text;
 using System.Numerics;
 using System.Threading.Tasks;
 
-class Raytracing
+class Raycasting
 {
     public Vector3 RayColor(Ray r, List<IHittable> world, PointLight light)
     {
