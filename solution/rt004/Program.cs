@@ -60,7 +60,7 @@ internal class Program
         // create an image in which we'll the colours from raytracing be inserted
         FloatImage fi = new FloatImage(width, height, 3);
 
-        Camera camera = new Camera();
+        Camera camera = new Camera(new Vector3(0,0,0), width, height, 90);
         Raycasting raycaster = new Raycasting();
         PointLight light = new PointLight(new Vector3(-5, -5, 1), new Vector3(255, 234, 231));
 
@@ -69,11 +69,11 @@ internal class Program
         List<IHittable> scene = new List<IHittable>();
         // scene.Add(new Sphere(new Vector3(0, 0, -1), 0.5f));
 
-        scene.Add(new Sphere(new Vector3(-10, 0, -10), 10));
-        scene.Add(new Sphere(new Vector3(0, 0, -1), 0.5f));
+       // scene.Add(new Sphere(new Vector3(0, 0, -10), 5));
+        // scene.Add(new Sphere(new Vector3(0, 0, -1), 0.1f));
 
 
-        // scene.Add(new Cube1(new Vector3(0.8f, 0.3f, -1), new Vector3(0.1f, 0.1f, -0.1f)));
+         scene.Add(new Cube1(new Vector3(0.8f, 0.3f, -1), new Vector3(0.1f, 0.1f, -0.1f)));
 
         // scene.Add(new Sphere(new Vector3(0, 0.5f, -1), 0.5f));
 

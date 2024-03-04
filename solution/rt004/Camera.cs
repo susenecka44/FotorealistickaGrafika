@@ -29,18 +29,28 @@ public class Camera
     public Vector3 Horizontal { get; set; }
     public Vector3 Vertical { get; set; }
 
-    public Camera()
+    public Camera(Vector3 cameraPosition, int imageWidth, int imageHeight, float fovDegrees)
     {
-        float aspectRatio = 16.0f / 9.0f; // This sets the shape of the viewport
-        float viewportHeight = 10.0f;  // You can set the height to any value
-        float viewportWidth = aspectRatio * viewportHeight; // Width is determined based on the aspect ratio and height
-        float focalLength = 1.0f;
+        float aspectRatio = (float)imageWidth / imageHeight;
 
-        Origin = new Vector3(0, 0, 0);
+        // Given viewport height
+        float viewportHeight = 10.0f; 
+
+        // Calculate viewport width using the aspect ratio
+        float viewportWidth = viewportHeight * aspectRatio;
+
+        // Convert FOV from degrees to radians
+        double fovRadians = (Math.PI / 180) * fovDegrees;
+
+        // Assuming the FOV applies vertically, calculate the distance from the projection plane
+        double focalLength = (viewportHeight / 2) / Math.Tan(fovRadians / 2);
+
+        Origin = cameraPosition;
         Horizontal = new Vector3(viewportWidth, 0, 0);
         Vertical = new Vector3(0, viewportHeight, 0);
-        LowerLeftCorner = Origin - Horizontal / 2 - Vertical / 2 - new Vector3(0, 0, focalLength);
+        LowerLeftCorner = Origin - Horizontal / 2 - Vertical / 2 - new Vector3(0, 0, (float)focalLength);
     }
+
 
     public Ray GetRay(float u, float v)
     {
