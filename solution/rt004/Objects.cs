@@ -29,6 +29,7 @@ public struct HitRecord
     }
 }
 
+// TODO fix
 public class Sphere : IHittable
 {
     public Vector3 Center { get; set; }
