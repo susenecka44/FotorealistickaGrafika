@@ -36,6 +36,5 @@ public class BlueReflective : ObjectMaterial
 
 public class RedReflective : ObjectMaterial
 {
-
-    public RedReflective() : base() { }
+    public RedReflective() : base(new float[] {0.8f, 0.2f, 0.2f}, 0.1, 0.6, 0.4, 80) { }
 }
