@@ -1,41 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Numerics;
 using System.Threading.Tasks;
 
-class Raycasting
+public class Raycasting
 {
-    public Vector3 RayColor(Ray r, List<IHittable> world, PointLight light)
+    public Vector3 RayColor(Ray r, List<IHittable> world, List<LightSource> lights)
     {
         HitRecord rec;
+        Vector3 ambientColor = new Vector3(0, 0, 0);
+        Vector3 diffuseColor = new Vector3(0, 0, 0);
+        Vector3 specularColor = new Vector3(0, 0, 0);
 
         if (WorldHit(world, r, 0.001f, float.MaxValue, out rec))
         {
-            Vector3 toLight = light.Position - rec.HitPoint;
-            float distanceToLight = toLight.Length();
-            Ray shadowRay = new Ray(rec.HitPoint + rec.Normal * 0.001f, Vector3.Normalize(toLight));
-            if (WorldHit(world, shadowRay, 0.001f, distanceToLight, out _)) // Check for shadow
+            foreach (var light in lights)
             {
-                // Calculate shadow intensity based on distance
-                float shadowIntensity = Math.Max(0, 1 - distanceToLight / 10.0f); // Adjust the denominator for desired effect
-                Vector3 shadowColor = new Vector3(10, 10, 10) * shadowIntensity; // Darken the shadow
-                return shadowColor; // Return shadow color with gradient effect
+                Vector3 lightDir = Vector3.Normalize(light.Position - rec.HitPoint);
+                float nDotL = Math.Max(Vector3.Dot(rec.Normal, lightDir), 0.0f);
+
+                if (light is AmbientLight)
+                {
+                    ambientColor += new Vector3(rec.Material.Color[0], rec.Material.Color[1], rec.Material.Color[2]) * (float)rec.Material.kA * light.Color;
+                }
+                else if (light is PointLight && nDotL > 0)
+                {
+                    // Check for shadow
+                    Vector3 toLight = light.Position - rec.HitPoint;
+                    float distanceToLight = toLight.Length();
+                    Ray shadowRay = new Ray(rec.HitPoint + rec.Normal * 0.001f, Vector3.Normalize(toLight));
+                    if (!WorldHit(world, shadowRay, 0.001f, distanceToLight, out _))
+                    {
+                        // Diffuse
+                        diffuseColor += nDotL * new Vector3(rec.Material.Color[0], rec.Material.Color[1], rec.Material.Color[2]) * (float)rec.Material.kD * light.Color;
+
+                        // Specular
+                        Vector3 viewDir = Vector3.Normalize(-r.Direction);
+                        Vector3 reflectDir = Vector3.Reflect(-lightDir, rec.Normal);
+                        float spec = MathF.Pow(Math.Max(Vector3.Dot(viewDir, reflectDir), 0.0f), (float)rec.Material.HighLight);
+                        specularColor += spec * (float)rec.Material.kS * light.Color;
+                    }
+                }
             }
 
-            float brightness = Math.Max(0, Vector3.Dot(Vector3.Normalize(toLight), rec.Normal));
-            Vector3 lightColor = brightness * light.Color;
-            return 0.5f * (rec.Normal + new Vector3(1, 1, 1)) + lightColor;
+            // Combine all components
+            Vector3 color = ambientColor + diffuseColor + specularColor;
+            return color;
         }
-
-        // Background gradient
-        Vector3 unitDirection = Vector3.Normalize(r.Direction);
-        float t = 0.5f * (unitDirection.Y + 1.0f);
-        return (1.0f - t) * new Vector3(255, 55, 200) + t * new Vector3(0.5f, 0.7f, 1.0f);
+        else
+        {
+            // Background gradient
+            Vector3 unitDirection = Vector3.Normalize(r.Direction);
+            float t = 0.5f * (unitDirection.Y + 1.0f);
+            return (1.0f - t) * new Vector3(255, 55, 200) + t * new Vector3(0.5f, 0.7f, 1.0f);
+        }
     }
 
-    // This helper function checks if a ray hits any objects in the world
     bool WorldHit(List<IHittable> world, Ray r, float tMin, float tMax, out HitRecord rec)
     {
         rec = new HitRecord();
