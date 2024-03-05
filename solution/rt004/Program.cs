@@ -61,23 +61,32 @@ internal class Program
         // create an image in which we'll the colours from raytracing be inserted
         FloatImage fi = new FloatImage(width, height, 3);
 
-        Camera camera = new Camera(new Vector3(0,0,0), width, height, 90);
-        Raycasting raycaster = new Raycasting();
+        Camera camera = new Camera(new Vector3(0.60f, 0.00f, -5.60f), width, height, 40, new Vector3(0.00f, -0.03f, 1.00f));
+        // set background colour
+        Raycasting raycaster = new Raycasting(new Vector3(25, 50, 75));
 
         List<LightSource> lightSources = new List<LightSource>();
         // Add ambient light
         lightSources.Add(new AmbientLight(new Vector3(234, 234, 220), 1/200));
         // Add point light
-        lightSources.Add(new PointLight(new Vector3(-5, -5, 1), new Vector3(255, 234, 231)));
-        lightSources.Add(new PointLight(new Vector3(5, 5, 1), new Vector3(255, 20, 0)));
+        lightSources.Add(new PointLight(new Vector3(-10, 8, -6), new Vector3(255, 234, 231)));
+        lightSources.Add(new PointLight(new Vector3(10, -30, 10), new Vector3(225, 233, 235)));
+
 
 
         // create a scene to be rendered & add objects to it
         List<IHittable> scene = new List<IHittable>();
         // scene.Add(new Sphere(new Vector3(0, 0, -1), 0.5f));
 
-        scene.Add(new Sphere(new Vector3(0, 0, -10), 5, new YellowMatt()));
-        scene.Add(new Sphere(new Vector3(-1, 0, -5), 2, new BlueReflective()));
+        ObjectMaterial YellowMatt = new ObjectMaterial(new float[] { 0.9f, 0.9f, 0.2f }, 0.1, 0.6, 0.4, 80);
+        scene.Add(new Sphere(new Vector3(0, 0, 0), 1, YellowMatt));
+        ObjectMaterial BlueReflective = new ObjectMaterial(new float[] { 0.2f, 0.3f, 1.0f }, 0.1, 0.5, 0.5, 150);
+        scene.Add(new Sphere(new Vector3(1.4f, -0.7f, -0.5f), 0.6f, BlueReflective));
+        ObjectMaterial RedReflective = new ObjectMaterial(new float[] { 0.8f, 0.2f, 0.2f }, 0.1, 0.6, 0.4, 80);
+        scene.Add(new Sphere(new Vector3(-0.7f, 0.7f, -0.8f), 0.1f, RedReflective));
+
+        scene.Add(new Plane(new Vector3 (-2f, 0.7f, -1f), new Vector3(0, -1, 0), RedReflective));
+
 
         // scene.Add(new Sphere(new Vector3(0, 0, -1), 0.1f));
 

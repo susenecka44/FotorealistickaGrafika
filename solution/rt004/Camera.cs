@@ -28,29 +28,30 @@ public class Camera
     public Vector3 LowerLeftCorner { get; set; }
     public Vector3 Horizontal { get; set; }
     public Vector3 Vertical { get; set; }
+    public Vector3 Direction { get; set; }
+    public float FovDegrees { get; set; }
 
-    public Camera(Vector3 cameraPosition, int imageWidth, int imageHeight, float fovDegrees)
+    public Camera(Vector3 cameraPosition, int imageWidth, int imageHeight, float fovDegrees, Vector3 direction)
     {
-        float aspectRatio = (float)imageWidth / imageHeight;
-
-        // Given viewport height
-        float viewportHeight = 10.0f; 
-
-        // Calculate viewport width using the aspect ratio
-        float viewportWidth = viewportHeight * aspectRatio;
-
-        // Convert FOV from degrees to radians
-        double fovRadians = (Math.PI / 180) * fovDegrees;
-
-        // Assuming the FOV applies vertically, calculate the distance from the projection plane
-        double focalLength = (viewportHeight / 2) / Math.Tan(fovRadians / 2);
-
         Origin = cameraPosition;
-        Horizontal = new Vector3(viewportWidth, 0, 0);
-        Vertical = new Vector3(0, viewportHeight, 0);
-        LowerLeftCorner = Origin - Horizontal / 2 - Vertical / 2 - new Vector3(0, 0, (float)focalLength);
-    }
+        Direction = Vector3.Normalize(direction);
+        FovDegrees = fovDegrees;
 
+        float theta = fovDegrees * (float)Math.PI / 180;
+        float h = (float)Math.Tan(theta / 2);
+        float viewportHeight = 2.0f * h;
+        float aspectRatio = (float)imageWidth / imageHeight;
+        float viewportWidth = aspectRatio * viewportHeight;
+
+        Vector3 w = Vector3.Normalize(-Direction); // Assuming looking in the direction of the negative z-axis
+        Vector3 up = new Vector3(0, 1, 0); // Assuming the world "up" is along y-axis
+        Vector3 u = Vector3.Normalize(Vector3.Cross(up, w));
+        Vector3 v = Vector3.Cross(w, u);
+
+        Horizontal = viewportWidth * u;
+        Vertical = viewportHeight * v;
+        LowerLeftCorner = Origin - Horizontal / 2 - Vertical / 2 - w;
+    }
 
     public Ray GetRay(float u, float v)
     {

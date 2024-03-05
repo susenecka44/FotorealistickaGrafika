@@ -82,3 +82,40 @@ public class Sphere : IHittable
     }
 }
 
+public class Plane : IHittable
+{
+    public Vector3 Point { get; set; } // A point on the plane
+    public Vector3 Normal { get; set; } // The normal vector to the plane
+    public ObjectMaterial Material { get; set; } // The material of the plane
+
+    public Plane(Vector3 point, Vector3 normal, ObjectMaterial material)
+    {
+        Point = point;
+        Normal = Vector3.Normalize(normal); // Ensure the normal is normalized
+        Material = material;
+    }
+
+    public bool Hit(Ray r, float tMin, float tMax, out HitRecord rec)
+    {
+        rec = new HitRecord();
+        float denominator = Vector3.Dot(Normal, r.Direction);
+
+        if (Math.Abs(denominator) > 1e-6) // Check if the ray is parallel to the plane
+        {
+            Vector3 originToPoint = Point - r.Origin;
+            float t = Vector3.Dot(originToPoint, Normal) / denominator;
+
+            if (t >= tMin && t <= tMax) // Check if the t value is within bounds
+            {
+                rec.T = t;
+                rec.HitPoint = r.Origin + t * r.Direction;
+                rec.SetFaceNormal(r, Normal); // Set normal based on the ray direction
+                rec.Material = Material;
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+

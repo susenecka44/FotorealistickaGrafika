@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 public class Raycasting
 {
+    private Vector3 backgroundColor;
+
+    public Raycasting(Vector3 backgroundColor) {  this.backgroundColor = backgroundColor; }
     public Vector3 RayColor(Ray r, List<IHittable> world, List<LightSource> lights)
     {
         HitRecord rec;
@@ -52,7 +55,7 @@ public class Raycasting
             // Background gradient
             Vector3 unitDirection = Vector3.Normalize(r.Direction);
             float t = 0.5f * (unitDirection.Y + 1.0f);
-            return (1.0f - t) * new Vector3(255, 55, 200) + t * new Vector3(0.5f, 0.7f, 1.0f);
+            return (1.0f - t) * backgroundColor + t * new Vector3(0.5f, 0.7f, 1.0f);
         }
     }
 
