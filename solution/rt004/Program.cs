@@ -109,7 +109,7 @@ internal class Program
                 }
             }
 
-            // Raytrace every pixel 
+            // Raycast every pixel 
             for (int j = height - 1; j >= 0; --j)
             {
                 for (int i = 0; i < width; ++i)

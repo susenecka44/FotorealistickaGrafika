@@ -1,0 +1,90 @@
+﻿{
+  "Width": 800,
+  "Height": 600,
+  "FileName": "GeneratedImages/RandomScene.hdr",
+  "CameraSettings": {
+    "Position": [ 1.2, 0.5, -6.0 ],
+    "Direction": [ 0.0, -0.05, 1.0 ],
+    "BackgroundColor": [ 20, 40, 60 ],
+    "FOVAngle": 45
+  },
+  "Materials": [
+    {
+      "Name": "GreenMatt",
+      "Color": [ 0.2, 0.9, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.7,
+      "Specular": 0.3,
+      "Shininess": 90
+    },
+    {
+      "Name": "PurpleReflective",
+      "Color": [ 0.5, 0.2, 0.9 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.4,
+      "Specular": 0.6,
+      "Shininess": 120
+    },
+    {
+      "Name": "OrangeMatt",
+      "Color": [ 0.9, 0.4, 0.1 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.6,
+      "Specular": 0.4,
+      "Shininess": 50
+    },
+    {
+      "Name": "GreyReflective",
+      "Color": [ 0.5, 0.5, 0.5 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.5,
+      "Specular": 0.5,
+      "Shininess": 100
+    }
+  ],
+  "ObjectsInScene": [
+    {
+      "Type": "Sphere",
+      "Position": [ -1.5, 0.5, 0 ],
+      "Radius": 0.8,
+      "Material": "GreenMatt"
+    },
+    {
+      "Type": "Cube",
+      "Position": [ 0.5, -0.5, -1 ],
+      "Size": [ 0.6, 0.6, 0.6 ],
+      "Material": "PurpleReflective",
+      "Angle": 30
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 2.0, -0.8, -0.3 ],
+      "Radius": 0.5,
+      "Material": "OrangeMatt"
+    },
+    {
+      "Type": "Cube",
+      "Position": [ -2, 1.5, 0 ],
+      "Size": [ 0.4, 0.4, 0.4 ],
+      "Material": "GreyReflective",
+      "Angle": 25
+    }
+  ],
+  "Lights": [
+    {
+      "Type": "PointLight",
+      "Position": [ -12.0, 10.0, -5.0 ],
+      "Color": [ 250, 240, 230 ]
+    },
+    {
+      "Type": "PointLight",
+      "Position": [ 1.0, 15.0, -2.0 ],
+      "Color": [ 250, 240, 230 ]
+    },
+    {
+      "Type": "AmbientLight",
+      "Color": [ 224, 224, 210 ],
+      "Intensity": 0.4
+    }
+  ]
+}

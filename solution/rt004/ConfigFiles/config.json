@@ -1,7 +1,7 @@
 {
   "Width": 600,
   "Height": 450,
-  "FileName": "Image.hdr",
+  "FileName": "GeneratedImages/Image.hdr",
   "CameraSettings": {
     "Position": [ 0.60, 0.00, -5.60 ],
     "Direction": [ 0.00, -0.03, 1.00 ],

@@ -1,0 +1,168 @@
+﻿{
+  "Width": 800,
+  "Height": 600,
+  "FileName": "GeneratedImages/FloralScene.hdr",
+  "CameraSettings": {
+    "Position": [ 0.0, 1.5, -10.0 ],
+    "Direction": [ 0.0, 0.0, 1.0 ],
+    "BackgroundColor": [ 135, 206, 235 ],
+    "FOVAngle": 45
+  },
+  "Materials": [
+    {
+      "Name": "PinkMatte",
+      "Color": [ 0.98, 0.50, 0.45 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.9,
+      "Specular": 0.5,
+      "Shininess": 30
+    },
+    {
+      "Name": "GreenMatte",
+      "Color": [ 0.2, 0.8, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.7,
+      "Specular": 0.3,
+      "Shininess": 50
+    },
+    {
+      "Name": "YellowMatte",
+      "Color": [ 0.9, 0.9, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.9,
+      "Specular": 0.4,
+      "Shininess": 80
+    }
+  ],
+  "ObjectsInScene": [
+    {
+      "Type": "Cube",
+      "Position": [ 0, 0, 0 ],
+      "Size": [ 0.2, 0.2, 0.2 ],
+      "Material": "YellowMatte",
+      "Angle": 0
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 0.3, 0, 0 ],
+      "Radius": 0.15,
+      "Material": "PinkMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ -0.3, 0, 0 ],
+      "Radius": 0.15,
+      "Material": "PinkMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 0, 0.3, 0 ],
+      "Radius": 0.15,
+      "Material": "PinkMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 0, -0.3, 0 ],
+      "Radius": 0.15,
+      "Material": "PinkMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 0.21, 0.21, 0 ],
+      "Radius": 0.15,
+      "Material": "PinkMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ -0.21, -0.21, 0 ],
+      "Radius": 0.15,
+      "Material": "PinkMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 0.21, -0.21, 0 ],
+      "Radius": 0.15,
+      "Material": "PinkMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ -0.21, 0.21, 0 ],
+      "Radius": 0.15,
+      "Material": "PinkMatte"
+    },
+    {
+      "Type": "Cube",
+      "Position": [ 1.5, 1.5, -1 ],
+      "Size": [ 0.4, 0.4, 0.4 ],
+      "Material": "YellowMatte",
+      "Angle": 45
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 1.9, 1.5, -1 ],
+      "Radius": 0.3,
+      "Material": "GreenMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 1.1, 1.5, -1 ],
+      "Radius": 0.3,
+      "Material": "GreenMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 1.5, 1.9, -1 ],
+      "Radius": 0.3,
+      "Material": "GreenMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 1.5, 1.1, -1 ],
+      "Radius": 0.3,
+      "Material": "GreenMatte"
+    },
+    {
+      "Type": "Cube",
+      "Position": [ -1, -1, 0.5 ],
+      "Size": [ 0.1, 0.1, 0.1 ],
+      "Material": "YellowMatte",
+      "Angle": 30
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ -0.85, -1, 0.5 ],
+      "Radius": 0.07,
+      "Material": "PinkMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ -1.15, -1, 0.5 ],
+      "Radius": 0.07,
+      "Material": "PinkMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ -1, -0.85, 0.5 ],
+      "Radius": 0.07,
+      "Material": "PinkMatte"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ -1, -1.15, 0.5 ],
+      "Radius": 0.07,
+      "Material": "PinkMatte"
+    }
+  ],
+  "Lights": [
+    {
+      "Type": "PointLight",
+      "Position": [ 0, 5, -5 ],
+      "Color": [ 255, 255, 255 ]
+    },
+    {
+      "Type": "AmbientLight",
+      "Color": [ 255, 255, 255 ],
+      "Intensity": 0.2
+    }
+  ]
+}

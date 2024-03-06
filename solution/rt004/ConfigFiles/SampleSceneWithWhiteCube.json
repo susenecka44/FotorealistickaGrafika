@@ -1,0 +1,90 @@
+﻿{
+  "Width": 600,
+  "Height": 450,
+  "FileName": "GeneratedImages/SampleSceneWithWhiteCube.hdr",
+  "CameraSettings": {
+    "Position": [ 0.60, 0.00, -5.60 ],
+    "Direction": [ 0.00, -0.03, 1.00 ],
+    "BackgroundColor": [ 25, 50, 75 ],
+    "FOVAngle": 40
+  },
+  "Materials": [
+    {
+      "Name": "YellowMatt",
+      "Color": [ 0.9, 0.9, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.6,
+      "Specular": 0.4,
+      "Shininess": 80
+    },
+    {
+      "Name": "BlueReflective",
+      "Color": [ 0.2, 0.3, 1.0 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.5,
+      "Specular": 0.5,
+      "Shininess": 150
+    },
+    {
+      "Name": "RedReflective",
+      "Color": [ 0.8, 0.2, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.6,
+      "Specular": 0.4,
+      "Shininess": 80
+    },
+    {
+      "Name": "WhiteMatt",
+      "Color": [ 0.9, 0.9, 0.9 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.9,
+      "Specular": 0.4,
+      "Shininess": 10
+    }
+
+  ],
+  "ObjectsInScene": [
+    {
+      "Type": "Sphere",
+      "Position": [ 0, 0, 0 ],
+      "Radius": 1,
+      "Material": "YellowMatt"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ -0.7, 0.7, -0.8 ],
+      "Radius": 0.1,
+      "Material": "RedReflective"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 1.4, -0.7, -0.5 ],
+      "Radius": 0.6,
+      "Material": "BlueReflective"
+    },
+    {
+      "Type": "Cube",
+      "Position": [ 2, 1, -0.2 ],
+      "Size": [ 0.5, 0.5, 0.5 ],
+      "Material": "WhiteMatt",
+      "Angle": 41
+    }
+  ],
+  "Lights": [
+    {
+      "Type": "PointLight",
+      "Position": [ -10.0, 8.0, -6.0 ],
+      "Color": [ 255, 234, 231 ]
+    },
+    {
+      "Type": "PointLight",
+      "Position": [ 0.0, 20.0, -3.0 ],
+      "Color": [ 255, 234, 231 ]
+    },
+    {
+      "Type": "AmbientLight",
+      "Color": [ 234, 234, 220 ],
+      "Intensity": 0.5
+    }
+  ]
+}
