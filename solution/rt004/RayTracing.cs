@@ -6,14 +6,18 @@ using System.Threading.Tasks;
 public class Raytracer
 {
     private Vector3 backgroundColor;
+    private bool RenderShadows;
+    private bool RenderReflections;
     private int maxDepth;
     private float minPerformance;
 
-    public Raytracer(Vector3 backgroundColor, int maxDepth, float minPerformance)
+    public Raytracer(Vector3 backgroundColor, int maxDepth, float minPerformance, bool shadows, bool reflections)
     {
         this.backgroundColor = backgroundColor;
         this.maxDepth = maxDepth;
         this.minPerformance = minPerformance;
+        this.RenderReflections = reflections;
+        this.RenderShadows = shadows;
     }
     public Vector3 TraceRay(Ray r, List<IHittable> world, List<LightSource> lights, int depth)
     {
@@ -26,17 +30,19 @@ public class Raytracer
             Vector3 reflectedColor = Vector3.Zero;
             Vector3 color = RayColor(r, world, lights); // Compute local color
 
-            // Reflection
-            if (rec.Material.Reflectivity > 0)
+            if (RenderReflections)
             {
-                Vector3 reflectDir = Vector3.Reflect(r.Direction, rec.Normal);
-                Ray reflectRay = new Ray(rec.HitPoint + rec.Normal * 0.001f, reflectDir);
-                reflectedColor = TraceRay(reflectRay, world, lights, depth - 1);
+                // Reflection
+                if (rec.Material.Reflectivity > 0)
+                {
+                    Vector3 reflectDir = Vector3.Reflect(r.Direction, rec.Normal);
+                    Ray reflectRay = new Ray(rec.HitPoint + rec.Normal * 0.001f, reflectDir);
+                    reflectedColor = TraceRay(reflectRay, world, lights, depth - 1);
+                }
+
+                // Combine reflection with local color
+                color += rec.Material.Reflectivity * reflectedColor;
             }
-
-            // Combine reflection with local color
-            color += rec.Material.Reflectivity * reflectedColor;
-
             return color;
         }
         else
@@ -82,9 +88,18 @@ public class Raytracer
                     }
                 }
             }
-
-            // Combine all components
-            Vector3 color = ambientColor + diffuseColor + specularColor;
+            Vector3 color;
+            if (RenderShadows)
+            {
+                // Combine all components
+                color = ambientColor + diffuseColor + specularColor;
+            }
+            else if (RenderReflections && !RenderShadows) {
+                color = ambientColor + specularColor;
+            }
+            else {
+                color = ambientColor;
+            }
             return color;
         }
         else

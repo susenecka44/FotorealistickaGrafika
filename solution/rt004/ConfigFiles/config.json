@@ -8,6 +8,13 @@
     "BackgroundColor": [ 25, 50, 75 ],
     "FOVAngle": 40
   },
+  "AlgorithmSettings": {
+    "ShadowsEnabled": true,
+    "ReflectionsEnabled": true,
+    "SamplesPerPixel": 1,
+    "MaxDepth": 8,
+    "MinimalPerformance": 0.01
+  },
   "Materials": [
     {
       "Name": "YellowMatt",
