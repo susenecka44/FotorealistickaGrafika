@@ -1,0 +1,113 @@
+﻿{
+  "Width": 1200,
+  "Height": 800,
+  "FileName": "GeneratedImages/SolarSystemScene.pfm",
+  "CameraSettings": {
+    "Position": [ 0.0, 5.0, -40.0 ],
+    "Direction": [ 0.0, -0.1, 1.0 ],
+    "BackgroundColor": [ 5, 5, 20 ], 
+    "FOVAngle": 120
+  },
+  "Materials": [
+    {
+      "Name": "SunMaterial",
+      "Color": [ 1.0, 0.9, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.9,
+      "Specular": 0.5,
+      "Shininess": 10
+    },
+    {
+      "Name": "PlanetMaterial",
+      "Color": [ 0.5, 0.5, 0.5 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.6,
+      "Specular": 0.4,
+      "Shininess": 30
+    },
+    {
+      "Name": "EarthMaterial",
+      "Color": [ 0.2, 0.5, 0.9 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.6,
+      "Specular": 0.4,
+      "Shininess": 30
+    },
+    {
+      "Name": "MarsMaterial",
+      "Color": [ 0.8, 0.4, 0.1 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.6,
+      "Specular": 0.4,
+      "Shininess": 30
+    }
+  ],
+  "ObjectsInScene": [
+    {
+      "Type": "Sphere",
+      "Position": [ 0, 0, 0 ],
+      "Radius": 2,
+      "Material": "SunMaterial"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 3, 0, 0 ],
+      "Radius": 0.2,
+      "Material": "PlanetMaterial"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 5, 0, 0 ],
+      "Radius": 0.4,
+      "Material": "PlanetMaterial"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 8, 0, 0 ],
+      "Radius": 0.42,
+      "Material": "EarthMaterial"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 12, 0, 0 ],
+      "Radius": 0.35,
+      "Material": "MarsMaterial"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 20, 0, 0 ],
+      "Radius": 1.0,
+      "Material": "PlanetMaterial"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 30, 0, 0 ],
+      "Radius": 0.8,
+      "Material": "PlanetMaterial"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 40, 0, 0 ],
+      "Radius": 0.7,
+      "Material": "PlanetMaterial"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 50, 0, 0 ],
+      "Radius": 0.7,
+      "Material": "PlanetMaterial"
+    }
+  ],
+  "Lights": [
+    {
+      "Type": "PointLight",
+      "Position": [ 0.0, 5.0, -50.0 ], 
+      "Color": [ 255, 255, 224 ]
+    },
+    {
+      "Type": "AmbientLight",
+      "Color": [ 255, 255, 255 ],
+      "Intensity": 0.1
+    }
+  ]
+}

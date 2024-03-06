@@ -2,7 +2,7 @@
   "profiles": {
     "rt004": {
       "commandName": "Project",
-      "commandLineArgs": "-c ConfigFiles/config.json",
+      "commandLineArgs": "-c ConfigFiles/SolarSystem.json",
       "workingDirectory": "$(ProjectDir)"
     }
   }

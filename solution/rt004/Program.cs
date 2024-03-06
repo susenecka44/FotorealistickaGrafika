@@ -123,16 +123,27 @@ internal class Program
                 }
             }
 
-            // Implement RayColor function to determine the color of a pixel based on ray-object intersections
+            // Check the file extension
+            string extension = Path.GetExtension(fileName).ToLower();
 
-            fi.SaveHDR(fileName);     // HDR format is still buggy
-                                      // fi.SavePFM(fileName);     // Works ok with the PFM format
-
-            Console.WriteLine($"HDR image '{fileName}' is finished.");
-
+            switch (extension)
+            {
+                case ".hdr":
+                    // HDR format is still buggy
+                    fi.SaveHDR(fileName); 
+                    Console.WriteLine($"HDR image '{fileName}' is finished.");
+                    break;
+                case ".pfm":
+                    fi.SavePFM(fileName);
+                    Console.WriteLine($"PFM image '{fileName}' is finished.");
+                    break;
+                default:
+                    Console.WriteLine("Unrecognized file format, saving in default PFM format.");
+                    fi.SavePFM(fileName); // Default to PFM format if the extension is not recognized
+                    Console.WriteLine($"PFM image '{fileName}' is finished.");
+                    break;
+            }
         }
-
-
     }
 }
 public class Material
