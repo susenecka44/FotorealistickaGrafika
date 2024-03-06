@@ -179,10 +179,16 @@ public class Cube : IHittable
 
     public bool Hit(Ray r, float tMin, float tMax, out HitRecord rec)
     {
+        // Transform the ray to the cube's local space (including rotation)
+        Vector3 rotatedOrigin = RotateVectorY(r.Origin - Center, -RotationY) + Center;
+        Vector3 rotatedDirection = RotateVectorY(r.Direction, -RotationY);
+        Ray rotatedRay = new Ray(rotatedOrigin, rotatedDirection);
+
+        // Perform the intersection test with the transformed ray
         rec = new HitRecord();
-        Vector3 invD = new Vector3(1.0f / r.Direction.X, 1.0f / r.Direction.Y, 1.0f / r.Direction.Z);
-        Vector3 t0s = (Min - r.Origin) * invD;
-        Vector3 t1s = (Max - r.Origin) * invD;
+        Vector3 invD = new Vector3(1.0f / rotatedRay.Direction.X, 1.0f / rotatedRay.Direction.Y, 1.0f / rotatedRay.Direction.Z);
+        Vector3 t0s = (Min - rotatedRay.Origin) * invD;
+        Vector3 t1s = (Max - rotatedRay.Origin) * invD;
 
         Vector3 tMinVec = Vector3.Min(t0s, t1s);
         Vector3 tMaxVec = Vector3.Max(t0s, t1s);
@@ -197,8 +203,8 @@ public class Cube : IHittable
 
         bool isEntering = tMinSlab > tMin;
         rec.T = isEntering ? tMinSlab : tMaxSlab;
-        rec.HitPoint = r.PointAtParameter(rec.T);
-        // Determine the hit face and compute normal
+        rec.HitPoint = rotatedRay.PointAtParameter(rec.T);
+        // Calculate normal based on intersection
         rec.Normal = Vector3.Zero; // Initialize the normal
         if (isEntering)
         {
@@ -213,8 +219,13 @@ public class Cube : IHittable
             if (tMaxSlab == tMaxVec.Z) rec.Normal = invD.Z < 0 ? -Vector3.UnitZ : Vector3.UnitZ;
         }
 
+        // Transform the normal back to the world space (considering rotation)
+        rec.Normal = RotateVectorY(rec.Normal, RotationY);
         rec.Material = Material;
-        rec.SetFaceNormal(r, rec.Normal); // This ensures the normal is correctly oriented with respect to the incoming ray
+        rec.SetFaceNormal(rotatedRay, rec.Normal); // Ensure normal is correctly oriented with respect to the rotated ray
+
+        // Adjust hit point to world space
+        rec.HitPoint = RotateVectorY(rec.HitPoint - Center, RotationY) + Center;
 
         return true;
     }
