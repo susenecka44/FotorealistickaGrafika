@@ -30,16 +30,14 @@ internal class Program
         Parser.Default.ParseArguments<Options>(args)
             .WithParsed<Options>(opts =>
             {
+                SceneConfig? sceneConfig = null;
                 if (!string.IsNullOrEmpty(opts.ConfigFile))
                 {
                     try
                     {
                         string jsonText = System.IO.File.ReadAllText(opts.ConfigFile);
-                        var config = JsonSerializer.Deserialize<Options>(jsonText);
-                        if (config != null)
-                        {
-                            opts = config;
-                        }
+                        sceneConfig = JsonSerializer.Deserialize<SceneConfig>(jsonText);
+                        if (sceneConfig == null) throw new Exception("Failed to load scene configuration.");
                     }
                     catch (Exception ex)
                     {
@@ -47,79 +45,96 @@ internal class Program
                         return;
                     }
                 }
-                CreateImage(opts.Width, opts.Height, opts.FileName);
+
+                if (sceneConfig != null)
+                {
+                    CreateImage(sceneConfig.Width, sceneConfig.Height, sceneConfig.FileName, sceneConfig.Materials, sceneConfig.ObjectsInScene, sceneConfig.Lights, sceneConfig.CameraSettings);
+                }
+                else
+                {
+                    CreateImage(opts.Width, opts.Height, opts.FileName, new List<Material>(), new List<SceneObject>(), new List<Light>(), new CameraSettings());
+                }
             });
     }
 
     /// <summary>
     /// Creates an HDR image according to raytracing program 
     /// </summary>
-    private static void CreateImage(int width, int height, string fileName)
+    private static void CreateImage(int width, int height, string fileName, List<Material> materials, List<SceneObject> objectsInScene, List<Light> lights, CameraSettings cameraSettings)
     {
-        // create an image in which we'll the colours from raytracing be inserted
-        FloatImage fi = new FloatImage(width, height, 3);
-
-        Camera camera = new Camera(new Vector3(0.60f, 0.00f, -5.60f), width, height, 40, new Vector3(0.00f, -0.03f, 1.00f));
-        // set background colour
-        Raycasting raycaster = new Raycasting(new Vector3(25, 50, 75));
-
-        List<LightSource> lightSources = new List<LightSource>();
-        // Add ambient light
-        lightSources.Add(new AmbientLight(new Vector3(234, 234, 220), 1/200));
-        // Add point light
-        lightSources.Add(new PointLight(new Vector3(-10, 8, -6), new Vector3(255, 234, 231)));
-        lightSources.Add(new PointLight(new Vector3(0, 20, -3), new Vector3(225, 234, 240)));
-        lightSources.Add(new PointLight(new Vector3(10, -30, 10), new Vector3(225, 233, 235)));
-
-
-
-        // create a scene to be rendered & add objects to it
-        List<IHittable> scene = new List<IHittable>();
-
-        
-        ObjectMaterial YellowMatt = new ObjectMaterial(new float[] { 0.9f, 0.9f, 0.2f }, 0.1, 0.6, 0.4, 80);
-        scene.Add(new Sphere(new Vector3(0, 0, 0), 1, YellowMatt));
-        
-        ObjectMaterial BlueReflective = new ObjectMaterial(new float[] { 0.2f, 0.3f, 1.0f }, 0.1, 0.5, 0.5, 150);
-       // scene.Add(new Sphere(new Vector3(1.4f, -0.7f, -0.5f), 0.6f, BlueReflective));
-        
-        ObjectMaterial RedReflective = new ObjectMaterial(new float[] { 0.8f, 0.2f, 0.2f }, 0.1, 0.6, 0.4, 80);
-        scene.Add(new Sphere(new Vector3(-0.7f, 0.7f, -0.2f), 0.1f, RedReflective));
-        
-        ObjectMaterial WhiteReflective = new ObjectMaterial(new float[] { 0.9f, 0.9f, 0.9f }, 0.1, 0.6, 0.4, 200);
-
-         scene.Add(new Cube(new Vector3(1.4f, -0.7f, -0.5f), new Vector3(0.9f, 0.9f, 0.9f), WhiteReflective, 41));
-
-
-        // scene.Add(new Plane(new Vector3 (-2f, 0.7f, -1f), new Vector3(0, -1, 0), RedReflective));
-
-
-
-        // Raytrace every pixel 
-        for (int j = height - 1; j >= 0; --j)
         {
-            for (int i = 0; i < width; ++i)
+            // Initialize the FloatImage, Camera, and other entities as before
+            FloatImage fi = new FloatImage(width, height, 3);
+            Camera camera = new Camera(new Vector3(0.60f, 0.00f, -5.60f), width, height, 40, new Vector3(0.00f, -0.03f, 1.00f));
+            Raycasting raycaster = new Raycasting(new Vector3(25, 50, 75));
+            List<LightSource> lightSources = new List<LightSource>();
+            List<IHittable> scene = new List<IHittable>();
+
+            // Loading materials
+            Dictionary<string, ObjectMaterial> loadedMaterials = new Dictionary<string, ObjectMaterial>();
+            foreach (var mat in materials)
             {
-                float u = (float)i / (width - 1);
-                float v = (float)j / (height - 1);
-                Ray r = camera.GetRay(u, v);
-                Vector3 color = raycaster.RayColor(r, scene, lightSources);
-                float[] convertedColor = { color.X / 255.0F, color.Y / 255.0F, color.Z / 255.0F };   // R, G, B
-                fi.PutPixel(i, j, convertedColor);
+                loadedMaterials[mat.Name] = new ObjectMaterial(mat.Color, mat.Ambient, mat.Diffuse, mat.Specular, mat.Shininess);
             }
+
+            // Loading light sources
+            foreach (var light in lights)
+            {
+                if (light.Type == "PointLight")
+                {
+                    lightSources.Add(new PointLight(new Vector3(light.Position[0], light.Position[1], light.Position[2]), new Vector3(light.Color[0], light.Color[1], light.Color[2])));
+                }
+                else if (light.Type == "AmbientLight")
+                {
+                    lightSources.Add(new AmbientLight(new Vector3(light.Color[0], light.Color[1], light.Color[2]), light.Intensity));
+                }
+            }
+
+
+            // Adding objects to the scene based on the loaded materials
+            foreach (var obj in objectsInScene)
+            {
+                ObjectMaterial material = loadedMaterials[obj.Material];
+                switch (obj.Type.ToLower())
+                {
+                    case "sphere":
+                        scene.Add(new Sphere(new Vector3(obj.Position[0], obj.Position[1], obj.Position[2]), obj.Radius, material));
+                        break;
+                    case "cube":
+                        scene.Add(new Cube(new Vector3(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3(obj.Size[0], obj.Size[1], obj.Size[2]), material, obj.RotationAngle));
+                        break;
+                    case "plane":
+                        scene.Add(new Plane(new Vector3(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3(obj.Normal[0], obj.Normal[1], obj.Normal[2]), material));
+                        break;
+                }
+            }
+
+            // Raytrace every pixel 
+            for (int j = height - 1; j >= 0; --j)
+            {
+                for (int i = 0; i < width; ++i)
+                {
+                    float u = (float)i / (width - 1);
+                    float v = (float)j / (height - 1);
+                    Ray r = camera.GetRay(u, v);
+                    Vector3 color = raycaster.RayColor(r, scene, lightSources);
+                    float[] convertedColor = { color.X / 255.0F, color.Y / 255.0F, color.Z / 255.0F };   // R, G, B
+                    fi.PutPixel(i, j, convertedColor);
+                }
+            }
+
+            // Implement RayColor function to determine the color of a pixel based on ray-object intersections
+
+            fi.SaveHDR(fileName);     // HDR format is still buggy
+                                      // fi.SavePFM(fileName);     // Works ok with the PFM format
+
+            Console.WriteLine($"HDR image '{fileName}' is finished.");
+
         }
 
-        // Implement RayColor function to determine the color of a pixel based on ray-object intersections
-
-        fi.SaveHDR(fileName);     // HDR format is still buggy
-       // fi.SavePFM(fileName);     // Works ok with the PFM format
-
-        Console.WriteLine($"HDR image '{fileName}' is finished.");
 
     }
-
 }
-
 public class Material
 {
     public string Name { get; set; }
@@ -135,9 +150,10 @@ public class SceneObject
     public string Type { get; set; }
     public float[] Position { get; set; }
     public float Radius { get; set; } // For spheres
-    public float[] Size { get; set; } // For cubes
+    public float[] Size { get; set; } // For cubes 
+    public float[] Normal { get; set; } // For planes
     public string Material { get; set; }
-    public float Angle { get; set; } // Optional, for cubes
+    public float RotationAngle { get; set; } // Optional, for cubes
 }
 
 public class Light
@@ -148,10 +164,20 @@ public class Light
     public float Intensity { get; set; } // For ambient light
 }
 
+
+public class CameraSettings
+{
+    public float[] Position { get; set; }
+    public float[] Direction { get; set; }
+    public float[] BackgroundColor { get; set; }
+}
+
 public class SceneConfig : Options
 {
     public List<Material> Materials { get; set; }
     public List<SceneObject> ObjectsInScene { get; set; }
     public List<Light> Lights { get; set; }
+
+    public CameraSettings CameraSettings { get; set; }
 }
 

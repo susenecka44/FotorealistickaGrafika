@@ -126,7 +126,7 @@ public class Cube : IHittable
     private Vector3 Max;
     public ObjectMaterial Material { get; set; }
     public float RotationY { get; set; } // Rotation around the Y axis in degrees
-    private List<Plane> planes;
+    private List<Plane> planes = new List<Plane>();
 
     public Cube(Vector3 center, Vector3 size, ObjectMaterial material, float rotationY)
     {

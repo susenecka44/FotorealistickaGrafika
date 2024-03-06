@@ -3,6 +3,11 @@
   "Width": 800,
   "Height": 600,
   "FileName": "Image.hdr",
+  "CameraSettings": {
+    "Position": [ 0.1, 0.0, 0.0 ],
+    "Direction": [ 0.2, 0.2, 0.1 ],
+    "BackgroundColor": [ 122, 255, 244 ]
+  },
   "Materials": [
     {
       "Name": "YellowMatt",
