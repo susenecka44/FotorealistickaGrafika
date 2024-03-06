@@ -18,12 +18,12 @@
   "Materials": [
     {
       "Name": "YellowMatt",
-      "Color": [ 0.9, 0.9, 0.2 ],
+      "Color": [ 1.0, 1.0, 0.2 ],
       "Ambient": 0.1,
-      "Diffuse": 0.6,
-      "Specular": 0.4,
+      "Diffuse": 0.8,
+      "Specular": 0.2,
       "Shininess": 80,
-      "Reflectivity": 0.005
+      "Reflectivity": 0.05
     },
     {
       "Name": "BlueReflective",
@@ -49,8 +49,8 @@
       "Ambient": 0.1,
       "Diffuse": 0.9,
       "Specular": 0.4,
-      "Shininess": 10,
-      "Reflectivity": 0.1
+      "Shininess": 80,
+      "Reflectivity": 0.8
     },
     {
       "Name": "GreenMatt",
@@ -60,8 +60,16 @@
       "Specular": 0.2,
       "Shininess": 150,
       "Reflectivity": 0.20
+    },
+    {
+      "Name": "Gold",
+      "Color": [ 0.3, 0.2, 0.0 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.2,
+      "Specular": 0.8,
+      "Shininess": 400,
+      "Reflectivity": 0.80
     }
-
   ],
   "ObjectsInScene": [
     {
@@ -72,7 +80,7 @@
     },
     {
       "Type": "Plane",
-      "Position": [ 0, -1, 0 ],
+      "Position": [ 0.0, -1.3, 0.0 ],
       "Normal": [ 0, 1, 0 ],
       "Material": "WhiteMatt"
     },
@@ -89,11 +97,10 @@
       "Material": "BlueReflective"
     },
     {
-      "Type": "Cube",
-      "Position": [ 2, 1, -0.2 ],
-      "Size": [ 0.5, 0.5, 0.5 ],
-      "Material": "GreenMatt",
-      "Angle": 41
+      "Type": "Sphere",
+      "Position": [ 1.5, 0.6, 0.1 ],
+      "Radius": 0.5,
+      "Material": "Gold"
     }
   ],
   "Lights": [
