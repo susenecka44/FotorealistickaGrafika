@@ -70,25 +70,33 @@ internal class Program
         lightSources.Add(new AmbientLight(new Vector3(234, 234, 220), 1/200));
         // Add point light
         lightSources.Add(new PointLight(new Vector3(-10, 8, -6), new Vector3(255, 234, 231)));
+        lightSources.Add(new PointLight(new Vector3(0, 20, -3), new Vector3(225, 234, 240)));
         lightSources.Add(new PointLight(new Vector3(10, -30, 10), new Vector3(225, 233, 235)));
 
 
 
         // create a scene to be rendered & add objects to it
         List<IHittable> scene = new List<IHittable>();
-        // scene.Add(new Sphere(new Vector3(0, 0, -1), 0.5f));
 
+        /*
         ObjectMaterial YellowMatt = new ObjectMaterial(new float[] { 0.9f, 0.9f, 0.2f }, 0.1, 0.6, 0.4, 80);
         scene.Add(new Sphere(new Vector3(0, 0, 0), 1, YellowMatt));
+        
         ObjectMaterial BlueReflective = new ObjectMaterial(new float[] { 0.2f, 0.3f, 1.0f }, 0.1, 0.5, 0.5, 150);
         scene.Add(new Sphere(new Vector3(1.4f, -0.7f, -0.5f), 0.6f, BlueReflective));
+        
         ObjectMaterial RedReflective = new ObjectMaterial(new float[] { 0.8f, 0.2f, 0.2f }, 0.1, 0.6, 0.4, 80);
-        scene.Add(new Sphere(new Vector3(-0.7f, 0.7f, -0.8f), 0.1f, RedReflective));
+        scene.Add(new Sphere(new Vector3(-0.7f, 0.7f, -0.2f), 0.1f, RedReflective));
+        */
+        ObjectMaterial WhiteReflective = new ObjectMaterial(new float[] { 0.9f, 0.9f, 0.9f }, 0.1, 0.6, 0.4, 200);
+        //scene.Add(new Sphere(new Vector3(-0.7f, 0.7f, -0.8f), 1.2f, WhiteReflective));
 
-        scene.Add(new Plane(new Vector3 (-2f, 0.7f, -1f), new Vector3(0, -1, 0), RedReflective));
+        // scene.Add(new Plane(new Vector3 (-2f, 0.7f, -1f), new Vector3(0, -1, 0), RedReflective));
+         scene.Add(new Cube(new Vector3(1.4f, -0.7f, -0.5f), new Vector3(0.9f, 0.9f, 0.9f), WhiteReflective, 41));
+        
 
 
-        // scene.Add(new Sphere(new Vector3(0, 0, -1), 0.1f));
+
 
 
         //  scene.Add(new Cube1(new Vector3(0.8f, 0.3f, -1), new Vector3(0.1f, 0.1f, -0.1f)));

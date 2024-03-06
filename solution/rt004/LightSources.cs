@@ -14,11 +14,11 @@ public abstract class LightSource
 
 public class AmbientLight : LightSource
 {
-    public AmbientLight(Vector3 color, float ambientcoeficient) {
+    public AmbientLight(Vector3 color, float intensity) {
         Position = new Vector3(0, 0, 0);
-        float cX = color.X * ambientcoeficient;
-        float cY = color.Y * ambientcoeficient;
-        float cZ = color.Z * ambientcoeficient;
+        float cX = color.X * intensity;
+        float cY = color.Y * intensity;
+        float cZ = color.Z * intensity;
         Color = new Vector3(cX, cY, cZ);
     }
 }
