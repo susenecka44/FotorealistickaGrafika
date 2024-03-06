@@ -32,6 +32,14 @@
       "Diffuse": 0.6,
       "Specular": 0.4,
       "Shininess": 80
+    },
+    {
+      "Name": "WhiteMatt",
+      "Color": [ 0.9, 0.9, 0.9 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.9,
+      "Specular": 0.4,
+      "Shininess": 10
     }
 
   ],
@@ -57,8 +65,8 @@
     {
       "Type": "Cube",
       "Position": [ 2, 1, -0.2 ],
-      "Size": [ 0.2, 0.2, 0.2 ],
-      "Material": "BlueReflective",
+      "Size": [ 0.5, 0.5, 0.5 ],
+      "Material": "WhiteMatt",
       "Angle": 41
     }
   ],
@@ -76,7 +84,7 @@
     {
       "Type": "AmbientLight",
       "Color": [ 234, 234, 220 ],
-      "Intensity": 0.005
+      "Intensity": 0.5
     }
   ]
 }
