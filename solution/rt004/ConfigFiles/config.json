@@ -15,7 +15,8 @@
       "Ambient": 0.1,
       "Diffuse": 0.6,
       "Specular": 0.4,
-      "Shininess": 80
+      "Shininess": 80,
+      "Reflectivity": 0.005
     },
     {
       "Name": "BlueReflective",
@@ -23,7 +24,8 @@
       "Ambient": 0.1,
       "Diffuse": 0.5,
       "Specular": 0.5,
-      "Shininess": 150
+      "Shininess": 150,
+      "Reflectivity": 0.2
     },
     {
       "Name": "RedReflective",
@@ -31,7 +33,8 @@
       "Ambient": 0.1,
       "Diffuse": 0.6,
       "Specular": 0.4,
-      "Shininess": 80
+      "Shininess": 80,
+      "Reflectivity": 0.110
     },
     {
       "Name": "WhiteMatt",
@@ -39,7 +42,8 @@
       "Ambient": 0.1,
       "Diffuse": 0.9,
       "Specular": 0.4,
-      "Shininess": 10
+      "Shininess": 10,
+      "Reflectivity": 0.1
     },
     {
       "Name": "GreenMatt",
@@ -47,7 +51,8 @@
       "Ambient": 0.2,
       "Diffuse": 0.6,
       "Specular": 0.2,
-      "Shininess": 150
+      "Shininess": 150,
+      "Reflectivity": 0.20
     }
 
   ],

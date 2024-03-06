@@ -3,11 +3,48 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 
-public class Raycasting
+public class Raytracer
 {
     private Vector3 backgroundColor;
+    private int maxDepth;
+    private float minPerformance;
 
-    public Raycasting(Vector3 backgroundColor) {  this.backgroundColor = backgroundColor; }
+    public Raytracer(Vector3 backgroundColor, int maxDepth, float minPerformance)
+    {
+        this.backgroundColor = backgroundColor;
+        this.maxDepth = maxDepth;
+        this.minPerformance = minPerformance;
+    }
+    public Vector3 TraceRay(Ray r, List<IHittable> world, List<LightSource> lights, int depth)
+    {
+        if (depth <= 0)
+            return Vector3.Zero;
+
+        HitRecord rec;
+        if (WorldHit(world, r, 0.001f, float.MaxValue, out rec))
+        {
+            Vector3 reflectedColor = Vector3.Zero;
+            Vector3 color = RayColor(r, world, lights); // Compute local color
+
+            // Reflection
+            if (rec.Material.Reflectivity > 0)
+            {
+                Vector3 reflectDir = Vector3.Reflect(r.Direction, rec.Normal);
+                Ray reflectRay = new Ray(rec.HitPoint + rec.Normal * 0.001f, reflectDir);
+                reflectedColor = TraceRay(reflectRay, world, lights, depth - 1);
+            }
+
+            // Combine reflection with local color
+            color += rec.Material.Reflectivity * reflectedColor;
+
+            return color;
+        }
+        else
+        {
+            return ComputeBackgroundColor(r.Direction); 
+        }
+    }
+
     public Vector3 RayColor(Ray r, List<IHittable> world, List<LightSource> lights)
     {
         HitRecord rec;
@@ -53,9 +90,7 @@ public class Raycasting
         else
         {
             // Background gradient
-            Vector3 unitDirection = Vector3.Normalize(r.Direction);
-            float t = 0.5f * (unitDirection.Y + 1.0f);
-            return (1.0f - t) * backgroundColor + t * new Vector3(0.5f, 0.7f, 1.0f);
+           return ComputeBackgroundColor(r.Direction);
         }
     }
 
@@ -75,5 +110,13 @@ public class Raycasting
             }
         }
         return hitAnything;
+    }
+
+
+    private Vector3 ComputeBackgroundColor(Vector3 direction)
+    {
+        Vector3 unitDirection = Vector3.Normalize(direction);
+        float t = 0.5f * (unitDirection.Y + 1.0f);
+        return (1.0f - t) * backgroundColor + t * new Vector3(0.5f, 0.7f, 1.0f);
     }
 }

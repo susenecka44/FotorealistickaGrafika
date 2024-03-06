@@ -15,7 +15,8 @@
       "Ambient": 0.1,
       "Diffuse": 0.7,
       "Specular": 0.3,
-      "Shininess": 90
+      "Shininess": 90,
+      "Reflectivity": 0.005
     },
     {
       "Name": "PurpleReflective",
@@ -23,7 +24,8 @@
       "Ambient": 0.1,
       "Diffuse": 0.4,
       "Specular": 0.6,
-      "Shininess": 120
+      "Shininess": 120,
+      "Reflectivity": 0.005
     },
     {
       "Name": "OrangeMatt",
@@ -31,7 +33,8 @@
       "Ambient": 0.1,
       "Diffuse": 0.6,
       "Specular": 0.4,
-      "Shininess": 50
+      "Shininess": 50,
+      "Reflectivity": 0.005
     },
     {
       "Name": "GreyReflective",
@@ -39,7 +42,8 @@
       "Ambient": 0.2,
       "Diffuse": 0.5,
       "Specular": 0.5,
-      "Shininess": 100
+      "Shininess": 100,
+      "Reflectivity": 0.005
     }
   ],
   "ObjectsInScene": [

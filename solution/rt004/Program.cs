@@ -66,7 +66,7 @@ internal class Program
             // Initialize the FloatImage, Camera, and other entities as before
             FloatImage fi = new FloatImage(width, height, 3);
             Camera camera = new Camera(new Vector3(cameraSettings.Position[0], cameraSettings.Position[1], cameraSettings.Position[2]), width, height, cameraSettings.FOVAngle, new Vector3(cameraSettings.Direction[0], cameraSettings.Direction[1], cameraSettings.Direction[2]));
-            Raycasting raycaster = new Raycasting(new Vector3(cameraSettings.BackgroundColor[0], cameraSettings.BackgroundColor[1], cameraSettings.BackgroundColor[2]));
+            Raytracer raytracer = new Raytracer(new Vector3(cameraSettings.BackgroundColor[0], cameraSettings.BackgroundColor[1], cameraSettings.BackgroundColor[2]), 8, 8);
             List<LightSource> lightSources = new List<LightSource>();
             List<IHittable> scene = new List<IHittable>();
 
@@ -74,7 +74,7 @@ internal class Program
             Dictionary<string, ObjectMaterial> loadedMaterials = new Dictionary<string, ObjectMaterial>();
             foreach (var mat in materials)
             {
-                loadedMaterials[mat.Name] = new ObjectMaterial(mat.Color, mat.Ambient, mat.Diffuse, mat.Specular, mat.Shininess);
+                loadedMaterials[mat.Name] = new ObjectMaterial(mat.Color, mat.Ambient, mat.Diffuse, mat.Specular, mat.Shininess, mat.Reflectivity);
             }
 
             // Loading light sources
@@ -117,7 +117,7 @@ internal class Program
                     float u = (float)i / (width - 1);
                     float v = (float)j / (height - 1);
                     Ray r = camera.GetRay(u, v);
-                    Vector3 color = raycaster.RayColor(r, scene, lightSources);
+                    Vector3 color = raytracer.TraceRay(r, scene, lightSources, 8);
                     float[] convertedColor = { color.X / 255.0F, color.Y / 255.0F, color.Z / 255.0F };   // R, G, B
                     fi.PutPixel(i, j, convertedColor);
                 }
@@ -154,6 +154,7 @@ public class Material
     public float Diffuse { get; set; }
     public float Specular { get; set; }
     public float Shininess { get; set; }
+    public float Reflectivity { get; set; }
 }
 
 public class SceneObject

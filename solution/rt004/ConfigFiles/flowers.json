@@ -15,7 +15,8 @@
       "Ambient": 0.1,
       "Diffuse": 0.9,
       "Specular": 0.5,
-      "Shininess": 30
+      "Shininess": 30,
+      "Reflectivity": 0.005
     },
     {
       "Name": "GreenMatte",
@@ -23,7 +24,9 @@
       "Ambient": 0.1,
       "Diffuse": 0.7,
       "Specular": 0.3,
-      "Shininess": 50
+      "Shininess": 50,
+      "Reflectivity": 0.005
+
     },
     {
       "Name": "YellowMatte",
@@ -31,7 +34,8 @@
       "Ambient": 0.1,
       "Diffuse": 0.9,
       "Specular": 0.4,
-      "Shininess": 80
+      "Shininess": 80,
+      "Reflectivity": 0.005
     }
   ],
   "ObjectsInScene": [

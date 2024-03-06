@@ -15,7 +15,8 @@
       "Ambient": 0.3,
       "Diffuse": 0.8,
       "Specular": 0.5,
-      "Shininess": 10
+      "Shininess": 10,
+      "Reflectivity": 0.5
     },
     {
       "Name": "MercuryMaterial",
@@ -23,7 +24,8 @@
       "Ambient": 0.2,
       "Diffuse": 0.7,
       "Specular": 0.4,
-      "Shininess": 30
+      "Shininess": 30,
+      "Reflectivity": 0.005
     },
     {
       "Name": "VenusMaterial",
@@ -31,7 +33,8 @@
       "Ambient": 0.2,
       "Diffuse": 0.6,
       "Specular": 0.3,
-      "Shininess": 25
+      "Shininess": 25,
+      "Reflectivity": 0.005
     },
     {
       "Name": "EarthMaterial",
@@ -39,7 +42,8 @@
       "Ambient": 0.1,
       "Diffuse": 0.6,
       "Specular": 0.4,
-      "Shininess": 30
+      "Shininess": 30,
+      "Reflectivity": 0.005
     },
     {
       "Name": "MarsMaterial",
@@ -47,7 +51,8 @@
       "Ambient": 0.2,
       "Diffuse": 0.6,
       "Specular": 0.3,
-      "Shininess": 30
+      "Shininess": 30,
+      "Reflectivity": 0.005
     },
     {
       "Name": "JupiterMaterial",
@@ -55,7 +60,8 @@
       "Ambient": 0.2,
       "Diffuse": 0.7,
       "Specular": 0.4,
-      "Shininess": 30
+      "Shininess": 30,
+      "Reflectivity": 0.005
     },
     {
       "Name": "SaturnMaterial",
@@ -63,7 +69,8 @@
       "Ambient": 0.2,
       "Diffuse": 0.7,
       "Specular": 0.4,
-      "Shininess": 30
+      "Shininess": 30,
+      "Reflectivity": 0.005
     },
     {
       "Name": "UranusMaterial",
@@ -71,7 +78,8 @@
       "Ambient": 0.2,
       "Diffuse": 0.6,
       "Specular": 0.3,
-      "Shininess": 30
+      "Shininess": 30,
+      "Reflectivity": 0.005
     },
     {
       "Name": "NeptuneMaterial",
@@ -79,7 +87,8 @@
       "Ambient": 0.2,
       "Diffuse": 0.6,
       "Specular": 0.3,
-      "Shininess": 30
+      "Shininess": 30,
+      "Reflectivity": 0.005
     }
   ],
   "ObjectsInScene": [
