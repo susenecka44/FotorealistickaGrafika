@@ -40,6 +40,14 @@
       "Diffuse": 0.9,
       "Specular": 0.4,
       "Shininess": 10
+    },
+    {
+      "Name": "GreenMatt",
+      "Color": [ 0.5, 0.9, 0.5 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.6,
+      "Specular": 0.2,
+      "Shininess": 150
     }
 
   ],
@@ -49,6 +57,12 @@
       "Position": [ 0, 0, 0 ],
       "Radius": 1,
       "Material": "YellowMatt"
+    },
+    {
+      "Type": "Plane",
+      "Position": [ 0, -1, 0 ],
+      "Normal": [ 0, 1, 0 ],
+      "Material": "WhiteMatt"
     },
     {
       "Type": "Sphere",
@@ -66,7 +80,7 @@
       "Type": "Cube",
       "Position": [ 2, 1, -0.2 ],
       "Size": [ 0.5, 0.5, 0.5 ],
-      "Material": "WhiteMatt",
+      "Material": "GreenMatt",
       "Angle": 41
     }
   ],
