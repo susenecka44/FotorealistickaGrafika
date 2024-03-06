@@ -1,12 +1,12 @@
 ﻿{
   "Width": 1200,
   "Height": 800,
-  "FileName": "GeneratedImages/SolarSystemScene.pfm",
+  "FileName": "GeneratedImages/TrueScaleSolarSystemScene.pfm",
   "CameraSettings": {
-    "Position": [ 25.0, 5.0, -30.0 ],
+    "Position": [ 4.0, 0.0, -10.0 ],
     "Direction": [ 0.0, -0.1, 1.0 ],
     "BackgroundColor": [ 5, 5, 20 ],
-    "FOVAngle": 80
+    "FOVAngle": 45
   },
   "Materials": [
     {
@@ -86,55 +86,55 @@
     {
       "Type": "Sphere",
       "Position": [ 0, 0, 0 ],
-      "Radius": 2,
+      "Radius": 1.0,
       "Material": "SunMaterial"
     },
     {
       "Type": "Sphere",
-      "Position": [ 3, 0, 0 ],
-      "Radius": 0.2,
+      "Position": [ 2, 0, 0 ],
+      "Radius": 0.0035,
       "Material": "MercuryMaterial"
     },
     {
       "Type": "Sphere",
-      "Position": [ 5, 0, 0 ],
-      "Radius": 0.4,
+      "Position": [ 3, 0, 0 ],
+      "Radius": 0.0087,
       "Material": "VenusMaterial"
     },
     {
       "Type": "Sphere",
-      "Position": [ 8, 0, 0 ],
-      "Radius": 0.42,
+      "Position": [ 4, 0, 0 ],
+      "Radius": 0.0091,
       "Material": "EarthMaterial"
     },
     {
       "Type": "Sphere",
-      "Position": [ 12, 0, 0 ],
-      "Radius": 0.35,
+      "Position": [ 5, 0, 0 ],
+      "Radius": 0.0048,
       "Material": "MarsMaterial"
     },
     {
       "Type": "Sphere",
-      "Position": [ 20, 0, 0 ],
-      "Radius": 1.0,
+      "Position": [ 6, 0, 0 ],
+      "Radius": 0.1,
       "Material": "JupiterMaterial"
     },
     {
       "Type": "Sphere",
-      "Position": [ 30, 0, 0 ],
-      "Radius": 0.8,
+      "Position": [ 7, 0, 0 ],
+      "Radius": 0.083,
       "Material": "SaturnMaterial"
     },
     {
       "Type": "Sphere",
-      "Position": [ 40, 0, 0 ],
-      "Radius": 0.7,
+      "Position": [ 8, 0, 0 ],
+      "Radius": 0.036,
       "Material": "UranusMaterial"
     },
     {
       "Type": "Sphere",
-      "Position": [ 50, 0, 0 ],
-      "Radius": 0.7,
+      "Position": [ 9, 0, 0 ],
+      "Radius": 0.035,
       "Material": "NeptuneMaterial"
     }
   ],
