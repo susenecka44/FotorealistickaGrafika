@@ -1,5 +1,51 @@
+
 {
   "Width": 800,
   "Height": 600,
-  "FileName": "Image.hdr"
+  "FileName": "Image.hdr",
+  "Materials": [
+    {
+      "Name": "YellowMatt",
+      "Color": [ 0.9, 0.9, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.6,
+      "Specular": 0.4,
+      "Shininess": 80
+    },
+    {
+      "Name": "BlueReflective",
+      "Color": [ 0.2, 0.3, 1.0 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.5,
+      "Specular": 0.5,
+      "Shininess": 150
+    }
+  ],
+  "ObjectsInScene": [
+    {
+      "Type": "Sphere",
+      "Position": [ 0, 0, 0 ],
+      "Radius": 1,
+      "Material": "YellowMatt"
+    },
+    {
+      "Type": "Cube",
+      "Position": [ 1.4, -0.7, -0.5 ],
+      "Size": [ 0.9, 0.9, 0.9 ],
+      "Material": "BlueReflective",
+      "Angle": 41
+    }
+  ],
+  "Lights": [
+    {
+      "Type": "PointLight",
+      "Position": [ -10, 8, -6 ],
+      "Color": [ 255, 234, 231 ]
+    },
+    {
+      "Type": "AmbientLight",
+      "Color": [ 234, 234, 220 ],
+      "Intensity": 0.005
+    }
+  ]
 }

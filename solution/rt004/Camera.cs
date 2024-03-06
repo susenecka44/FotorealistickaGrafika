@@ -44,7 +44,7 @@ public class Camera
         float viewportWidth = aspectRatio * viewportHeight;
 
         Vector3 w = Vector3.Normalize(-Direction); // Assuming looking in the direction of the negative z-axis
-        Vector3 up = new Vector3(0, 1, 0); // Assuming the world "up" is along y-axis
+        Vector3 up = new Vector3(0, -1, 0); 
         Vector3 u = Vector3.Normalize(Vector3.Cross(up, w));
         Vector3 v = Vector3.Cross(w, u);
 

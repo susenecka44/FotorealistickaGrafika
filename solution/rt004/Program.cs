@@ -5,9 +5,7 @@ using Util;
 using System.Drawing;
 
 namespace rt004;
-
-
-class Options
+public class Options
 {
     [Option('w', "width", Required = false, HelpText = "Image width.")]
     public int Width { get; set; } = 600; // Default value = 600
@@ -19,7 +17,7 @@ class Options
     public string FileName { get; set; } = "picture.hdr";
 
     [Option('c', "config", Required = false, HelpText = "Configuration file path.")]
-    public string? ConfigFile { get; set; }
+    public string? ConfigFile { get; set; } = "config.json";
 }
 
 internal class Program
@@ -78,30 +76,24 @@ internal class Program
         // create a scene to be rendered & add objects to it
         List<IHittable> scene = new List<IHittable>();
 
-        /*
+        
         ObjectMaterial YellowMatt = new ObjectMaterial(new float[] { 0.9f, 0.9f, 0.2f }, 0.1, 0.6, 0.4, 80);
         scene.Add(new Sphere(new Vector3(0, 0, 0), 1, YellowMatt));
         
         ObjectMaterial BlueReflective = new ObjectMaterial(new float[] { 0.2f, 0.3f, 1.0f }, 0.1, 0.5, 0.5, 150);
-        scene.Add(new Sphere(new Vector3(1.4f, -0.7f, -0.5f), 0.6f, BlueReflective));
+       // scene.Add(new Sphere(new Vector3(1.4f, -0.7f, -0.5f), 0.6f, BlueReflective));
         
         ObjectMaterial RedReflective = new ObjectMaterial(new float[] { 0.8f, 0.2f, 0.2f }, 0.1, 0.6, 0.4, 80);
         scene.Add(new Sphere(new Vector3(-0.7f, 0.7f, -0.2f), 0.1f, RedReflective));
-        */
+        
         ObjectMaterial WhiteReflective = new ObjectMaterial(new float[] { 0.9f, 0.9f, 0.9f }, 0.1, 0.6, 0.4, 200);
-        //scene.Add(new Sphere(new Vector3(-0.7f, 0.7f, -0.8f), 1.2f, WhiteReflective));
+
+         scene.Add(new Cube(new Vector3(1.4f, -0.7f, -0.5f), new Vector3(0.9f, 0.9f, 0.9f), WhiteReflective, 41));
+
 
         // scene.Add(new Plane(new Vector3 (-2f, 0.7f, -1f), new Vector3(0, -1, 0), RedReflective));
-         scene.Add(new Cube(new Vector3(1.4f, -0.7f, -0.5f), new Vector3(0.9f, 0.9f, 0.9f), WhiteReflective, 41));
-        
 
 
-
-
-
-        //  scene.Add(new Cube1(new Vector3(0.8f, 0.3f, -1), new Vector3(0.1f, 0.1f, -0.1f)));
-
-        // scene.Add(new Sphere(new Vector3(0, 0.5f, -1), 0.5f));
 
         // Raytrace every pixel 
         for (int j = height - 1; j >= 0; --j)
@@ -127,3 +119,39 @@ internal class Program
     }
 
 }
+
+public class Material
+{
+    public string Name { get; set; }
+    public float[] Color { get; set; }
+    public float Ambient { get; set; }
+    public float Diffuse { get; set; }
+    public float Specular { get; set; }
+    public float Shininess { get; set; }
+}
+
+public class SceneObject
+{
+    public string Type { get; set; }
+    public float[] Position { get; set; }
+    public float Radius { get; set; } // For spheres
+    public float[] Size { get; set; } // For cubes
+    public string Material { get; set; }
+    public float Angle { get; set; } // Optional, for cubes
+}
+
+public class Light
+{
+    public string Type { get; set; }
+    public float[] Position { get; set; }
+    public float[] Color { get; set; }
+    public float Intensity { get; set; } // For ambient light
+}
+
+public class SceneConfig : Options
+{
+    public List<Material> Materials { get; set; }
+    public List<SceneObject> ObjectsInScene { get; set; }
+    public List<Light> Lights { get; set; }
+}
+
