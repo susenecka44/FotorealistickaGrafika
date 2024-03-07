@@ -126,11 +126,41 @@ public class Raytracer
         return hitAnything;
     }
 
-
     private Vector3 ComputeBackgroundColor(Vector3 direction)
     {
         Vector3 unitDirection = Vector3.Normalize(direction);
         float t = 0.5f * (unitDirection.Y + 1.0f);
         return (1.0f - t) * backgroundColor + t * new Vector3(0.5f, 0.7f, 1.0f);
+    }
+
+
+
+    /// <summary>
+    /// Calculate the Fresnel effect using Schlick's approximation
+    /// </summary>
+    double FresnelCalculation(Vector3 I, Vector3 N, float ior)
+    {
+        double cosi = Math.Clamp(Vector3.Dot(I, N), -1, 1);
+        double etai = 1, etat = ior;
+        if (cosi > 0) {
+            double temp = etai; 
+            etai = etat; 
+            etat = temp; 
+        } 
+                                                                      
+        double sint = etai / etat * Math.Sqrt(Math.Max(0f, 1 - cosi * cosi));
+        // Total internal reflection
+        if (sint >= 1)
+        {
+            return 1;
+        }
+        else
+        {
+            double cost = Math.Sqrt(Math.Max(0f, 1 - sint * sint));
+            cosi = Math.Abs(cosi);
+            double Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
+            double Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
+            return (Rs * Rs + Rp * Rp) / 2;
+        }
     }
 }
