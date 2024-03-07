@@ -90,7 +90,6 @@ internal class Program
                 }
             }
 
-
             // Adding objects to the scene based on the loaded materials
             foreach (var obj in objectsInScene)
             {
@@ -109,19 +108,36 @@ internal class Program
                 }
             }
 
-            // Raycast every pixel 
+
+            // Raytrace every pixel + add jittering
+
+            Random random = new Random();
+
+            // Raytrace every pixel with jittering anti-aliasing
             for (int j = height - 1; j >= 0; --j)
             {
                 for (int i = 0; i < width; ++i)
                 {
-                    float u = (float)i / (width - 1);
-                    float v = (float)j / (height - 1);
-                    Ray r = camera.GetRay(u, v);
-                    Vector3 color = raytracer.TraceRay(r, scene, lightSources, algorithmSettings.MaxDepth);
+                    Vector3 color = new Vector3(0, 0, 0); // Initialize color accumulator
+
+                    for (int s = 0; s < algorithmSettings.SamplesPerPixel; ++s)
+                    {
+                        // Apply jittering: add a small random amount to each u and v coordinate
+                        float u = ((float)i + (float)random.NextDouble()) / (width - 1);
+                        float v = ((float)j + (float)random.NextDouble()) / (height - 1);
+
+                        Ray r = camera.GetRay(u, v);
+                        color += raytracer.TraceRay(r, scene, lightSources, algorithmSettings.MaxDepth);
+                    }
+
+                    // Average the accumulated color by the number of samples and convert to [0, 1] range
+                    color /= algorithmSettings.SamplesPerPixel;
                     float[] convertedColor = { color.X / 255.0F, color.Y / 255.0F, color.Z / 255.0F };   // R, G, B
+
                     fi.PutPixel(i, j, convertedColor);
                 }
             }
+
 
             // Check the file extension
             string extension = Path.GetExtension(fileName).ToLower();

@@ -39,7 +39,6 @@ public class Raytracer
                     Ray reflectRay = new Ray(rec.HitPoint + rec.Normal * 0.001f, reflectDir);
                     reflectedColor = TraceRay(reflectRay, world, lights, depth - 1);
                 }
-
                 // Combine reflection with local color
                 color += rec.Material.Reflectivity * reflectedColor;
             }

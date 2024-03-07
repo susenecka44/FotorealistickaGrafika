@@ -1,7 +1,7 @@
 {
-  "Width": 600,
-  "Height": 450,
-  "FileName": "GeneratedImages/Image.hdr",
+  "Width": 1000,
+  "Height": 850,
+  "FileName": "GeneratedImages/Image.pfm",
   "CameraSettings": {
     "Position": [ 0.60, 0.00, -5.60 ],
     "Direction": [ 0.00, -0.03, 1.00 ],
@@ -11,7 +11,7 @@
   "AlgorithmSettings": {
     "ShadowsEnabled": true,
     "ReflectionsEnabled": true,
-    "SamplesPerPixel": 1,
+    "SamplesPerPixel": 50,
     "MaxDepth": 8,
     "MinimalPerformance": 0.01
   },
