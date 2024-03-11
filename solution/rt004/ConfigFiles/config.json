@@ -24,7 +24,7 @@
       "Specular": 0.2,
       "Shininess": 80,
       "Reflectivity": 0.05,
-      "Refractivity": 0.9
+      "Refractivity": 0
     },
     {
       "Name": "BlueReflective",
@@ -34,7 +34,7 @@
       "Specular": 0.5,
       "Shininess": 150,
       "Reflectivity": 0.2,
-      "Refractivity": 0.1
+      "Refractivity": 0.9
     },
     {
       "Name": "RedReflective",
@@ -44,7 +44,7 @@
       "Specular": 0.4,
       "Shininess": 80,
       "Reflectivity": 0.110,
-      "Refractivity": 0.1
+      "Refractivity": 0
     },
     {
       "Name": "WhiteMatt",
@@ -54,7 +54,7 @@
       "Specular": 0.4,
       "Shininess": 80,
       "Reflectivity": 0.8,
-      "Refractivity": 0.1
+      "Refractivity": 0
     },
     {
       "Name": "GreenMatt",
@@ -64,7 +64,7 @@
       "Specular": 0.2,
       "Shininess": 150,
       "Reflectivity": 0.20,
-      "Refractivity": 0.1
+      "Refractivity": 0
     },
     {
       "Name": "Gold",
@@ -74,7 +74,7 @@
       "Specular": 0.8,
       "Shininess": 400,
       "Reflectivity": 0.80,
-      "Refractivity": 0.1
+      "Refractivity": 0.9
     }
   ],
   "ObjectsInScene": [

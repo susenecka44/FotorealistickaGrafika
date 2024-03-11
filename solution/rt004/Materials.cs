@@ -15,7 +15,7 @@ public class ObjectMaterial
     public float Reflectivity { get; private set; }
     public float Refractivity { get; private set; }
 
-    public ObjectMaterial(float[] color, double ka, double kd, double ks, double highLight, float reflectivity)
+    public ObjectMaterial(float[] color, double ka, double kd, double ks, double highLight, float reflectivity, float refractivity)
     {
         Color = color;
         kA = ka;
@@ -23,5 +23,6 @@ public class ObjectMaterial
         kS = ks;
         HighLight = highLight;
         Reflectivity = reflectivity;
+        Refractivity = refractivity;
     }
 }
