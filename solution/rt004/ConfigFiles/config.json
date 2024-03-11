@@ -3,17 +3,17 @@
   "Height": 850,
   "FileName": "GeneratedImages/Image.pfm",
   "CameraSettings": {
-    "Position": [ 0.60, 0.00, -5.60 ],
-    "Direction": [ 0.00, -0.03, 1.00 ],
+    "Position": [ 0.80, 0.00, -5.60 ],
+    "Direction": [ 0.00, -0.06, 1.00 ],
     "BackgroundColor": [ 25, 50, 75 ],
     "FOVAngle": 40
   },
   "AlgorithmSettings": {
     "ShadowsEnabled": true,
     "ReflectionsEnabled": true,
-    "SamplesPerPixel": 50,
-    "MaxDepth": 8,
-    "MinimalPerformance": 0.01
+    "SamplesPerPixel": 5,
+    "MaxDepth": 5,
+    "MinimalPerformance": 0.001
   },
   "Materials": [
     {
@@ -23,7 +23,8 @@
       "Diffuse": 0.8,
       "Specular": 0.2,
       "Shininess": 80,
-      "Reflectivity": 0.05
+      "Reflectivity": 0.05,
+      "Refractivity": 0.9
     },
     {
       "Name": "BlueReflective",
@@ -32,7 +33,8 @@
       "Diffuse": 0.5,
       "Specular": 0.5,
       "Shininess": 150,
-      "Reflectivity": 0.2
+      "Reflectivity": 0.2,
+      "Refractivity": 0.1
     },
     {
       "Name": "RedReflective",
@@ -41,7 +43,8 @@
       "Diffuse": 0.6,
       "Specular": 0.4,
       "Shininess": 80,
-      "Reflectivity": 0.110
+      "Reflectivity": 0.110,
+      "Refractivity": 0.1
     },
     {
       "Name": "WhiteMatt",
@@ -50,7 +53,8 @@
       "Diffuse": 0.9,
       "Specular": 0.4,
       "Shininess": 80,
-      "Reflectivity": 0.8
+      "Reflectivity": 0.8,
+      "Refractivity": 0.1
     },
     {
       "Name": "GreenMatt",
@@ -59,7 +63,8 @@
       "Diffuse": 0.6,
       "Specular": 0.2,
       "Shininess": 150,
-      "Reflectivity": 0.20
+      "Reflectivity": 0.20,
+      "Refractivity": 0.1
     },
     {
       "Name": "Gold",
@@ -68,7 +73,8 @@
       "Diffuse": 0.2,
       "Specular": 0.8,
       "Shininess": 400,
-      "Reflectivity": 0.80
+      "Reflectivity": 0.80,
+      "Refractivity": 0.1
     }
   ],
   "ObjectsInScene": [

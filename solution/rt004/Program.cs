@@ -66,7 +66,7 @@ internal class Program
             // Initialize the FloatImage, Camera, and other entities as before
             FloatImage fi = new FloatImage(width, height, 3);
             Camera camera = new Camera(new Vector3(cameraSettings.Position[0], cameraSettings.Position[1], cameraSettings.Position[2]), width, height, cameraSettings.FOVAngle, new Vector3(cameraSettings.Direction[0], cameraSettings.Direction[1], cameraSettings.Direction[2]));
-            Raytracer raytracer = new Raytracer(new Vector3(cameraSettings.BackgroundColor[0], cameraSettings.BackgroundColor[1], cameraSettings.BackgroundColor[2]), algorithmSettings.MaxDepth, algorithmSettings.MinimalPerformance, algorithmSettings.ShadowsEnabled, algorithmSettings.ReflectionsEnabled);
+            Raytracer raytracer = new Raytracer(new Vector3(cameraSettings.BackgroundColor[0], cameraSettings.BackgroundColor[1], cameraSettings.BackgroundColor[2]), algorithmSettings.MaxDepth, algorithmSettings.MinimalPerformance, algorithmSettings.ShadowsEnabled, algorithmSettings.ReflectionsEnabled, algorithmSettings.RefractionsEnabled);
             List<LightSource> lightSources = new List<LightSource>();
             List<IHittable> scene = new List<IHittable>();
 
@@ -171,6 +171,7 @@ public class Material
     public float Specular { get; set; }
     public float Shininess { get; set; }
     public float Reflectivity { get; set; }
+    public float Refractivity { get; set; }
 }
 
 public class SceneObject
@@ -205,6 +206,7 @@ public class AlgorithmSettings
 {
     public bool ReflectionsEnabled { get; set; }
     public bool ShadowsEnabled { get; set; }
+    public bool RefractionsEnabled {  get; set; }
     public int MaxDepth { get; set; }
     public int SamplesPerPixel {  get; set; }
     public float MinimalPerformance { get; set; }

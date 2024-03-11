@@ -8,16 +8,18 @@ public class Raytracer
     private Vector3 backgroundColor;
     private bool RenderShadows;
     private bool RenderReflections;
+    private bool RenderRefractions;
     private int maxDepth;
     private float minPerformance;
 
-    public Raytracer(Vector3 backgroundColor, int maxDepth, float minPerformance, bool shadows, bool reflections)
+    public Raytracer(Vector3 backgroundColor, int maxDepth, float minPerformance, bool shadows, bool reflections, bool refractions)
     {
         this.backgroundColor = backgroundColor;
         this.maxDepth = maxDepth;
         this.minPerformance = minPerformance;
         this.RenderReflections = reflections;
         this.RenderShadows = shadows;
+        this.RenderRefractions = refractions;
     }
     public Vector3 TraceRay(Ray r, List<IHittable> world, List<LightSource> lights, int depth)
     {
@@ -25,31 +27,62 @@ public class Raytracer
             return Vector3.Zero;
 
         HitRecord rec;
-        if (WorldHit(world, r, 0.001f, float.MaxValue, out rec))
+        if (!WorldHit(world, r, 0.001f, float.MaxValue, out rec))
         {
-            Vector3 reflectedColor = Vector3.Zero;
-            Vector3 color = RayColor(r, world, lights); // Compute local color
+            // If there's no hit, return the background color
+            return ComputeBackgroundColor(r.Direction);
+        }
 
-            if (RenderReflections)
+        // Local color calculation can be a separate method which calculates the color based on lights, material and normal
+        Vector3 localColor = RayColor(r, world, lights);
+        Vector3 reflectColor = Vector3.Zero;
+        Vector3 refractColor = Vector3.Zero;
+        float colorX = localColor.X * (float)rec.Material.kA;
+        float colorY = localColor.Y * (float)rec.Material.kA;
+        float colorZ = localColor.Z * (float)rec.Material.kA;
+
+        Vector3 finalColor = new Vector3(colorX, colorY, colorZ); // Start with ambient component of the local color
+
+        // Reflection
+        if (rec.Material.Reflectivity > 0 && RenderReflections)
+        {
+            Vector3 reflectDir = Vector3.Reflect(r.Direction, rec.Normal);
+            Ray reflectedRay = new Ray(rec.HitPoint + rec.Normal * 0.001f, reflectDir);
+            reflectColor = TraceRay(reflectedRay, world, lights, depth - 1);
+        }
+
+        // Fresnel effect calculation
+        float fresnelEffect = (float)FresnelCalculation(r.Direction, rec.Normal, rec.Material.Refractivity);
+        float reflectance = (float)rec.Material.kS * fresnelEffect; // Reflectance based on Fresnel effect and specular component
+        float transmittance = (float)rec.Material.kS * (1 - fresnelEffect); // Transmittance based on Fresnel effect and specular component
+
+        // Refraction
+        if (transmittance > 0 && RenderRefractions)
+        {
+            Vector3 refractDir = ComputeRefractDirection(r.Direction, rec.Normal, rec.Material.Refractivity);
+            if (refractDir != Vector3.Zero) // No total internal reflection
             {
-                // Reflection
-                if (rec.Material.Reflectivity > 0)
+                Vector3 outwardNormal;
+                float niOverNt;
+                if (Vector3.Dot(r.Direction, rec.Normal) > 0) // Ray is inside the object
                 {
-                    Vector3 reflectDir = Vector3.Reflect(r.Direction, rec.Normal);
-                    Ray reflectRay = new Ray(rec.HitPoint + rec.Normal * 0.001f, reflectDir);
-                    reflectedColor = TraceRay(reflectRay, world, lights, depth - 1);
+                    outwardNormal = -rec.Normal;
+                    niOverNt = rec.Material.Refractivity;
                 }
-                // Combine reflection with local color
-                color += rec.Material.Reflectivity * reflectedColor;
+                else // Ray is outside the object
+                {
+                    outwardNormal = rec.Normal;
+                    niOverNt = 1.0f / rec.Material.Refractivity;
+                }
+                Ray refractedRay = new Ray(rec.HitPoint + outwardNormal * minPerformance, refractDir);
+                refractColor = TraceRay(refractedRay, world, lights, depth - 1);
             }
-            return color;
         }
-        else
-        {
-            return ComputeBackgroundColor(r.Direction); 
-        }
-    }
 
+        // Combine the local, reflected, and refracted colors
+        finalColor += reflectance * reflectColor + transmittance * refractColor;
+        return finalColor;
+    }
     public Vector3 RayColor(Ray r, List<IHittable> world, List<LightSource> lights)
     {
         HitRecord rec;
@@ -57,7 +90,7 @@ public class Raytracer
         Vector3 diffuseColor = new Vector3(0, 0, 0);
         Vector3 specularColor = new Vector3(0, 0, 0);
 
-        if (WorldHit(world, r, 0.001f, float.MaxValue, out rec))
+        if (WorldHit(world, r, minPerformance, float.MaxValue, out rec))
         {
             foreach (var light in lights)
             {
@@ -163,4 +196,23 @@ public class Raytracer
             return (Rs * Rs + Rp * Rp) / 2;
         }
     }
+
+    private Vector3 ComputeRefractDirection(Vector3 I, Vector3 N, float ior)
+    {
+        float cosi = -Math.Max(-1, Math.Min(1, Vector3.Dot(I, N)));
+        float etai = 1, etat = ior;
+        Vector3 n = N;
+        if (cosi < 0) { cosi = -cosi; } else { swap(ref etai, ref etat); n = -N; }
+        float eta = etai / etat;
+        float k = 1 - eta * eta * (1 - cosi * cosi);
+        return k < 0 ? Vector3.Zero : eta * I + (eta * cosi - (float)Math.Sqrt(k)) * n;
+    }
+
+    private void swap(ref float a, ref float b)
+    {
+        float temp = a;
+        a = b;
+        b = temp;
+    }
+
 }

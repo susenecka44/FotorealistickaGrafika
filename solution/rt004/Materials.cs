@@ -13,7 +13,6 @@ public class ObjectMaterial
     public double kS { get; private set; } // specular coef.
     public double HighLight { get; private set; }
     public float Reflectivity { get; private set; }
-
     public float Refractivity { get; private set; }
 
     public ObjectMaterial(float[] color, double ka, double kd, double ks, double highLight, float reflectivity)
