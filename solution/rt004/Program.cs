@@ -109,6 +109,7 @@ internal class Program
             }
 
 
+
             // Raytrace every pixel + add jittering
 
             Random random = new Random();
