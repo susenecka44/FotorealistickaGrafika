@@ -151,9 +151,18 @@ public class Raytracer
 
 public class Calculations
 {
-    public void FresnelCalculation()
+    private float CalculateFresnel(Ray r, HitRecord rec, float refractivity)
     {
-
+        float cosi = Math.Clamp(Vector3.Dot(-r.Direction, rec.Normal), -1, 1);
+        float etai = 1, etat = refractivity;
+        if (cosi > 0) { var temp = etai; etai = etat; etat = temp; }
+        float sint = etai / etat * (float)Math.Sqrt(Math.Max(0f, 1 - cosi * cosi));
+        if (sint >= 1) return 1; // Total internal reflection
+        float cost = (float)Math.Sqrt(Math.Max(0f, 1 - sint * sint));
+        cosi = Math.Abs(cosi);
+        float Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
+        float Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
+        return (Rs * Rs + Rp * Rp) / 2;
     }
 
     public static Vector3 ComputeRefractedDirection(Vector3 direction, Vector3 normal, float refractivity)
