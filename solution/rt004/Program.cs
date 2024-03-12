@@ -139,27 +139,31 @@ internal class Program
                 }
             }
 
+            SaveFile(fileName, fi);
+        }
+    }
 
-            // Check the file extension
-            string extension = Path.GetExtension(fileName).ToLower();
+    private static void SaveFile(string fileName, FloatImage image)
+    {
+        // Check the file extension
+        string extension = Path.GetExtension(fileName).ToLower();
 
-            switch (extension)
-            {
-                case ".hdr":
-                    // HDR format is still buggy
-                    fi.SaveHDR(fileName); 
-                    Console.WriteLine($"HDR image '{fileName}' is finished.");
-                    break;
-                case ".pfm":
-                    fi.SavePFM(fileName);
-                    Console.WriteLine($"PFM image '{fileName}' is finished.");
-                    break;
-                default:
-                    Console.WriteLine("Unrecognized file format, saving in default PFM format.");
-                    fi.SavePFM(fileName); // Default to PFM format if the extension is not recognized
-                    Console.WriteLine($"PFM image '{fileName}' is finished.");
-                    break;
-            }
+        switch (extension)
+        {
+            case ".hdr":
+                // HDR format is still buggy
+                image.SaveHDR(fileName); 
+                Console.WriteLine($"HDR image '{fileName}' is finished.");
+                break;
+            case ".pfm":
+                image.SavePFM(fileName);
+                Console.WriteLine($"PFM image '{fileName}' is finished.");
+                break;
+            default:
+                Console.WriteLine("Unrecognized file format, saving in default PFM format.");
+                image.SavePFM(fileName); // Default to PFM format if the extension is not recognized
+                Console.WriteLine($"PFM image '{fileName}' is finished.");
+                break;
         }
     }
 }
