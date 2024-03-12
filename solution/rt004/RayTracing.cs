@@ -27,20 +27,25 @@ public class Raytracer
             return Vector3.Zero;
 
         HitRecord rec;
-        if (WorldHit(world, r, 0.001f, float.MaxValue, out rec))
+        if (WorldHit(world, r, minPerformance, float.MaxValue, out rec))
         {
             Vector3 reflectedColor = Vector3.Zero;
             Vector3 refractedColor = Vector3.Zero;
             Vector3 color = RayColor(r, world, lights); // Compute local color
 
+            float fresnelEffect = Calculations.CalculateFresnel(r, rec, rec.Material.Refractivity);
+
             // Reflections
             if (RenderReflections && rec.Material.Reflectivity > 0)
             {
                 Vector3 reflectDir = Vector3.Reflect(r.Direction, rec.Normal);
-                Ray reflectRay = new Ray(rec.HitPoint + rec.Normal * 0.001f, reflectDir);
+                Ray reflectRay = new Ray(rec.HitPoint + rec.Normal * minPerformance, reflectDir);
                 reflectedColor = TraceRay(reflectRay, world, lights, depth - 1);
                 // Combine reflection with local color
                 color += rec.Material.Reflectivity * reflectedColor;
+                if (RenderRefractions && rec.Material.Refractivity > 0) {  
+                    color += fresnelEffect * reflectedColor;
+                }
             }
 
             // Refractions
@@ -49,10 +54,11 @@ public class Raytracer
                 Vector3 refractDir = Calculations.ComputeRefractedDirection(r.Direction, rec.Normal, rec.Material.Refractivity);
                 if (refractDir != Vector3.Zero) // Refraction occurred
                 {
-                    Ray refractRay = new Ray(rec.HitPoint - rec.Normal * 0.001f, refractDir);
+                    Ray refractRay = new Ray(rec.HitPoint - rec.Normal * minPerformance, refractDir);
                     refractedColor = TraceRay(refractRay, world, lights, depth - 1);
                 }
                 color += rec.Material.Refractivity * refractedColor;
+                color += (1 - fresnelEffect) * refractedColor;
             }
 
             return color;
@@ -151,7 +157,7 @@ public class Raytracer
 
 public class Calculations
 {
-    private float CalculateFresnel(Ray r, HitRecord rec, float refractivity)
+    public static float CalculateFresnel(Ray r, HitRecord rec, float refractivity)
     {
         float cosi = Math.Clamp(Vector3.Dot(-r.Direction, rec.Normal), -1, 1);
         float etai = 1, etat = refractivity;

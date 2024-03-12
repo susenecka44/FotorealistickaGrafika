@@ -75,6 +75,16 @@
       "Shininess": 400,
       "Reflectivity": 0.80,
       "Refractivity": 0.9
+    },
+    {
+      "Name": "Black",
+      "Color": [ 0.01, 0.01, 0.01 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.2,
+      "Specular": 0.2,
+      "Shininess": 20,
+      "Reflectivity": 0.20,
+      "Refractivity": 0
     }
   ],
   "ObjectsInScene": [
