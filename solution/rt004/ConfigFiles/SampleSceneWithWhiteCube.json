@@ -1,6 +1,6 @@
 ﻿{
-  "Width": 600,
-  "Height": 450,
+  "Width": 800,
+  "Height": 650,
   "FileName": "GeneratedImages/SampleSceneWithWhiteCube.hdr",
   "CameraSettings": {
     "Position": [ 0.60, 0.00, -5.60 ],

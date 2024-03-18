@@ -34,19 +34,15 @@ public class Raytracer
             Vector3 refractedColor = Vector3.Zero;
             Vector3 color = RayColor(r, world, lights); // Compute local color
 
-            float fresnelEffect = /*Calculations.CalculateFresnel(r, rec, rec.Material.Refractivity)*/1;
 
             // Reflections
             if (RenderReflections && rec.Material.Reflectivity > 0)
             {
                 Vector3 reflectDir = Vector3.Reflect(r.Direction, rec.Normal);
                 Ray reflectRay = new Ray(rec.HitPoint + rec.Normal * minPerformance, reflectDir);
-                reflectedColor = TraceRay(reflectRay, world, lights, depth - 1);
+                reflectedColor = rec.Material.Reflectivity * TraceRay(reflectRay, world, lights, depth - 1);
                 // Combine reflection with local color
-                color += rec.Material.Reflectivity * reflectedColor;
-                if (RenderRefractions && rec.Material.Refractivity > 0) {  
-                    color += fresnelEffect * reflectedColor;
-                }
+                color += reflectedColor;
             }
 
             // Refractions
@@ -56,10 +52,10 @@ public class Raytracer
                 if (refractDir != Vector3.Zero) // Refraction occurred
                 {
                     Ray refractRay = new Ray(rec.HitPoint - rec.Normal * minPerformance, refractDir);
-                    refractedColor = TraceRay(refractRay, world, lights, depth - 1);
+                    refractedColor = rec.Material.Refractivity * TraceRay(refractRay, world, lights, depth - 1);
                 }
-                color += rec.Material.Refractivity * refractedColor;
-                color += (1 - fresnelEffect) * refractedColor;
+                color += refractedColor;
+               // color += (1 - fresnelEffect) * refractedColor;
             }
 
             return color;
@@ -156,23 +152,9 @@ public class Raytracer
     }
 }
 
+// for refractions
 public class Calculations
 {
-    // not needed?
-    public static float CalculateFresnel(Ray r, HitRecord rec, float refractivity)
-    {
-        float cosi = Math.Clamp(Vector3.Dot(-r.Direction, rec.Normal), -1, 1);
-        float etai = 1, etat = refractivity;
-        if (cosi > 0) { var temp = etai; etai = etat; etat = temp; }
-        float sint = etai / etat * (float)Math.Sqrt(Math.Max(0f, 1 - cosi * cosi));
-        if (sint >= 1) return 1; // Total internal reflection
-        float cost = (float)Math.Sqrt(Math.Max(0f, 1 - sint * sint));
-        cosi = Math.Abs(cosi);
-        float Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
-        float Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
-        return (Rs * Rs + Rp * Rp) / 2;
-    }
-
     public static Vector3 ComputeRefractedDirection(Vector3 direction, Vector3 normal, float refractivity, bool isOutside)
     {
         float n12 = isOutside ? 1 / refractivity : refractivity;
