@@ -158,6 +158,7 @@ public class Raytracer
 
 public class Calculations
 {
+    // not needed?
     public static float CalculateFresnel(Ray r, HitRecord rec, float refractivity)
     {
         float cosi = Math.Clamp(Vector3.Dot(-r.Direction, rec.Normal), -1, 1);
@@ -182,25 +183,5 @@ public class Calculations
             normal * (float)Math.Sqrt(1 - n12 * n12 * (1 - cosi * cosi));
 
         return refractedDirection;
-
-        //float cosi = Math.Clamp(Vector3.Dot(-direction, normal), -1, 1);
-        //float etai = 1, etat = refractivity;
-        //Vector3 n = normal;
-        //if (cosi < 0) { cosi = -cosi; } else { etai = refractivity; etat = 1; n = -normal; }
-        //float eta = etai / etat;
-        //float k = 1 - eta * eta * (1 - cosi * cosi);
-        //if (k < 0)
-        //{
-        //    return Vector3.Zero;
-        //}
-        //else
-        //{
-        //    float x = (float)(eta * cosi - Math.Sqrt(k)) * n.X;
-        //    float y = (float)(eta * cosi - Math.Sqrt(k)) * n.Y;
-        //    float z = (float)(eta * cosi - Math.Sqrt(k)) * n.Z;
-
-        //    return eta * direction + new Vector3(x,y,z);
-        //}
     }
-
 }
