@@ -23,6 +23,7 @@ public class Raytracer
     }
     public Vector3 TraceRay(Ray r, List<IHittable> world, List<LightSource> lights, int depth)
     {
+        depth = Math.Min(depth, maxDepth);
         if (depth <= 0)
             return Vector3.Zero;
 
@@ -33,7 +34,7 @@ public class Raytracer
             Vector3 refractedColor = Vector3.Zero;
             Vector3 color = RayColor(r, world, lights); // Compute local color
 
-            float fresnelEffect = Calculations.CalculateFresnel(r, rec, rec.Material.Refractivity);
+            float fresnelEffect = /*Calculations.CalculateFresnel(r, rec, rec.Material.Refractivity)*/1;
 
             // Reflections
             if (RenderReflections && rec.Material.Reflectivity > 0)
@@ -51,7 +52,7 @@ public class Raytracer
             // Refractions
             if (RenderRefractions && rec.Material.Refractivity > 0)
             {
-                Vector3 refractDir = Calculations.ComputeRefractedDirection(r.Direction, rec.Normal, rec.Material.Refractivity);
+                Vector3 refractDir = Calculations.ComputeRefractedDirection(r.Direction, rec.Normal, rec.Material.Refractivity, rec.FrontFace);
                 if (refractDir != Vector3.Zero) // Refraction occurred
                 {
                     Ray refractRay = new Ray(rec.HitPoint - rec.Normal * minPerformance, refractDir);
@@ -76,7 +77,7 @@ public class Raytracer
         Vector3 diffuseColor = new Vector3(0, 0, 0);
         Vector3 specularColor = new Vector3(0, 0, 0);
 
-        if (WorldHit(world, r, 0.001f, float.MaxValue, out rec))
+        if (WorldHit(world, r, minPerformance, float.MaxValue, out rec))
         {
             foreach (var light in lights)
             {
@@ -171,26 +172,35 @@ public class Calculations
         return (Rs * Rs + Rp * Rp) / 2;
     }
 
-    public static Vector3 ComputeRefractedDirection(Vector3 direction, Vector3 normal, float refractivity)
+    public static Vector3 ComputeRefractedDirection(Vector3 direction, Vector3 normal, float refractivity, bool isOutside)
     {
-        float cosi = Math.Clamp(Vector3.Dot(-direction, normal), -1, 1);
-        float etai = 1, etat = refractivity;
-        Vector3 n = normal;
-        if (cosi < 0) { cosi = -cosi; } else { etai = refractivity; etat = 1; n = -normal; }
-        float eta = etai / etat;
-        float k = 1 - eta * eta * (1 - cosi * cosi);
-        if (k < 0)
-        {
-            return Vector3.Zero;
-        }
-        else
-        {
-            float x = (float)(eta * cosi - Math.Sqrt(k)) * n.X;
-            float y = (float)(eta * cosi - Math.Sqrt(k)) * n.Y;
-            float z = (float)(eta * cosi - Math.Sqrt(k)) * n.Z;
+        float n12 = isOutside ? 1 / refractivity : refractivity;
 
-            return eta * direction + new Vector3(x,y,z);
-        }
+        var cosi = Vector3.Dot(normal, direction);
+        Vector3 refractedDirection =
+            Vector3.Multiply((direction - normal * cosi), n12) -
+            normal * (float)Math.Sqrt(1 - n12 * n12 * (1 - cosi * cosi));
+
+        return refractedDirection;
+
+        //float cosi = Math.Clamp(Vector3.Dot(-direction, normal), -1, 1);
+        //float etai = 1, etat = refractivity;
+        //Vector3 n = normal;
+        //if (cosi < 0) { cosi = -cosi; } else { etai = refractivity; etat = 1; n = -normal; }
+        //float eta = etai / etat;
+        //float k = 1 - eta * eta * (1 - cosi * cosi);
+        //if (k < 0)
+        //{
+        //    return Vector3.Zero;
+        //}
+        //else
+        //{
+        //    float x = (float)(eta * cosi - Math.Sqrt(k)) * n.X;
+        //    float y = (float)(eta * cosi - Math.Sqrt(k)) * n.Y;
+        //    float z = (float)(eta * cosi - Math.Sqrt(k)) * n.Z;
+
+        //    return eta * direction + new Vector3(x,y,z);
+        //}
     }
 
 }

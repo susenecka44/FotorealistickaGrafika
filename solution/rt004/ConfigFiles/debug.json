@@ -1,6 +1,6 @@
 ﻿{
-  "Width": 800,
-  "Height": 650,
+  "Width": 600,
+  "Height": 450,
   "FileName": "GeneratedImages/Debug.pfm",
   "CameraSettings": {
     "Position": [ 0.80, 0.00, -5.60 ],
@@ -35,7 +35,7 @@
       "Specular": 0.9,
       "Shininess": 150,
       "Reflectivity": 0.2,
-      "Refractivity": 1.01
+      "Refractivity": 1.45
     },
     {
       "Name": "RedReflective",
@@ -97,7 +97,7 @@
     },
     {
       "Type": "Sphere",
-      "Position": [ 0, 0, 1.7 ],
+      "Position": [ 0.4, 0, 2 ],
       "Radius": 0.5,
       "Material": "YellowMatt"
     },

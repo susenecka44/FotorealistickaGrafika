@@ -119,6 +119,9 @@ internal class Program
             {
                 for (int i = 0; i < width; ++i)
                 {
+                    if(i == 118 && j == 292)
+                        Console.WriteLine();
+
                     Vector3 color = new Vector3(0, 0, 0); // Initialize color accumulator
 
                     for (int s = 0; s < algorithmSettings.SamplesPerPixel; ++s)
