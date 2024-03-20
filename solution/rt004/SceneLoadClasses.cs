@@ -53,6 +53,7 @@ public class AlgorithmSettings
     public int MaxDepth { get; set; }
     public int SamplesPerPixel { get; set; }
     public float MinimalPerformance { get; set; }
+    public bool AntiAliasing { get; set; }
 }
 
 

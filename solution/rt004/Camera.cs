@@ -22,14 +22,10 @@ public class Ray
 }
 
 
-
 interface Camera
 {
     public Ray GetRay(float u, float v);
 }
-
-
-
 
 
 public class PerspectiveCamera : Camera

@@ -12,7 +12,7 @@
     "ShadowsEnabled": true,
     "ReflectionsEnabled": true,
     "RefractionsEnabled": true,
-    "AntiAliasing": true,
+    "AntiAliasing": false,
     "SamplesPerPixel": 5,
     "MaxDepth": 7,
     "MinimalPerformance": 0.001

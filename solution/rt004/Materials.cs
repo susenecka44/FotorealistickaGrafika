@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class ObjectMaterial
 {
-    //  “ kA + kD + kS = 1“ (to avoid overflow)  - neresim, ale asi TODO
+    //  “ kA + kD + kS = 1“ (to avoid overflow)
     public float[] Color { get; private set; }
     public double kA { get; private set; } // ambient coef.
     public double kD { get; private set; } // difusion coef.

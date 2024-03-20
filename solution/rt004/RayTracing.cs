@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 
+
+
 public class Raytracer
 {
     private Vector3 backgroundColor;
