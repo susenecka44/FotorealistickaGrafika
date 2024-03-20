@@ -1,6 +1,6 @@
 ﻿{
-  "Width": 600,
-  "Height": 450,
+  "Width": 800,
+  "Height": 650,
   "FileName": "GeneratedImages/Debug.pfm",
   "CameraSettings": {
     "Position": [ 0.90, 1.00, -5.60 ],
@@ -12,7 +12,8 @@
     "ShadowsEnabled": true,
     "ReflectionsEnabled": true,
     "RefractionsEnabled": true,
-    "SamplesPerPixel": 2,
+    "AntiAliasing": true,
+    "SamplesPerPixel": 5,
     "MaxDepth": 7,
     "MinimalPerformance": 0.001
   },

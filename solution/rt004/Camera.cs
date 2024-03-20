@@ -5,7 +5,6 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-
 public class Ray
 {
     public Vector3 Origin { get; set; }
@@ -22,16 +21,28 @@ public class Ray
     }
 }
 
-public class Camera
+
+
+interface Camera
 {
-    public Vector3 Origin { get; set; }
+    public Ray GetRay(float u, float v);
+}
+
+
+
+
+
+public class PerspectiveCamera : Camera
+{
     public Vector3 LowerLeftCorner { get; set; }
     public Vector3 Horizontal { get; set; }
     public Vector3 Vertical { get; set; }
     public Vector3 Direction { get; set; }
     public float FovDegrees { get; set; }
+    public Vector3 Origin { get; set; }
 
-    public Camera(Vector3 cameraPosition, int imageWidth, int imageHeight, float fovDegrees, Vector3 direction)
+
+    public PerspectiveCamera(Vector3 cameraPosition, int imageWidth, int imageHeight, float fovDegrees, Vector3 direction)
     {
         Origin = cameraPosition;
         Direction = Vector3.Normalize(direction);
