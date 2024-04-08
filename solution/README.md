@@ -6,7 +6,7 @@ Julie Vondráčková
 
 ---
 
-# Checkpoint III. (tag `Chk III`)
+# Checkpoint IV. (tag `Chk IV`)
 
 Creating a scene with lights, refractions, shadows.
 
@@ -23,55 +23,91 @@ List all the arguments here, with default values.
 
 ## Input Data
 
+#### Command-Line Options
+
+- `-w, --width`: Set the width of the output image (default: 600 pixels).
+- `-h, --height`: Set the height of the output image (default: 400 pixels).
+- `-f, --file`: Specify the output file name (default: `picture.hdr`).
+- `-c, --config`: Path to the configuration file to use (default: `config.json`).
+
+## Configuration File
+
+The application can be customized using a JSON configuration file. Here's a detailed explanation of the parameters you can set in this file:
+
+### General Settings
+
+- `Width`: Width of the output image in pixels.
+- `Height`: Height of the output image in pixels.
+- `FileName`: Path and name of the output file, supporting `.hdr` and `.pfm` formats.
+
 ### Camera Settings
 
-This section controls the virtual camera's settings within your scene.
-
-- **Position**: Specifies the camera's location as `[x, y, z]` coordinates.
-- **Direction**: Determines where the camera is pointing, using a vector `[x, y, z]`.
-- **BackgroundColor**: Sets the background color in RGB `[R, G, B]`, with values ranging from 0 to 255.
-- **FOVAngle**: The field of view angle in degrees, which determines the observable world extent.
+- `Position`: The camera's position in 3D space `[x, y, z]`.
+- `Direction`: The direction the camera is pointing `[x, y, z]`.
+- `BackgroundColor`: Background color `[R, G, B]` used when rays don't hit any object.
+- `FOVAngle`: Field of view angle in degrees.
 
 ### Algorithm Settings
 
-Adjustments here affect the rendering algorithm's performance and output quality.
-
-- **ShadowsEnabled**: If `true`, enables shadow casting for objects in the scene.
-- **ReflectionsEnabled**: If `true`, enables reflective effects on surfaces.
-- **SamplesPerPixel**: The number of samples per pixel, influencing anti-aliasing quality.
-- **MaxDepth**: The maximum recursion depth for rays, affecting reflection and refraction accuracy.
-- **MinimalPerformance**: A performance optimization threshold. Effects below this value may be simplified.
+- `ShadowsEnabled`: Enable/disable shadow rendering.
+- `ReflectionsEnabled`: Enable/disable reflections rendering.
+- `RefractionsEnabled`: Enable/disable refractions rendering.
+- `AntiAliasing`: Enable/disable anti-aliasing.
+- `SamplesPerPixel`: Number of samples per pixel for anti-aliasing.
+- `MaxDepth`: Maximum recursion depth for the ray tracing algorithm.
+- `MinimalPerformance`: Threshold to avoid rendering artifacts.
 
 ### Materials
 
-Defines the appearance of objects with properties like color and reflectivity.
+Defines materials with properties like color, reflectivity, and texture:
 
-- **Name**: A unique identifier for the material.
-- **Color**: The material's base color, in `[R, G, B]` format, with values from 0 to 1.
-- **Ambient**: The ambient light reflection coefficient.
-- **Diffuse**: The diffuse reflection coefficient, affecting light scatter.
-- **Specular**: The specular reflection coefficient, influencing shininess.
-- **Shininess**: Determines the sharpness of specular highlights.
-- **Reflectivity**: Ranges from 0 (non-reflective) to 1 (perfect mirror), indicating the material's reflectiveness.
-
-### Objects in Scene
-
-Describes geometric objects placed in the scene.
-
-- **Type**: The object type (e.g., "Sphere", "Plane").
-- **Position**: The object's `[x, y, z]` coordinates.
-- **Radius**: For spheres, the sphere's radius.
-- **Normal**: For planes, the normal vector `[x, y, z]` indicating orientation.
-- **Material**: The name of the material applied, corresponding to one of the defined materials.
+- `Name`: Unique identifier.
+- `Color`: Base color `[R, G, B]`.
+- `Ambient`, `Diffuse`, `Specular`: Lighting coefficients.
+- `Shininess`: Specular highlight sharpness.
+- `Reflectivity`: Reflection strength.
+- `Refractivity`: Index of refraction.
 
 ### Lights
 
-Configures scene lighting, including point and ambient lights.
+In the scene configuration, lights define how objects are illuminated, influencing shadows, reflections, and refractions. Each light has a specific type and set of properties.
+- `Type`: Identifies the light type (`PointLight` or `AmbientLight`), determining its behavior in the scene.
+- `Position`: (**PointLight** only) A vector `[x, y, z]` defining the light's position.
+- `Color`: The light's color as `[R, G, B]`. Affects the scene's coloration from the light source.
+- `Intensity`: (**AmbientLight** only) A scalar value that dictates the ambient light's strength, influencing the scene's overall brightness.
 
-- **Type**: Light source type (e.g., "PointLight", "AmbientLight").
-- **Position**: For point lights, the light's `[x, y, z]` position.
-- **Color**: The light color in `[R, G, B]`, with values from 0 to 255.
-- **Intensity**: For ambient lights, sets the scene's overall light brightness.
+### Objects in Scene
+
+Objects constitute the scene's visual elements. Each object is defined by its shape and properties, including size, position, material, and, for some objects, orientation.
+
+#### Types of Objects
+
+- **Sphere**: Defined by a center and radius, perfect for round elements.
+
+- **Cube**: A polyhedron with square faces, useful for creating boxes and other blocky structures.
+
+- **Plane**: An infinite two-dimensional surface, often used for floors, walls, or abstract surfaces.
+
+#### Common Properties
+
+- `Type`: The geometric shape of the object (`Sphere`, `Cube`, or `Plane`).
+
+- `Position`: A vector `[x, y, z]` indicating the object's location in the scene.
+
+- `Material`: References one of the materials defined in the `Materials` section, dictating the object's appearance.
+
+#### Specific Properties
+
+- `Radius`: (**Sphere** only) The sphere's size.
+
+- `Size`: (**Cube** only) The cube's dimensions as `[width, height, depth]`.
+
+- `Normal`: (**Plane** only) A vector `[x, y, z]` representing the plane's orientation through its normal vector.
+
+- `Angle`: (**Cube** only) The cube's rotation angle around the Y-axis, allowing for orientation adjustments.
+
+By customizing these properties, you can craft diverse scenes with varied lighting and object arrangements, offering vast creative possibilities in scene design.
+
 
 ## Algorithm
 
@@ -80,13 +116,178 @@ Raytracing algorithm in RayTracer.cs, Intersecting with objects and creating a H
 ## Bonuses
 
 There are three structures - plane, sphere and cube.
+Nicely done glass refractions - correct looking glass described:
+'''
+```
+  "Name": "Glass",
+  "Color": [ 0.8, 0.8, 1.0 ],
+  "Ambient": 0.0,
+  "Diffuse": 0.0,
+  "Specular": 0.9,
+  "Shininess": 150,
+  "Reflectivity": 0.2,
+  "Refractivity": 1.45
+``` 
+See Checkpoint4.pfm for generated sample scene (other images are from older versions - mostly without reflections, so their config files possibly dont work anymore)
 
-See Image.hdr for generated sample scene (other images are from older versions - mostly without reflections, so their config files possibly dont work anymore)
+- Sample Scene:
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/ddeb69b3-f53b-4550-b0f2-445d2d466a42)
+configuration:
+```
+{
+  "Width": 1000,
+  "Height": 850,
+  "FileName": "GeneratedImages/Checkpoint4.pfm",
+  "CameraSettings": {
+    "Position": [ 0.90, 1.00, -5.60 ],
+    "Direction": [ 0.00, -0.17, 1.00 ],
+    "BackgroundColor": [ 25, 50, 75 ],
+    "FOVAngle": 40
+  },
+  "AlgorithmSettings": {
+    "ShadowsEnabled": true,
+    "ReflectionsEnabled": true,
+    "RefractionsEnabled": true,
+    "AntiAliasing": true,
+    "SamplesPerPixel": 10,
+    "MaxDepth": 7,
+    "MinimalPerformance": 0.001
+  },
+  "Materials": [
+    {
+      "Name": "YellowMatt",
+      "Color": [ 1.0, 1.0, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.8,
+      "Specular": 0.2,
+      "Shininess": 80,
+      "Reflectivity": 0.05,
+      "Refractivity": 0
+    },
+    {
+      "Name": "BlueReflective",
+      "Color": [ 0.8, 0.8, 1.0 ],
+      "Ambient": 0.0,
+      "Diffuse": 0.0,
+      "Specular": 0.9,
+      "Shininess": 150,
+      "Reflectivity": 0.2,
+      "Refractivity": 1.45
+    },
+    {
+      "Name": "RedReflective",
+      "Color": [ 0.8, 0.2, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.6,
+      "Specular": 0.4,
+      "Shininess": 80,
+      "Reflectivity": 0.110,
+      "Refractivity": 2.1
+    },
+    {
+      "Name": "WhiteMatt",
+      "Color": [ 0.9, 0.9, 0.9 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.9,
+      "Specular": 0.4,
+      "Shininess": 80,
+      "Reflectivity": 0.8,
+      "Refractivity": 0
+    },
+    {
+      "Name": "GreenMatt",
+      "Color": [ 0.5, 0.9, 0.5 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.6,
+      "Specular": 0.2,
+      "Shininess": 150,
+      "Reflectivity": 0.20,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Gold",
+      "Color": [ 0.3, 0.2, 0.0 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.2,
+      "Specular": 0.8,
+      "Shininess": 400,
+      "Reflectivity": 0.90,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Black",
+      "Color": [ 0.01, 0.01, 0.01 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.2,
+      "Specular": 0.2,
+      "Shininess": 20,
+      "Reflectivity": 0.20,
+      "Refractivity": 0
+    }
+  ],
+  "ObjectsInScene": [
+    {
+      "Type": "Sphere",
+      "Position": [ 0, 0, 0 ],
+      "Radius": 1,
+      "Material": "BlueReflective"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 1, 0, 2 ],
+      "Radius": 1,
+      "Material": "YellowMatt"
+    },
+    {
+      "Type": "Cube",
+      "Position": [ 1.5, 1, 0 ],
+      "Size": [ 0.6, 0.6, 0.6 ],
+      "Material": "BlueReflective",
+      "Angle": 30
+    },
+    {
+      "Type": "Cube",
+      "Position": [ 2, 0.2, 0 ],
+      "Size": [ 0.4, 0.4, 0.4 ],
+      "Material": "Gold",
+      "Angle": 60
+    },
+    {
+      "Type": "Plane",
+      "Position": [ 0.0, -1.3, 0.0 ],
+      "Normal": [ 0, 1, 0 ],
+      "Material": "Black"
+    }
+  ],
+  "Lights": [
+    {
+      "Type": "PointLight",
+      "Position": [ -10.0, 8.0, -6.0 ],
+      "Color": [ 255, 234, 231 ]
+    },
+    {
+      "Type": "PointLight",
+      "Position": [ 0.0, 20.0, -3.0 ],
+      "Color": [ 255, 234, 231 ]
+    },
+    {
+      "Type": "AmbientLight",
+      "Color": [ 234, 234, 220 ],
+      "Intensity": 0.5
+    }
+  ]
+}
+
+```
 
 ### Use of AI
 
 AI used for mostly fixing parts of code - debugging and small help.
 
+Checkpoint IV.
+- https://chat.openai.com/share/3253c7c8-56ea-4006-9030-ae4d3c33d87b
+
+Checkpoint III.
 - https://chat.openai.com/share/f69f1015-9448-4923-be62-176c46bcb8c8
 - https://chat.openai.com/share/af8f2f21-3dc3-4ae0-be45-cb0791f8a29c
 - https://chat.openai.com/share/7a216118-ae1c-43f5-8079-bb3a7cce1a35
