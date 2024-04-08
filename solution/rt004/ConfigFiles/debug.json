@@ -1,7 +1,7 @@
 ﻿{
-  "Width": 800,
-  "Height": 650,
-  "FileName": "GeneratedImages/Debug.pfm",
+  "Width": 1000,
+  "Height": 850,
+  "FileName": "GeneratedImages/Checkpoint4.pfm",
   "CameraSettings": {
     "Position": [ 0.90, 1.00, -5.60 ],
     "Direction": [ 0.00, -0.17, 1.00 ],
@@ -12,8 +12,8 @@
     "ShadowsEnabled": true,
     "ReflectionsEnabled": true,
     "RefractionsEnabled": true,
-    "AntiAliasing": false,
-    "SamplesPerPixel": 5,
+    "AntiAliasing": true,
+    "SamplesPerPixel": 10,
     "MaxDepth": 7,
     "MinimalPerformance": 0.001
   },
@@ -26,7 +26,7 @@
       "Specular": 0.2,
       "Shininess": 80,
       "Reflectivity": 0.05,
-      "Refractivity": 1
+      "Refractivity": 0
     },
     {
       "Name": "BlueReflective",
@@ -46,7 +46,7 @@
       "Specular": 0.4,
       "Shininess": 80,
       "Reflectivity": 0.110,
-      "Refractivity": 1.2
+      "Refractivity": 2.1
     },
     {
       "Name": "WhiteMatt",
@@ -111,10 +111,10 @@
     },
     {
       "Type": "Cube",
-      "Position": [ 1.4, 0, 0 ],
-      "Size": [ 0.6, 0.6, 0.6 ],
+      "Position": [ 2, 0.2, 0 ],
+      "Size": [ 0.4, 0.4, 0.4 ],
       "Material": "Gold",
-      "Angle": 45
+      "Angle": 60
     },
     {
       "Type": "Plane",

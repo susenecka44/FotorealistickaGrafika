@@ -65,7 +65,7 @@ internal class Program
     private static void ImageManaging(int width, int height, string fileName, List<Material> materials, List<SceneObject> objectsInScene, List<Light> lights, CameraSettings cameraSettings, AlgorithmSettings algorithmSettings)
     {
         {
-            Camera camera = new PerspectiveCamera(new Vector3(cameraSettings.Position[0], cameraSettings.Position[1], cameraSettings.Position[2]), width, height, cameraSettings.FOVAngle, new Vector3(cameraSettings.Direction[0], cameraSettings.Direction[1], cameraSettings.Direction[2]));
+            ICamera camera = new PerspectiveCamera(new Vector3(cameraSettings.Position[0], cameraSettings.Position[1], cameraSettings.Position[2]), width, height, cameraSettings.FOVAngle, new Vector3(cameraSettings.Direction[0], cameraSettings.Direction[1], cameraSettings.Direction[2]));
             Raytracer raytracer = new Raytracer(new Vector3(cameraSettings.BackgroundColor[0], cameraSettings.BackgroundColor[1], cameraSettings.BackgroundColor[2]), algorithmSettings.MaxDepth, algorithmSettings.MinimalPerformance, algorithmSettings.ShadowsEnabled, algorithmSettings.ReflectionsEnabled, algorithmSettings.RefractionsEnabled);
             List<LightSource> lightSources = new List<LightSource>();
             List<IHittable> scene = new List<IHittable>();
@@ -113,8 +113,7 @@ internal class Program
         }
     }
 
-
-    private static FloatImage GeneratePicture(ref int width, ref int height, ref Camera camera, ref Raytracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
+    private static FloatImage GeneratePicture(ref int width, ref int height, ref ICamera camera, ref Raytracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
     {
         // image depth set to 3 by default
         FloatImage fi = new FloatImage(width, height, 3);
@@ -141,14 +140,14 @@ internal class Program
         }
         return fi;
     }
-    private static void GetColorPixelWithoutAA(ref Vector3 color, ref int i, ref int j, ref int width, ref int height, ref Camera camera, ref Raytracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources )
+    private static void GetColorPixelWithoutAA(ref Vector3 color, ref int i, ref int j, ref int width, ref int height, ref ICamera camera, ref Raytracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources )
     {     
         float u = (float)i / (width - 1);
         float v = (float)j / (height - 1);
         Ray r = camera.GetRay(u, v);
         color += raytracer.TraceRay(r, scene, lightSources, algorithmSettings.MaxDepth);
     }
-    private static void GetColorPixelWithAA(ref Vector3 color, ref int i, ref int j, ref int width, ref int height, ref Camera camera, ref Raytracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
+    private static void GetColorPixelWithAA(ref Vector3 color, ref int i, ref int j, ref int width, ref int height, ref ICamera camera, ref Raytracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
     {
         Random random = new Random();
 

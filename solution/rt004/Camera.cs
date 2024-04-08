@@ -22,13 +22,13 @@ public class Ray
 }
 
 
-interface Camera
+interface ICamera
 {
     public Ray GetRay(float u, float v);
 }
 
 
-public class PerspectiveCamera : Camera
+public class PerspectiveCamera : ICamera
 {
     public Vector3 LowerLeftCorner { get; set; }
     public Vector3 Horizontal { get; set; }
