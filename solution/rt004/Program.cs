@@ -105,7 +105,7 @@ internal class Program
         IAliasingAlgorithm aliasAlgorithm = GetAliasingAlgorithm(config.AlgorithmSettings.AntiAliasing);
 
         // Generate the picture itself
-        FloatImage fi = GeneratePicture(ref aliasAlgorithm,  config.Width,  config.Height, ref camera, ref raytracer, ref sceneObjects, ref lightSources);
+        FloatImage fi = GeneratePicture(ref aliasAlgorithm,  config.Width,  config.Height, ref camera, ref raytracer,  config.AlgorithmSettings, ref sceneObjects, ref lightSources);
         SaveFile(config.FileName, fi);
     }
 
@@ -152,7 +152,8 @@ internal class Program
         }
     }
 
-    private static FloatImage GeneratePicture(ref IAliasingAlgorithm aliasAlgorithm, int width, int height, ref ICamera camera, ref IRayTracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
+    // Main generating function
+    private static FloatImage GeneratePicture(ref IAliasingAlgorithm aliasAlgorithm, int width, int height, ref ICamera camera, ref IRayTracer raytracer, AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
     {
         
         // image depth set to 3 by default
