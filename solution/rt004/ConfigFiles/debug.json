@@ -1,7 +1,7 @@
 ﻿{
-  "Width": 100,
-  "Height": 85,
-  "FileName": "GeneratedImages/check.pfm",
+  "Width": 800,
+  "Height": 650,
+  "FileName": "GeneratedImages/debug.pfm",
   "CameraSettings": {
     "Position": [ 0.90, 1.00, -5.60 ],
     "Direction": [ 0.00, -0.17, 1.00 ],
@@ -15,7 +15,7 @@
     "SamplesPerPixel": 10,
     "MaxDepth": 7,
     "MinimalPerformance": 0.001,
-    "AntiAliasing": "JitteredSamplingAliasing",
+    "AntiAliasing": "HammersleyAliasing",
     "RayTracer": "basic"
   },
   "Materials": [

@@ -159,7 +159,6 @@ public class Raytracer : IRayTracer
     }
 }
 
-
 // calculatios for refractions
 public class Calculations
 {
