@@ -1,20 +1,21 @@
 {
-  "Width": 100,
-  "Height": 85,
-  "FileName": "GeneratedImages/Image.pfm",
+  "Width": 800,
+  "Height": 650,
+  "FileName": "GeneratedImages/debug.pfm",
   "CameraSettings": {
-    "Position": [ 0.80, 0.00, -5.60 ],
-    "Direction": [ 0.00, -0.06, 1.00 ],
+    "Position": [ 0.90, 1.00, -5.60 ],
+    "Direction": [ 0.00, -0.17, 1.00 ],
     "BackgroundColor": [ 25, 50, 75 ],
     "FOVAngle": 40
   },
   "AlgorithmSettings": {
     "ShadowsEnabled": true,
     "ReflectionsEnabled": true,
-    "SamplesPerPixel": 5,
-    "MaxDepth": 5,
+    "RefractionsEnabled": true,
+    "SamplesPerPixel": 10,
+    "MaxDepth": 7,
     "MinimalPerformance": 0.001,
-    "AntiAliasing": "JitteredSamplingAliasing",
+    "AntiAliasing": "HammersleyAliasing",
     "RayTracer": "basic"
   },
   "Materials": [
@@ -30,13 +31,13 @@
     },
     {
       "Name": "BlueReflective",
-      "Color": [ 0.2, 0.3, 1.0 ],
-      "Ambient": 0.1,
-      "Diffuse": 0.5,
-      "Specular": 0.5,
+      "Color": [ 0.8, 0.8, 1.0 ],
+      "Ambient": 0.0,
+      "Diffuse": 0.0,
+      "Specular": 0.9,
       "Shininess": 150,
       "Reflectivity": 0.2,
-      "Refractivity": 0.9
+      "Refractivity": 1.45
     },
     {
       "Name": "RedReflective",
@@ -46,7 +47,7 @@
       "Specular": 0.4,
       "Shininess": 80,
       "Reflectivity": 0.110,
-      "Refractivity": 0
+      "Refractivity": 2.1
     },
     {
       "Name": "WhiteMatt",
@@ -75,8 +76,8 @@
       "Diffuse": 0.2,
       "Specular": 0.8,
       "Shininess": 400,
-      "Reflectivity": 0.80,
-      "Refractivity": 0.9
+      "Reflectivity": 0.90,
+      "Refractivity": 0
     },
     {
       "Name": "Black",
@@ -94,31 +95,33 @@
       "Type": "Sphere",
       "Position": [ 0, 0, 0 ],
       "Radius": 1,
+      "Material": "BlueReflective"
+    },
+    {
+      "Type": "Sphere",
+      "Position": [ 1, 0, 2 ],
+      "Radius": 1,
       "Material": "YellowMatt"
+    },
+    {
+      "Type": "Cube",
+      "Position": [ 1.5, 1, 0 ],
+      "Size": [ 0.6, 0.6, 0.6 ],
+      "Material": "BlueReflective",
+      "Angle": 30
+    },
+    {
+      "Type": "Cube",
+      "Position": [ 2, 0.2, 0 ],
+      "Size": [ 0.4, 0.4, 0.4 ],
+      "Material": "Gold",
+      "Angle": 60
     },
     {
       "Type": "Plane",
       "Position": [ 0.0, -1.3, 0.0 ],
       "Normal": [ 0, 1, 0 ],
-      "Material": "WhiteMatt"
-    },
-    {
-      "Type": "Sphere",
-      "Position": [ -0.7, 0.7, -0.8 ],
-      "Radius": 0.1,
-      "Material": "RedReflective"
-    },
-    {
-      "Type": "Sphere",
-      "Position": [ 1.4, -0.7, -0.5 ],
-      "Radius": 0.6,
-      "Material": "BlueReflective"
-    },
-    {
-      "Type": "Sphere",
-      "Position": [ 1.5, 0.6, 0.1 ],
-      "Radius": 0.5,
-      "Material": "Gold"
+      "Material": "Black"
     }
   ],
   "Lights": [
