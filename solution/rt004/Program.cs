@@ -51,7 +51,8 @@ internal class Program
                 try
                 {
                     // sceneConfig cant be null - checked before
-                    ProcessAndGenerateImage(sceneConfig.Width, sceneConfig.Height, sceneConfig.FileName, sceneConfig.Materials, sceneConfig.ObjectsInScene, sceneConfig.Lights, sceneConfig.CameraSettings, sceneConfig.AlgorithmSettings);
+                   ProcessAndGenerateImage(ref sceneConfig);
+
                 }
                 catch
                 {
@@ -60,89 +61,98 @@ internal class Program
             });
     }
 
+
     /// <summary>
     /// Creates an image according to json scenes
     /// </summary>
-    private static void ProcessAndGenerateImage(int width, int height, string fileName, List<Material> materials, List<SceneObject> objectsInScene, List<Light> lights, CameraSettings cameraSettings, AlgorithmSettings algorithmSettings)
+    private static void ProcessAndGenerateImage(ref SceneConfig config)
     {
-        
-        ICamera camera = new PerspectiveCamera(new Vector3d(cameraSettings.Position[0], cameraSettings.Position[1], cameraSettings.Position[2]), width, height, cameraSettings.FOVAngle, new Vector3d(cameraSettings.Direction[0], cameraSettings.Direction[1], cameraSettings.Direction[2]));
-        IRayTracer raytracer = new Raytracer(new Vector3d(cameraSettings.BackgroundColor[0], cameraSettings.BackgroundColor[1], cameraSettings.BackgroundColor[2]), algorithmSettings.MaxDepth, algorithmSettings.MinimalPerformance, algorithmSettings.ShadowsEnabled, algorithmSettings.ReflectionsEnabled, algorithmSettings.RefractionsEnabled);
+        ICamera camera = new PerspectiveCamera(new Vector3d(config.CameraSettings.Position[0], config.CameraSettings.Position[1], config.CameraSettings.Position[2]), config.Width, config.Height, config.CameraSettings.FOVAngle, new Vector3d(config.CameraSettings.Direction[0], config.CameraSettings.Direction[1], config.CameraSettings.Direction[2]));
+        IRayTracer raytracer = new Raytracer(new Vector3d(config.CameraSettings.BackgroundColor[0], config.CameraSettings.BackgroundColor[1], config.CameraSettings.BackgroundColor[2]), config.AlgorithmSettings.MaxDepth, config.AlgorithmSettings.MinimalPerformance, config.AlgorithmSettings.ShadowsEnabled, config.AlgorithmSettings.ReflectionsEnabled, config.AlgorithmSettings.RefractionsEnabled);
         List<LightSource> lightSources = new List<LightSource>();
-        List<IHittable> scene = new List<IHittable>();
+        List<IHittable> sceneObjects = new List<IHittable>();
 
         // Loading materials
         Dictionary<string, ObjectMaterial> loadedMaterials = new Dictionary<string, ObjectMaterial>();
-        foreach (var mat in materials)
+        foreach (var mat in config.Materials)
         {
             loadedMaterials[mat.Name] = new ObjectMaterial(mat.Color, mat.Ambient, mat.Diffuse, mat.Specular, mat.Shininess, mat.Reflectivity, mat.Refractivity);
         }
 
         // Loading light sources
-        foreach (var light in lights)
+        foreach (var light in config.Lights)
         {
-            if (light.Type == "PointLight")
+            if (light.Type == "Point")
             {
-                lightSources.Add(new PointLight(new Vector3d(light.Position[0], light.Position[1], light.Position[2]), new Vector3d(light.Color[0], light.Color[1], light.Color[2])));
+                lightSources.Add(new PointLight(new Vector3d(light.Position[0], light.Position[1], light.Position[2]), new Vector3d(light.Color[0], light.Color[1], light.Color[2]), light.Intensity));
             }
-            else if (light.Type == "AmbientLight")
+            else if (light.Type == "Ambient")
             {
                 lightSources.Add(new AmbientLight(new Vector3d(light.Color[0], light.Color[1], light.Color[2]), light.Intensity));
             }
         }
 
         // Adding objects to the scene based on the loaded materials
-        foreach (var obj in objectsInScene)
+        foreach (var obj in config.ObjectsInScene)
         {
-            ObjectMaterial material = loadedMaterials[obj.Material];
-            switch (obj.Type.ToLower())
+            foreach (var shape in obj.BasicShapes)
             {
-                case "sphere":
-                    scene.Add(new Sphere(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), obj.Radius, material));
-                    break;
-                case "cube":
-                    scene.Add(new Cube(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3d(obj.Size[0], obj.Size[1], obj.Size[2]), material, obj.RotationAngle));
-                    break;
-                case "plane":
-                    scene.Add(new Plane(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3d(obj.Normal[0], obj.Normal[1], obj.Normal[2]), material));
-                    break;
-                case "cylinder":
-                    scene.Add(new Cylinder(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), obj.Height, obj.Radius, material));
-                    break;
+                AddSceneObject(shape, loadedMaterials, sceneObjects);
             }
         }
 
         // Load Aliasing algorithm
-        IAliasingAlgorithm aliasAlgorithm;
-        switch (algorithmSettings.AntiAliasing)
-        {
-            case "NoAliasing":
-                aliasAlgorithm = new NoAliasing();
-                break;
-            case "JitteredSamplingAliasing":
-                aliasAlgorithm = new JitteredSamplingAliasing();
-                break;
-            case "SupersamplingAliasing":
-                aliasAlgorithm = new SupersamplingAliasing();
-                break;
-            case "HammersleyAliasing":
-                aliasAlgorithm = new HammersleyAliasing();
-                break;
-            case "CorrelatedMultiJitteredAliasing":
-                aliasAlgorithm = new CorrelatedMultiJitteredAliasing();
-                break;
-            default:
-                aliasAlgorithm = new JitteredSamplingAliasing();
-                break;
-        }
+        IAliasingAlgorithm aliasAlgorithm = GetAliasingAlgorithm(config.AlgorithmSettings.AntiAliasing);
 
         // Generate the picture itself
-        FloatImage fi = GeneratePicture(ref aliasAlgorithm, ref width, ref height, ref camera, ref raytracer, ref algorithmSettings, ref scene, ref lightSources);
-        SaveFile(fileName, fi);
-        
+        FloatImage fi = GeneratePicture(ref aliasAlgorithm,  config.Width,  config.Height, ref camera, ref raytracer, ref sceneObjects, ref lightSources);
+        SaveFile(config.FileName, fi);
     }
 
-    private static FloatImage GeneratePicture(ref IAliasingAlgorithm aliasAlgorithm, ref int width, ref int height, ref ICamera camera, ref IRayTracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
+    private static void AddSceneObject(PrimitiveObject obj, Dictionary<string, ObjectMaterial> loadedMaterials, List<IHittable> scene)
+    {
+        ObjectMaterial material = loadedMaterials[obj.Material];
+        IHittable hittable = null;
+        switch (obj.Type.ToLower())
+        {
+            case "sphere":
+                hittable = new Sphere(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), obj.Radius, material);
+                break;
+            case "cube":
+                hittable = new Cube(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3d(obj.Size[0], obj.Size[1], obj.Size[2]), material, obj.RotationAngle);
+                break;
+            case "plane":
+                hittable = new Plane(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3d(obj.Normal[0], obj.Normal[1], obj.Normal[2]), material);
+                break;
+            case "cylinder":
+                hittable = new Cylinder(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), obj.Height, obj.Radius, material);
+                break;
+            default:
+                throw new InvalidOperationException("Unknown object type.");
+        }
+        scene.Add(hittable);
+    }
+
+    private static IAliasingAlgorithm GetAliasingAlgorithm(string aliasType)
+    {
+        switch (aliasType)
+        {
+            case "NoAliasing":
+                return new NoAliasing();
+            case "JitteredSamplingAliasing":
+                return new JitteredSamplingAliasing();
+            case "SupersamplingAliasing":
+                return new SupersamplingAliasing();
+            case "HammersleyAliasing":
+                return new HammersleyAliasing();
+            case "CorrelatedMultiJitteredAliasing":
+                return new CorrelatedMultiJitteredAliasing();
+            default:
+                return new NoAliasing();
+        }
+    }
+
+    private static FloatImage GeneratePicture(ref IAliasingAlgorithm aliasAlgorithm, int width, int height, ref ICamera camera, ref IRayTracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
     {
         
         // image depth set to 3 by default

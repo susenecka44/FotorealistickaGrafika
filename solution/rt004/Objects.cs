@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 
-
 public interface IHittable
 {
     bool Hit(Ray r, double tMin, double tMax, out HitRecord rec);
@@ -347,6 +346,3 @@ public class Cylinder : IHittable
         return false;
     }
 }
-
-
-

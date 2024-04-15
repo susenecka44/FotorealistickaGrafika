@@ -14,7 +14,7 @@ public class Material
     public double Refractivity { get; set; } = 0.0;
 }
 
-public class SceneObject
+public class PrimitiveObject
 {
     public string Type { get; set; } = "Sphere";
     public double[] Position { get; set; } = new double[] { 0.0, 0.0, 0.0 };
@@ -23,7 +23,21 @@ public class SceneObject
     public double[] Normal { get; set; } = new double[] { 0.0, 1.0, 0.0 }; // plane
     public string Material { get; set; } = "Default";
     public double RotationAngle { get; set; } = 0.0; // cube
-    public double Height { get;  set; } // cylinder
+    public double Height { get; set; } = 1.0;// cylinder
+}
+
+public class Object
+{
+    public string Name { get; set; } = "Object";
+    public List<PrimitiveObject> BasicShapes { get; set; } = new List<PrimitiveObject>();
+}
+
+public class ObjectInScene
+{
+    public string Type { get; set; } = "Object";
+    public double[] Position { get; set; } = new double[] {0, 0 ,0 };
+    public double[] Scale { get; set; } = new double[] { 1, 1, 1 };
+    public double[] Rotation { get; set; } = new double[] { 0, 0, 0 };
 }
 
 public class Light
@@ -57,7 +71,8 @@ public class AlgorithmSettings
 public class SceneConfig : Options
 {
     public List<Material> Materials { get; set; } = new List<Material> { new Material() };
-    public List<SceneObject> ObjectsInScene { get; set; } = new List<SceneObject> { new SceneObject() };
+    public List<ObjectInScene> Scene { get; set; } = new List<ObjectInScene>();
+    public List<Object> ObjectsInScene { get; set; } = new List<Object>();
     public List<Light> Lights { get; set; } = new List<Light> { new Light() };
     public CameraSettings CameraSettings { get; set; } = new CameraSettings();
     public AlgorithmSettings AlgorithmSettings { get; set; } = new AlgorithmSettings();

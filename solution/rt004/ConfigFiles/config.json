@@ -1,7 +1,7 @@
 {
   "Width": 800,
   "Height": 650,
-  "FileName": "GeneratedImages/debug.pfm",
+  "FileName": "GeneratedImages/image.pfm",
   "CameraSettings": {
     "Position": [ 0.90, 1.00, -5.60 ],
     "Direction": [ 0.00, -0.17, 1.00 ],
@@ -92,9 +92,10 @@
   ],
   "ObjectsInScene": [
     {
-      "Type": "Sphere",
-      "Position": [ 0, 0, 0 ],
-      "Radius": 1,
+      "Type": "Cylinder",
+      "Position": [ 0, -0.5, 0 ],
+      "Height": 0.5,
+      "Radius": 0.3,
       "Material": "BlueReflective"
     },
     {

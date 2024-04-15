@@ -25,9 +25,12 @@ public class AmbientLight : LightSource
 }
 public class PointLight : LightSource
 {
-    public PointLight(Vector3d position, Vector3d color)
+    public PointLight(Vector3d position, Vector3d color, double intensity)
     {
         Position = position;
-        Color = color;
+        double cX = color.X * intensity;
+        double cY = color.Y * intensity;
+        double cZ = color.Z * intensity;
+        Color = new Vector3d(cX, cY, cZ);
     }
 }
