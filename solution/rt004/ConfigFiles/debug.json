@@ -92,9 +92,10 @@
   ],
   "ObjectsInScene": [
     {
-      "Type": "Sphere",
+      "Type": "Cylinder",
       "Position": [ 0, 0, 0 ],
-      "Radius": 1,
+      "Height": 0.5,
+      "Radius": 0.5,
       "Material": "BlueReflective"
     },
     {

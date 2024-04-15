@@ -1,4 +1,5 @@
-﻿using rt004;
+﻿using OpenTK.Mathematics;
+using rt004;
 using System.Collections.Generic;
 
 public class Material
@@ -17,11 +18,12 @@ public class SceneObject
 {
     public string Type { get; set; } = "Sphere";
     public double[] Position { get; set; } = new double[] { 0.0, 0.0, 0.0 };
-    public double Radius { get; set; } = 1.0;
+    public double Radius { get; set; } = 1.0; // sphere, cylinder
     public double[] Size { get; set; } = new double[] { 1.0, 1.0, 1.0 }; 
-    public double[] Normal { get; set; } = new double[] { 0.0, 1.0, 0.0 }; 
+    public double[] Normal { get; set; } = new double[] { 0.0, 1.0, 0.0 }; // plane
     public string Material { get; set; } = "Default";
-    public double RotationAngle { get; set; } = 0.0; 
+    public double RotationAngle { get; set; } = 0.0; // cube
+    public double Height { get;  set; } // cylinder
 }
 
 public class Light

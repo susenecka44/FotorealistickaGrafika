@@ -106,6 +106,9 @@ internal class Program
                 case "plane":
                     scene.Add(new Plane(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3d(obj.Normal[0], obj.Normal[1], obj.Normal[2]), material));
                     break;
+                case "cylinder":
+                    scene.Add(new Cylinder(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), obj.Height, obj.Radius, material));
+                    break;
             }
         }
 
