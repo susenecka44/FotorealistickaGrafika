@@ -93,9 +93,9 @@
   "ObjectsInScene": [
     {
       "Type": "Cylinder",
-      "Position": [ 0, 0, 0 ],
-      "Height": 0.5,
-      "Radius": 0.5,
+      "Position": [ 0, -0.5, 0 ],
+      "Height": 0.3,
+      "Radius": 0.3,
       "Material": "BlueReflective"
     },
     {

@@ -235,8 +235,8 @@ public class Cube : IHittable
 
 public class Cylinder : IHittable
 {
-    public Vector3d BaseCenter { get; private set; } 
-    public Vector3d TopCenter { get; private set; } 
+    public Vector3d BaseCenter { get; private set; } // = Position
+    public Vector3d TopCenter { get; private set; }  
     public double Radius { get; private set; }
     public double Height { get; private set; }
     public ObjectMaterial Material { get; set; }
@@ -253,9 +253,11 @@ public class Cylinder : IHittable
     public bool Hit(Ray ray, double tMin, double tMax, out HitRecord rec)
     {
         rec = new HitRecord();
+        bool hasHit = false;
+        double closestT = tMax;
+
         Vector3d axis = TopCenter - BaseCenter;
         Vector3d oc = ray.Origin - BaseCenter;
-
         double axisDotDirection = Vector3d.Dot(axis, ray.Direction);
         double axisDotOC = Vector3d.Dot(axis, oc);
         double axisLengthSquared = axis.LengthSquared();
@@ -267,51 +269,84 @@ public class Cylinder : IHittable
         double c = ocPerpendicular.LengthSquared() - Radius * Radius;
 
         double discriminant = b * b - 4 * a * c;
-        if (discriminant < 0)
+        if (discriminant >= 0)
+        {
+            double sqrtD = Math.Sqrt(discriminant);
+            double t0 = (-b - sqrtD) / (2 * a);
+            double t1 = (-b + sqrtD) / (2 * a);
+
+            if (t0 > t1)
+            {
+                double temp = t0;
+                t0 = t1;
+                t1 = temp;
+            }
+
+            if (CheckIntersectionAtT(ray, t0, axis, axisDotOC, axisDotDirection, axisLengthSquared, tMin, closestT, ref rec))
+            {
+                closestT = rec.T;
+                hasHit = true;
+            }
+            if (CheckIntersectionAtT(ray, t1, axis, axisDotOC, axisDotDirection, axisLengthSquared, tMin, closestT, ref rec))
+            {
+                closestT = rec.T;
+                hasHit = true;
+            }
+        }
+
+        if (CheckCap(ray, BaseCenter, axis, Radius, tMin, ref closestT, out HitRecord capRecBottom))
+        {
+            rec = capRecBottom;
+            hasHit = true;
+        }
+        if (CheckCap(ray, TopCenter, -axis, Radius, tMin, ref closestT, out HitRecord capRecTop))
+        {
+            rec = capRecTop;
+            hasHit = true;
+        }
+
+        return hasHit;
+    }
+
+    private bool CheckCap(Ray ray, Vector3d capCenter, Vector3d axis, double radius, double tMin, ref double closestT, out HitRecord rec)
+    {
+        rec = new HitRecord();
+        double t = Vector3d.Dot(capCenter - ray.Origin, axis) / Vector3d.Dot(ray.Direction, axis);
+        if (t < tMin || t >= closestT)
         {
             return false;
         }
 
-        double sqrtD = Math.Sqrt(discriminant);
-        double t0 = (-b - sqrtD) / (2 * a);
-        double t1 = (-b + sqrtD) / (2 * a);
-
-        if (t0 > t1)
+        Vector3d p = ray.PointAtParameter(t);
+        double distance = (p - capCenter).LengthSquared();
+        if (distance <= radius * radius)
         {
-            double temp = t0;
-            t0 = t1;
-            t1 = temp;
+            closestT = t;
+            rec.T = t;
+            rec.HitPoint = p;
+            rec.Normal = axis.Normalized();
+            rec.Material = Material;
+            rec.FrontFace = Vector3d.Dot(ray.Direction, axis) < 0;
+            return true;
         }
+        return false;
+    }
 
-        double z0 = axisDotOC + t0 * axisDotDirection;
-        double z1 = axisDotOC + t1 * axisDotDirection;
-
-        if (z0 < 0 || z0 > axisLengthSquared)
+    private bool CheckIntersectionAtT(Ray ray, double t, Vector3d axis, double axisDotOC, double axisDotDirection, double axisLengthSquared, double tMin, double tMax, ref HitRecord rec)
+    {
+        double z = axisDotOC + t * axisDotDirection;
+        if (z >= 0 && z <= axisLengthSquared && t >= tMin && t <= tMax)
         {
-            t0 = double.PositiveInfinity;
+            rec.T = t;
+            rec.HitPoint = ray.PointAtParameter(t);
+            Vector3d outwardNormal = (rec.HitPoint - (BaseCenter + axis * (z / axisLengthSquared))) / Radius;
+            rec.SetFaceNormal(ray, outwardNormal);
+            rec.Material = Material;
+            return true;
         }
-        if (z1 < 0 || z1 > axisLengthSquared)
-        {
-            t1 = double.PositiveInfinity;
-        }
-
-        double t = t0;
-        if (t < tMin || t > tMax)
-        {
-            t = t1;
-            if (t < tMin || t > tMax)
-            {
-                return false;
-            }
-        }
-
-        rec.T = t;
-        rec.HitPoint = ray.PointAtParameter(t);
-        Vector3d outwardNormal = (rec.HitPoint - (BaseCenter + axis * (Vector3d.Dot(rec.HitPoint - BaseCenter, axis) / axisLengthSquared))) / Radius;
-        rec.SetFaceNormal(ray, outwardNormal);
-        rec.Material = Material;
-
-        return true;
+        return false;
     }
 }
+
+
 
