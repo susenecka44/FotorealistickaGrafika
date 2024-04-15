@@ -1,7 +1,7 @@
 ﻿{
-  "Width": 1000,
-  "Height": 850,
-  "FileName": "GeneratedImages/Checkpoint4.pfm",
+  "Width": 100,
+  "Height": 85,
+  "FileName": "GeneratedImages/check.pfm",
   "CameraSettings": {
     "Position": [ 0.90, 1.00, -5.60 ],
     "Direction": [ 0.00, -0.17, 1.00 ],

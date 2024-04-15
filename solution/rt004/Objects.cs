@@ -4,23 +4,25 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Mathematics;
+
 
 public interface IHittable
 {
-    bool Hit(Ray r, float tMin, float tMax, out HitRecord rec);
+    bool Hit(Ray r, double tMin, double tMax, out HitRecord rec);
 }
 
 public struct HitRecord
 {
-    public Vector3 HitPoint;
-    public Vector3 Normal;
-    public float T;
+    public Vector3d HitPoint;
+    public Vector3d Normal;
+    public double T;
     public bool FrontFace;
     public ObjectMaterial Material;
 
-    public void SetFaceNormal(Ray r, Vector3 outwardNormal)
+    public void SetFaceNormal(Ray r, Vector3d outwardNormal)
     {
-        FrontFace = Vector3.Dot(r.Direction, outwardNormal) < 0;
+        FrontFace = Vector3d.Dot(r.Direction, outwardNormal) < 0;
 
         if (FrontFace){
             Normal = outwardNormal;
@@ -32,38 +34,38 @@ public struct HitRecord
 
 public class Sphere : IHittable
 {
-    public Vector3 Center { get; set; }
-    public float Radius { get; set; }
+    public Vector3d Center { get; set; }
+    public double Radius { get; set; }
     public ObjectMaterial Material { get; set; }
 
-    public Sphere(Vector3 center, float radius, ObjectMaterial material)
+    public Sphere(Vector3d center, double radius, ObjectMaterial material)
     {
         Center = center;
         Radius = radius;
         Material = material;
     }
 
-    public bool Hit(Ray ray, float tMin, float tMax, out HitRecord rec)
+    public bool Hit(Ray ray, double tMin, double tMax, out HitRecord rec)
     {
         rec = new HitRecord();
-        Vector3 OriginToCenter = ray.Origin - Center;
+        Vector3d OriginToCenter = ray.Origin - Center;
         // at^2 + bt + c = 0
         // This coefficient represents the dot product of the ray's direction vector with itself
-        float a = ray.Direction.LengthSquared();
-        float half_b = Vector3.Dot(OriginToCenter, ray.Direction);
-        float c = OriginToCenter.LengthSquared() - Radius * Radius;
-        float discriminant = half_b * half_b - a * c;
+        double a = ray.Direction.LengthSquared();
+        double half_b = Vector3d.Dot(OriginToCenter, ray.Direction);
+        double c = OriginToCenter.LengthSquared() - Radius * Radius;
+        double discriminant = half_b * half_b - a * c;
 
         if (discriminant > 0)
         {
-            float root = MathF.Sqrt(discriminant);
-            float temp = (-half_b - root) / a;
+            double root = Math.Sqrt(discriminant);
+            double temp = (-half_b - root) / a;
             rec.Material = Material;
             if (temp < tMax && temp > tMin)
             {
                 rec.T = temp;
                 rec.HitPoint = ray.PointAtParameter(rec.T);
-                Vector3 outwardNormal = (rec.HitPoint - Center) / Radius;
+                Vector3d outwardNormal = (rec.HitPoint - Center) / Radius;
                 rec.SetFaceNormal(ray, outwardNormal);
                 return true;
             }
@@ -72,7 +74,7 @@ public class Sphere : IHittable
             {
                 rec.T = temp;
                 rec.HitPoint = ray.PointAtParameter(rec.T);
-                Vector3 outwardNormal = (rec.HitPoint - Center) / Radius;
+                Vector3d outwardNormal = (rec.HitPoint - Center) / Radius;
                 rec.SetFaceNormal(ray, outwardNormal);
                 return true;
             }
@@ -83,26 +85,26 @@ public class Sphere : IHittable
 
 public class Plane : IHittable
 {
-    public Vector3 Point { get; set; } // A point on the plane
-    public Vector3 Normal { get; set; } // The normal vector to the plane
+    public Vector3d Point { get; set; } // A point on the plane
+    public Vector3d Normal { get; set; } // The normal vector to the plane
     public ObjectMaterial Material { get; set; } // The material of the plane
 
-    public Plane(Vector3 point, Vector3 normal, ObjectMaterial material)
+    public Plane(Vector3d point, Vector3d normal, ObjectMaterial material)
     {
         Point = point;
-        Normal = Vector3.Normalize(normal); // Ensure the normal is normalized
+        Normal = Vector3d.Normalize(normal); // Ensure the normal is normalized
         Material = material;
     }
 
-    public bool Hit(Ray r, float tMin, float tMax, out HitRecord rec)
+    public bool Hit(Ray r, double tMin, double tMax, out HitRecord rec)
     {
         rec = new HitRecord();
-        float denominator = Vector3.Dot(Normal, r.Direction);
+        double denominator = Vector3d.Dot(Normal, r.Direction);
 
         if (Math.Abs(denominator) > 1e-6) // Check if the ray is parallel to the plane
         {
-            Vector3 originToPoint = Point - r.Origin;
-            float t = Vector3.Dot(originToPoint, Normal) / denominator;
+            Vector3d originToPoint = Point - r.Origin;
+            double t = Vector3d.Dot(originToPoint, Normal) / denominator;
 
             if (t >= tMin && t <= tMax) // Check if the t value is within bounds
             {
@@ -120,15 +122,15 @@ public class Plane : IHittable
 
 public class Cube : IHittable
 {
-    public Vector3 Center { get; private set; }
-    public Vector3 Size { get; private set; }
-    private Vector3 Min;
-    private Vector3 Max;
+    public Vector3d Center { get; private set; }
+    public Vector3d Size { get; private set; }
+    private Vector3d Min;
+    private Vector3d Max;
     public ObjectMaterial Material { get; set; }
-    public float RotationY { get; set; } // Rotation around the Y axis in degrees
+    public double RotationY { get; set; } // Rotation around the Y axis in degrees
     private List<Plane> planes = new List<Plane>();
 
-    public Cube(Vector3 center, Vector3 size, ObjectMaterial material, float rotationY)
+    public Cube(Vector3d center, Vector3d size, ObjectMaterial material, double rotationY)
     {
         Center = center;
         Size = size;
@@ -149,52 +151,52 @@ public class Cube : IHittable
     {
         planes = new List<Plane>
         {
-            new Plane(Max, Vector3.UnitY, Material), // Top
-            new Plane(Min, -Vector3.UnitY, Material), // Bottom
-            new Plane(Min, -Vector3.UnitX, Material), // Left
-            new Plane(Max, Vector3.UnitX, Material), // Right
-            new Plane(Min, -Vector3.UnitZ, Material), // Front
-            new Plane(Max, Vector3.UnitZ, Material) // Back
+            new Plane(Max, Vector3d.UnitY, Material), // Top
+            new Plane(Min, -Vector3d.UnitY, Material), // Bottom
+            new Plane(Min, -Vector3d.UnitX, Material), // Left
+            new Plane(Max, Vector3d.UnitX, Material), // Right
+            new Plane(Min, -Vector3d.UnitZ, Material), // Front
+            new Plane(Max, Vector3d.UnitZ, Material) // Back
         };
     }
 
-    public void SetPosition(Vector3 newCenter)
+    public void SetPosition(Vector3d newCenter)
     {
         Center = newCenter;
         UpdateMinMax();
         InitializePlanes(); // Re-initialize planes as Min and Max have changed
     }
 
-    private Vector3 RotateVectorY(Vector3 v, float degrees)
+    private Vector3d RotateVectorY(Vector3d v, double degrees)
     {
-        float radians = degrees * (MathF.PI / 180.0f);
-        float cosTheta = MathF.Cos(radians);
-        float sinTheta = MathF.Sin(radians);
-        return new Vector3(
+        double radians = degrees * (Math.PI / 180.0f);
+        double cosTheta = Math.Cos(radians);
+        double sinTheta = Math.Sin(radians);
+        return new Vector3d(
             v.X * cosTheta + v.Z * sinTheta,
             v.Y,
             -v.X * sinTheta + v.Z * cosTheta
         );
     }
 
-    public bool Hit(Ray r, float tMin, float tMax, out HitRecord rec)
+    public bool Hit(Ray r, double tMin, double tMax, out HitRecord rec)
     {
         // Transform the ray to the cube's local space (including rotation)
-        Vector3 rotatedOrigin = RotateVectorY(r.Origin - Center, -RotationY) + Center;
-        Vector3 rotatedDirection = RotateVectorY(r.Direction, -RotationY);
+        Vector3d rotatedOrigin = RotateVectorY(r.Origin - Center, -RotationY) + Center;
+        Vector3d rotatedDirection = RotateVectorY(r.Direction, -RotationY);
         Ray rotatedRay = new Ray(rotatedOrigin, rotatedDirection);
 
         // Perform the intersection test with the transformed ray
         rec = new HitRecord();
-        Vector3 invD = new Vector3(1.0f / rotatedRay.Direction.X, 1.0f / rotatedRay.Direction.Y, 1.0f / rotatedRay.Direction.Z);
-        Vector3 t0s = (Min - rotatedRay.Origin) * invD;
-        Vector3 t1s = (Max - rotatedRay.Origin) * invD;
+        Vector3d invD = new Vector3d(1.0f / rotatedRay.Direction.X, 1.0f / rotatedRay.Direction.Y, 1.0f / rotatedRay.Direction.Z);
+        Vector3d t0s = (Min - rotatedRay.Origin) * invD;
+        Vector3d t1s = (Max - rotatedRay.Origin) * invD;
 
-        Vector3 tMinVec = Vector3.Min(t0s, t1s);
-        Vector3 tMaxVec = Vector3.Max(t0s, t1s);
+        Vector3d tMinVec = Vector3dExtensions.Min(t0s, t1s);
+        Vector3d tMaxVec = Vector3dExtensions.Max(t0s, t1s);
 
-        float tMinSlab = Math.Max(tMinVec.X, Math.Max(tMinVec.Y, tMinVec.Z));
-        float tMaxSlab = Math.Min(tMaxVec.X, Math.Min(tMaxVec.Y, tMaxVec.Z));
+        double tMinSlab = Math.Max(tMinVec.X, Math.Max(tMinVec.Y, tMinVec.Z));
+        double tMaxSlab = Math.Min(tMaxVec.X, Math.Min(tMaxVec.Y, tMaxVec.Z));
 
         if (tMaxSlab < 0 || tMinSlab > tMaxSlab)
         {
@@ -205,18 +207,18 @@ public class Cube : IHittable
         rec.T = isEntering ? tMinSlab : tMaxSlab;
         rec.HitPoint = rotatedRay.PointAtParameter(rec.T);
         // Calculate normal based on intersection
-        rec.Normal = Vector3.Zero; // Initialize the normal
+        rec.Normal = Vector3d.Zero; // Initialize the normal
         if (isEntering)
         {
-            if (tMinSlab == tMinVec.X) rec.Normal = invD.X < 0 ? Vector3.UnitX : -Vector3.UnitX;
-            if (tMinSlab == tMinVec.Y) rec.Normal = invD.Y < 0 ? Vector3.UnitY : -Vector3.UnitY;
-            if (tMinSlab == tMinVec.Z) rec.Normal = invD.Z < 0 ? Vector3.UnitZ : -Vector3.UnitZ;
+            if (tMinSlab == tMinVec.X) rec.Normal = invD.X < 0 ? Vector3d.UnitX : -Vector3d.UnitX;
+            if (tMinSlab == tMinVec.Y) rec.Normal = invD.Y < 0 ? Vector3d.UnitY : -Vector3d.UnitY;
+            if (tMinSlab == tMinVec.Z) rec.Normal = invD.Z < 0 ? Vector3d.UnitZ : -Vector3d.UnitZ;
         }
         else
         {
-            if (tMaxSlab == tMaxVec.X) rec.Normal = invD.X < 0 ? -Vector3.UnitX : Vector3.UnitX;
-            if (tMaxSlab == tMaxVec.Y) rec.Normal = invD.Y < 0 ? -Vector3.UnitY : Vector3.UnitY;
-            if (tMaxSlab == tMaxVec.Z) rec.Normal = invD.Z < 0 ? -Vector3.UnitZ : Vector3.UnitZ;
+            if (tMaxSlab == tMaxVec.X) rec.Normal = invD.X < 0 ? -Vector3d.UnitX : Vector3d.UnitX;
+            if (tMaxSlab == tMaxVec.Y) rec.Normal = invD.Y < 0 ? -Vector3d.UnitY : Vector3d.UnitY;
+            if (tMaxSlab == tMaxVec.Z) rec.Normal = invD.Z < 0 ? -Vector3d.UnitZ : Vector3d.UnitZ;
         }
 
         // Transform the normal back to the world space (considering rotation)

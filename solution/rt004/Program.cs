@@ -4,6 +4,7 @@ using System.Numerics;
 using Util;
 using System.Drawing;
 using System;
+using OpenTK.Mathematics;
 
 namespace rt004;
 public class Options
@@ -65,8 +66,8 @@ internal class Program
     private static void ProcessAndGenerateImage(int width, int height, string fileName, List<Material> materials, List<SceneObject> objectsInScene, List<Light> lights, CameraSettings cameraSettings, AlgorithmSettings algorithmSettings)
     {
         
-        ICamera camera = new PerspectiveCamera(new Vector3(cameraSettings.Position[0], cameraSettings.Position[1], cameraSettings.Position[2]), width, height, cameraSettings.FOVAngle, new Vector3(cameraSettings.Direction[0], cameraSettings.Direction[1], cameraSettings.Direction[2]));
-        IRayTracer raytracer = new Raytracer(new Vector3(cameraSettings.BackgroundColor[0], cameraSettings.BackgroundColor[1], cameraSettings.BackgroundColor[2]), algorithmSettings.MaxDepth, algorithmSettings.MinimalPerformance, algorithmSettings.ShadowsEnabled, algorithmSettings.ReflectionsEnabled, algorithmSettings.RefractionsEnabled);
+        ICamera camera = new PerspectiveCamera(new Vector3d(cameraSettings.Position[0], cameraSettings.Position[1], cameraSettings.Position[2]), width, height, cameraSettings.FOVAngle, new Vector3d(cameraSettings.Direction[0], cameraSettings.Direction[1], cameraSettings.Direction[2]));
+        IRayTracer raytracer = new Raytracer(new Vector3d(cameraSettings.BackgroundColor[0], cameraSettings.BackgroundColor[1], cameraSettings.BackgroundColor[2]), algorithmSettings.MaxDepth, algorithmSettings.MinimalPerformance, algorithmSettings.ShadowsEnabled, algorithmSettings.ReflectionsEnabled, algorithmSettings.RefractionsEnabled);
         List<LightSource> lightSources = new List<LightSource>();
         List<IHittable> scene = new List<IHittable>();
 
@@ -82,11 +83,11 @@ internal class Program
         {
             if (light.Type == "PointLight")
             {
-                lightSources.Add(new PointLight(new Vector3(light.Position[0], light.Position[1], light.Position[2]), new Vector3(light.Color[0], light.Color[1], light.Color[2])));
+                lightSources.Add(new PointLight(new Vector3d(light.Position[0], light.Position[1], light.Position[2]), new Vector3d(light.Color[0], light.Color[1], light.Color[2])));
             }
             else if (light.Type == "AmbientLight")
             {
-                lightSources.Add(new AmbientLight(new Vector3(light.Color[0], light.Color[1], light.Color[2]), light.Intensity));
+                lightSources.Add(new AmbientLight(new Vector3d(light.Color[0], light.Color[1], light.Color[2]), light.Intensity));
             }
         }
 
@@ -97,13 +98,13 @@ internal class Program
             switch (obj.Type.ToLower())
             {
                 case "sphere":
-                    scene.Add(new Sphere(new Vector3(obj.Position[0], obj.Position[1], obj.Position[2]), obj.Radius, material));
+                    scene.Add(new Sphere(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), obj.Radius, material));
                     break;
                 case "cube":
-                    scene.Add(new Cube(new Vector3(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3(obj.Size[0], obj.Size[1], obj.Size[2]), material, obj.RotationAngle));
+                    scene.Add(new Cube(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3d(obj.Size[0], obj.Size[1], obj.Size[2]), material, obj.RotationAngle));
                     break;
                 case "plane":
-                    scene.Add(new Plane(new Vector3(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3(obj.Normal[0], obj.Normal[1], obj.Normal[2]), material));
+                    scene.Add(new Plane(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3d(obj.Normal[0], obj.Normal[1], obj.Normal[2]), material));
                     break;
             }
         }
@@ -140,12 +141,12 @@ internal class Program
         {
             for (int i = 0; i < width; ++i)
             {
-                Vector3 color = new Vector3(0, 0, 0); // Initialize color accumulator
+                Vector3d color = new Vector3d(0, 0, 0); // Initialize color accumulator
 
                 // antialias
                 aliasAlgorithm.PixelAlias(ref color, ref i, ref j, ref width, ref height, ref camera, ref raytracer, ref algorithmSettings, ref scene, ref lightSources);
 
-                float[] convertedColor = { color.X / 255.0F, color.Y / 255.0F, color.Z / 255.0F };   // R, G, B
+                float[] convertedColor = { (float)color.X / 255.0F, (float)color.Y / 255.0F, (float)color.Z / 255.0F };   // R, G, B
                 fi.PutPixel(i, j, convertedColor);
             }
         }

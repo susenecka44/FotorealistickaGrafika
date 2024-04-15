@@ -1,48 +1,43 @@
 ﻿using rt004;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 public class Material
 {
     public string Name { get; set; }
-    public float[] Color { get; set; }
-    public float Ambient { get; set; }
-    public float Diffuse { get; set; }
-    public float Specular { get; set; }
-    public float Shininess { get; set; }
-    public float Reflectivity { get; set; }
-    public float Refractivity { get; set; }
+    public double[] Color { get; set; }
+    public double Ambient { get; set; }
+    public double Diffuse { get; set; }
+    public double Specular { get; set; }
+    public double Shininess { get; set; }
+    public double Reflectivity { get; set; }
+    public double Refractivity { get; set; }
 }
 
 public class SceneObject
 {
     public string Type { get; set; }
-    public float[] Position { get; set; }
-    public float Radius { get; set; } // For spheres
-    public float[] Size { get; set; } // For cubes 
-    public float[] Normal { get; set; } // For planes
+    public double[] Position { get; set; }
+    public double Radius { get; set; } // For spheres
+    public double[] Size { get; set; } // For cubes 
+    public double[] Normal { get; set; } // For planes
     public string Material { get; set; }
-    public float RotationAngle { get; set; } // Optional, for cubes
+    public double RotationAngle { get; set; } // Optional, for cubes
 }
 
 public class Light
 {
     public string Type { get; set; }
-    public float[] Position { get; set; }
-    public float[] Color { get; set; }
-    public float Intensity { get; set; } // For ambient light
+    public double[] Position { get; set; }
+    public double[] Color { get; set; }
+    public double Intensity { get; set; } // For ambient light
 }
 
 
 public class CameraSettings
 {
-    public float[] Position { get; set; }
-    public float[] Direction { get; set; }
-    public float[] BackgroundColor { get; set; }
-    public float FOVAngle { get; set; }
+    public double[] Position { get; set; }
+    public double[] Direction { get; set; }
+    public double[] BackgroundColor { get; set; }
+    public double FOVAngle { get; set; }
 }
 
 public class AlgorithmSettings
@@ -52,7 +47,7 @@ public class AlgorithmSettings
     public bool RefractionsEnabled { get; set; }
     public int MaxDepth { get; set; }
     public int SamplesPerPixel { get; set; }
-    public float MinimalPerformance { get; set; }
+    public double MinimalPerformance { get; set; }
     public string AntiAliasing { get; set; }
     public string RayTracer { get; set; }
 }
