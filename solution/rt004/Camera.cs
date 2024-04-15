@@ -22,7 +22,7 @@ public class Ray
 }
 
 
-interface ICamera
+public interface ICamera
 {
     public Ray GetRay(float u, float v);
 }

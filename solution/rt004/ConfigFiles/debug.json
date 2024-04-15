@@ -12,10 +12,11 @@
     "ShadowsEnabled": true,
     "ReflectionsEnabled": true,
     "RefractionsEnabled": true,
-    "AntiAliasing": true,
     "SamplesPerPixel": 10,
     "MaxDepth": 7,
-    "MinimalPerformance": 0.001
+    "MinimalPerformance": 0.001,
+    "AntiAliasing": "RandomAliasing",
+    "RayTracer": "basic"
   },
   "Materials": [
     {

@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks;
 
-interface IRaycaser
+public interface IRayTracer
 {
-
+    public Vector3 TraceRay(Ray r, List<IHittable> world, List<LightSource> lights, int depth);
+    public Vector3 RayColor(Ray r, List<IHittable> world, List<LightSource> lights);
 }
 
-
-
-
-
-public class Raytracer
+public class Raytracer : IRayTracer
 {
     private Vector3 backgroundColor;
     private bool RenderShadows;
@@ -161,7 +158,8 @@ public class Raytracer
     }
 }
 
-// for refractions
+
+// calculatios for refractions
 public class Calculations
 {
     public static Vector3 ComputeRefractedDirection(Vector3 direction, Vector3 normal, float refractivity, bool isOutside)

@@ -1,6 +1,6 @@
 {
-  "Width": 1000,
-  "Height": 850,
+  "Width": 100,
+  "Height": 85,
   "FileName": "GeneratedImages/Image.pfm",
   "CameraSettings": {
     "Position": [ 0.80, 0.00, -5.60 ],
@@ -13,7 +13,9 @@
     "ReflectionsEnabled": true,
     "SamplesPerPixel": 5,
     "MaxDepth": 5,
-    "MinimalPerformance": 0.001
+    "MinimalPerformance": 0.001,
+    "AntiAliasing": "RandomAliasing",
+    "RayTracer": "basic"
   },
   "Materials": [
     {
