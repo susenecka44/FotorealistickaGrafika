@@ -116,11 +116,20 @@ internal class Program
             case "NoAliasing":
                 aliasAlgorithm = new NoAliasing();
                 break;
-            case "RandomAliasing":
-                aliasAlgorithm = new RandomAliasing();
+            case "JitteredSamplingAliasing":
+                aliasAlgorithm = new JitteredSamplingAliasing();
+                break;
+            case "SupersamplingAliasing":
+                aliasAlgorithm = new SupersamplingAliasing();
+                break;
+            case "HammersleyAliasing":
+                aliasAlgorithm = new HammersleyAliasing();
+                break;
+            case "CorrelatedMultiJitteredAliasing":
+                aliasAlgorithm = new CorrelatedMultiJitteredAliasing();
                 break;
             default:
-                aliasAlgorithm = new RandomAliasing();
+                aliasAlgorithm = new JitteredSamplingAliasing();
                 break;
         }
 

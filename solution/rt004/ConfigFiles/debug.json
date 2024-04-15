@@ -15,7 +15,7 @@
     "SamplesPerPixel": 10,
     "MaxDepth": 7,
     "MinimalPerformance": 0.001,
-    "AntiAliasing": "RandomAliasing",
+    "AntiAliasing": "JitteredSamplingAliasing",
     "RayTracer": "basic"
   },
   "Materials": [
