@@ -48,10 +48,14 @@ internal class Program
                     }
                 }
 
+
                 try
                 {
-                    // sceneConfig cant be null - checked before
-                   ProcessAndGenerateImage(ref sceneConfig);
+                    if (sceneConfig != null)
+                    {
+                        // sceneConfig cant be null - checked before, but I dont want any warnings :]
+                        ProcessAndGenerateImage(ref sceneConfig);
+                    }
 
                 }
                 catch
@@ -82,22 +86,38 @@ internal class Program
         // Loading light sources
         foreach (var light in config.Lights)
         {
-            if (light.Type == "Point")
+            if (light.Type == "PointLight")
             {
                 lightSources.Add(new PointLight(new Vector3d(light.Position[0], light.Position[1], light.Position[2]), new Vector3d(light.Color[0], light.Color[1], light.Color[2]), light.Intensity));
             }
-            else if (light.Type == "Ambient")
+            else if (light.Type == "AmbientLight")
             {
                 lightSources.Add(new AmbientLight(new Vector3d(light.Color[0], light.Color[1], light.Color[2]), light.Intensity));
             }
         }
 
-        // Adding objects to the scene based on the loaded materials
-        foreach (var obj in config.ObjectsInScene)
+        // load the object prefabs:
+        Dictionary<string, List<PrimitiveObject>> prefabs = new Dictionary<string, List<PrimitiveObject>>();
+        foreach (var prefab in config.ObjectsInScene)
         {
-            foreach (var shape in obj.BasicShapes)
+            List<PrimitiveObject> components = new List<PrimitiveObject>();
+            foreach (var shape in prefab.BasicShapes)
             {
-                AddSceneObject(shape, loadedMaterials, sceneObjects);
+                components.Add(shape);
+            }
+            prefabs.Add(prefab.Name, components);
+        }
+
+
+        // Adding objects to the scene based on the loaded materials
+        foreach (var obj in config.Scene)
+        {
+            if (prefabs.ContainsKey(obj.Type))
+            {
+                foreach (var shape in prefabs[obj.Type])
+                {
+                    AddSceneObject(shape, loadedMaterials, sceneObjects, obj);
+                }
             }
         }
 
@@ -109,23 +129,26 @@ internal class Program
         SaveFile(config.FileName, fi);
     }
 
-    private static void AddSceneObject(PrimitiveObject obj, Dictionary<string, ObjectMaterial> loadedMaterials, List<IHittable> scene)
+    private static void AddSceneObject(PrimitiveObject obj, Dictionary<string, ObjectMaterial> loadedMaterials, List<IHittable> scene, ObjectInScene parent )
     {
         ObjectMaterial material = loadedMaterials[obj.Material];
-        IHittable hittable = null;
+        IHittable hittable;
+        Vector3d objPosition = new Vector3d(obj.Position[0] + parent.Position[0], obj.Position[1] + parent.Position[2], obj.Position[2] + parent.Position[2]);
         switch (obj.Type.ToLower())
         {
             case "sphere":
-                hittable = new Sphere(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), obj.Radius, material);
+                hittable = new Sphere(objPosition, obj.Radius * parent.Scale[0], material);
                 break;
             case "cube":
-                hittable = new Cube(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3d(obj.Size[0], obj.Size[1], obj.Size[2]), material, obj.RotationAngle);
+                Vector3d objSize = new Vector3d(obj.Size[0] * parent.Scale[0], obj.Size[1] * parent.Scale[1], obj.Size[2] * parent.Scale[2]);
+                hittable = new Cube(objPosition, objSize, material, obj.RotationAngle);
                 break;
             case "plane":
-                hittable = new Plane(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), new Vector3d(obj.Normal[0], obj.Normal[1], obj.Normal[2]), material);
+                Vector3d objRotation = new Vector3d(obj.Normal[0] + parent.Rotation[0], obj.Normal[1] + parent.Rotation[1], obj.Normal[2] + parent.Rotation[2]);
+                hittable = new Plane(objPosition, objRotation, material);
                 break;
             case "cylinder":
-                hittable = new Cylinder(new Vector3d(obj.Position[0], obj.Position[1], obj.Position[2]), obj.Height, obj.Radius, material);
+                hittable = new Cylinder(objPosition, obj.Height, obj.Radius, material);
                 break;
             default:
                 throw new InvalidOperationException("Unknown object type.");

@@ -1,6 +1,6 @@
 ﻿{
-  "Width": 800,
-  "Height": 650,
+  "Width": 400,
+  "Height": 350,
   "FileName": "GeneratedImages/image.pfm",
   "CameraSettings": {
     "Position": [ 0.90, 1.00, -5.60 ],
@@ -148,26 +148,16 @@
     {
       "Type": "Tree",
       "Position": [ 0, 0.5, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Scale": [ 0.5, 0.5, 0.5 ]
     },
     {
-      "Type": "YellowSphere",
-      "Position": [ 0, 0, 0 ],
-      "Scale": [ 1, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
-    },
-    {
-      "Type": "GlassCube",
-      "Position": [ 1.5, 1, 0 ],
-      "Scale": [ 0.6, 0.6, 0.6 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Type": "Tree",
+      "Position": [ 0, 2, 0 ],
+      "Scale": [ 0.5, 0.5, 0.5 ]
     },
     {
       "Type": "Floor",
-      "Position": [ 0, -1, 0 ],
-      "Scale": [ 1, 1, 1 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ 0, -1, 0 ]
     }
   ],
   "Lights": [
