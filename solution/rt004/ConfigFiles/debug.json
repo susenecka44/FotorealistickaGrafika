@@ -3,7 +3,7 @@
   "Height": 650,
   "FileName": "GeneratedImages/forrest.pfm",
   "CameraSettings": {
-    "Position": [ 0.90, 1.00, -5.60 ],
+    "Position": [ 0.90, 1, -7 ],
     "Direction": [ 0.00, -0.17, 1.00 ],
     "BackgroundColor": [ 25, 50, 75 ],
     "FOVAngle": 40
@@ -189,104 +189,78 @@
   "Scene": [
     {
       "Type": "Tree",
-      "Position": [ 0, 0, 0 ],
+      "Position": [ -2, 0, 0 ],
       "Scale": [ 1, 1, 1 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 1.5, 0, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ 2, 0, 0 ],
+      "Scale": [ 1, 1, 1 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 1.5, 1, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ -2, 0, -2 ],
+      "Scale": [ 0.8, 0.8, 0.8 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 1.5, -1, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ 2, 0, -2 ],
+      "Scale": [ 0.8, 0.8, 0.8 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 3, 0, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ 0, 0, -1 ],
+      "Scale": [ 0.9, 0.9, 0.9 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 3, 1, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ -1, 0, -3 ],
+      "Scale": [ 0.7, 0.7, 0.7 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 3, -1, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ 1, 0, -3 ],
+      "Scale": [ 0.7, 0.7, 0.7 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 4.5, 0, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ -3, 0, -4 ],
+      "Scale": [ 0.6, 0.6, 0.6 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 4.5, 1, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ 3, 0, -4 ],
+      "Scale": [ 0.6, 0.6, 0.6 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 4.5, -1, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ 0, 0, -5 ],
+      "Scale": [ 0.5, 0.5, 0.5 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 6, 0, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ -2, 0, -6 ],
+      "Scale": [ 0.65, 0.65, 0.65 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 6, 1, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ 2, 0, -6 ],
+      "Scale": [ 0.65, 0.65, 0.65 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 6, -1, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ -3, 0, -7 ],
+      "Scale": [ 0.75, 0.75, 0.75 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 7.5, 0, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
+      "Position": [ 3, 0, -7 ],
+      "Scale": [ 0.75, 0.75, 0.75 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 7.5, 1, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
-    },
-    {
-      "Type": "Tree",
-      "Position": [ 7.5, -1, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ],
-      "Rotation": [ 0, 0, 0 ]
-    },
-    {
-      "Type": "Tree",
-      "Position": [ 9, 0, 0 ],
-      "Scale": [ 0.75, 0.5, 0.5 ],
-      "Rotation": [ 0.3, 0, 0.6 ]
+      "Position": [ 0, 0, -8 ],
+      "Scale": [ 0.85, 0.85, 0.85 ]
     },
     {
       "Type": "YellowSphere",
@@ -295,8 +269,14 @@
       "Rotation": [ 0, 0, 1 ]
     },
     {
+      "Type": "YellowSphere",
+      "Position": [ -1, 1.2, 0 ],
+      "Scale": [ 0.1, 0.1, 0.1 ],
+      "Rotation": [ 0, 0, 1 ]
+    },
+    {
       "Type": "GlassCube",
-      "Position": [ 2, -0.50, 0 ],
+      "Position": [ 2, -0.5, -0.2 ],
       "Scale": [ 0.4, 0.4, 0.4 ],
       "Rotation": [ 0, 0, 1 ]
     },

@@ -104,6 +104,13 @@ internal class Program
             List<PrimitiveObject> components = new List<PrimitiveObject>();
             foreach (var shape in prefab.BasicShapes)
             {
+                if (prefabs.ContainsKey(shape.Type))
+                {
+                    foreach (var subshape in prefabs[shape.Type])
+                    {
+                        components.Add(subshape);
+                    }
+                }
                 components.Add(shape);
             }
             prefabs.Add(prefab.Name, components);
@@ -201,6 +208,7 @@ internal class Program
 
     private static FloatImage GeneratePicture(IAliasingAlgorithm aliasAlgorithm, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
     {
+        Console.WriteLine("Generating... ");
         FloatImage fi = new FloatImage(width, height, 3);
         object lockerThingy = new object();
         //  Parallel.For to spread pixel processing across multiple threads

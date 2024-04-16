@@ -24,6 +24,8 @@ public class PrimitiveObject
     public string Material { get; set; } = "Default";
     public double RotationAngle { get; set; } = 0.0; // cube
     public double Height { get; set; } = 1.0;// cylinder
+    public double[] Scale { get; set; } = new double[] { 1, 1, 1 }; // for nested objects
+    public double[] Rotation { get; set; } = new double[] { 0, 0, 0 }; // for nested objects
 }
 
 public class Object
