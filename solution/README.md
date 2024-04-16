@@ -16,10 +16,10 @@ List all the arguments here, with default values.
 
 | Argument | Description | Default Value |
 |----------|-------------|---------------|
-| `-w`, `--width` | Image width. | `600` |
-| `-h`, `--height` | Image height. | `400` |
-| `-f`, `--file` | Output file name. | `"picture.hdr"` |
-| `-c`, `--config` | Configuration file path. | |
+| `-w`, `--width` | Image width in pixels. | `600` |
+| `-h`, `--height` | Image height in pixels. | `400` |
+| `-f`, `--file` | Output file name. | `"picture.pfm"` |
+| `-c`, `--config` | Configuration file path. | `"config.json"` |
 
 ## Input Data
 
@@ -27,7 +27,7 @@ List all the arguments here, with default values.
 
 - `-w, --width`: Set the width of the output image (default: 600 pixels).
 - `-h, --height`: Set the height of the output image (default: 400 pixels).
-- `-f, --file`: Specify the output file name (default: `picture.hdr`).
+- `-f, --file`: Specify the output file name (default: `picture.pfm`).
 - `-c, --config`: Path to the configuration file to use (default: `config.json`).
 
 ## Configuration File
@@ -52,7 +52,7 @@ The application can be customized using a JSON configuration file. Here's a deta
 - `ShadowsEnabled`: Enable/disable shadow rendering.
 - `ReflectionsEnabled`: Enable/disable reflections rendering.
 - `RefractionsEnabled`: Enable/disable refractions rendering.
-- `AntiAliasing`: Enable/disable anti-aliasing.
+- `AntiAliasing`: Chooses the type of Antialiasing algorithm (NoAliasing, HammersleyAliasing, CorrelatedMultiJitteredAliasing, SupersamplingAliasing and JitteredSamplingAliasing).
 - `SamplesPerPixel`: Number of samples per pixel for anti-aliasing.
 - `MaxDepth`: Maximum recursion depth for the ray tracing algorithm.
 - `MinimalPerformance`: Threshold to avoid rendering artifacts.
@@ -88,6 +88,8 @@ Objects constitute the scene's visual elements. Each object is defined by its sh
 
 - **Plane**: An infinite two-dimensional surface, often used for floors, walls, or abstract surfaces.
 
+- **Cylinder**: An infinite two-dimensional surface, often used for columns, glasses, vases etc.
+
 #### Common Properties
 
 - `Type`: The geometric shape of the object (`Sphere`, `Cube`, or `Plane`).
@@ -115,9 +117,10 @@ Raytracing algorithm in RayTracer.cs, Intersecting with objects and creating a H
 
 ## Bonuses
 
-There are three structures - plane, sphere and cube.
+There are four basic structures - plane, sphere, cylinder and cube.
+There is an option for object hierarchy - no more copying the basic shapes :]
+Four types of antialiasing techniques: Hammersley Aliasing, Correlated Multi-Jittered Aliasing, Supersampling Aliasing and Jittered Sampling Aliasing
 Nicely done glass refractions - correct looking glass described:
-'''
 ```
   "Name": "Glass",
   "Color": [ 0.8, 0.8, 1.0 ],
@@ -128,18 +131,20 @@ Nicely done glass refractions - correct looking glass described:
   "Reflectivity": 0.2,
   "Refractivity": 1.45
 ``` 
-See Checkpoint4.pfm for generated sample scene (other images are from older versions - mostly without reflections, so their config files possibly dont work anymore)
+
 
 - Sample Scene:
-![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/ddeb69b3-f53b-4550-b0f2-445d2d466a42)
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/be882fb2-1d20-4526-9ac3-8651caa92336)
+
 configuration:
+
 ```
 {
-  "Width": 1000,
-  "Height": 850,
-  "FileName": "GeneratedImages/Checkpoint4.pfm",
+  "Width": 800,
+  "Height": 650,
+  "FileName": "GeneratedImages/forrest.pfm",
   "CameraSettings": {
-    "Position": [ 0.90, 1.00, -5.60 ],
+    "Position": [ 0.90, 1, -7 ],
     "Direction": [ 0.00, -0.17, 1.00 ],
     "BackgroundColor": [ 25, 50, 75 ],
     "FOVAngle": 40
@@ -148,10 +153,11 @@ configuration:
     "ShadowsEnabled": true,
     "ReflectionsEnabled": true,
     "RefractionsEnabled": true,
-    "AntiAliasing": true,
     "SamplesPerPixel": 10,
     "MaxDepth": 7,
-    "MinimalPerformance": 0.001
+    "MinimalPerformance": 0.001,
+    "AntiAliasing": "HammersleyAliasing",
+    "RayTracer": "basic"
   },
   "Materials": [
     {
@@ -162,6 +168,36 @@ configuration:
       "Specular": 0.2,
       "Shininess": 80,
       "Reflectivity": 0.05,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Leaves",
+      "Color": [ 0.003921, 0.196, 0.12549 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.9,
+      "Specular": 0.00000001,
+      "Shininess": 10,
+      "Reflectivity": 0,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Trunk",
+      "Color": [ 0.64, 0.2, 0.16 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.8,
+      "Specular": 0.2,
+      "Shininess": 80,
+      "Reflectivity": 0.05,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Grass",
+      "Color": [ 0.329, 0.722, 0.278 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.2,
+      "Specular": 0.02,
+      "Shininess": 1,
+      "Reflectivity": 0.01,
       "Refractivity": 0
     },
     {
@@ -227,36 +263,167 @@ configuration:
   ],
   "ObjectsInScene": [
     {
-      "Type": "Sphere",
-      "Position": [ 0, 0, 0 ],
-      "Radius": 1,
-      "Material": "BlueReflective"
+      "Name": "Tree",
+      "BasicShapes": [
+        {
+          "Type": "Cylinder",
+          "Position": [ 0, -1, 0 ],
+          "Height": 1.2,
+          "Radius": 0.1,
+          "Material": "Trunk"
+        },
+        {
+          "Type": "Sphere",
+          "Position": [ 0, 0.7, 0 ],
+          "Radius": 0.8,
+          "Material": "Leaves"
+        },
+        {
+          "Type": "Sphere",
+          "Position": [ 0.5, 0.6, 0 ],
+          "Radius": 0.4,
+          "Material": "Leaves"
+        },
+        {
+          "Type": "Sphere",
+          "Position": [ -0.2, 0.9, 0 ],
+          "Radius": 0.6,
+          "Material": "Leaves"
+        }
+      ]
     },
     {
-      "Type": "Sphere",
-      "Position": [ 1, 0, 2 ],
-      "Radius": 1,
-      "Material": "YellowMatt"
+      "Name": "YellowSphere",
+      "BasicShapes": [
+        {
+          "Type": "Sphere",
+          "Position": [ 0, 0, 0 ],
+          "Radius": 1,
+          "Material": "YellowMatt"
+        }
+      ]
     },
     {
-      "Type": "Cube",
-      "Position": [ 1.5, 1, 0 ],
-      "Size": [ 0.6, 0.6, 0.6 ],
-      "Material": "BlueReflective",
-      "Angle": 30
+      "Name": "Floor",
+      "BasicShapes": [
+        {
+          "Type": "Plane",
+          "Position": [ 0, 0, 0 ],
+          "Normal": [ 0, 1, 0 ],
+          "Material": "Grass"
+        }
+      ]
     },
     {
-      "Type": "Cube",
-      "Position": [ 2, 0.2, 0 ],
-      "Size": [ 0.4, 0.4, 0.4 ],
-      "Material": "Gold",
-      "Angle": 60
+      "Name": "GlassCube",
+      "BasicShapes": [
+        {
+          "Type": "Cube",
+          "Position": [ 0, 0, 0 ],
+          "Size": [ 1, 1, 1 ],
+          "Material": "BlueReflective",
+          "Angle": 30
+        }
+      ]
+    }
+  ],
+  "Scene": [
+    {
+      "Type": "Tree",
+      "Position": [ -2, 0, 0 ],
+      "Scale": [ 1, 1, 1 ]
     },
     {
-      "Type": "Plane",
-      "Position": [ 0.0, -1.3, 0.0 ],
-      "Normal": [ 0, 1, 0 ],
-      "Material": "Black"
+      "Type": "Tree",
+      "Position": [ 2, 0, 0 ],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ -2, 0, -2 ],
+      "Scale": [ 0.8, 0.8, 0.8 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 2, 0, -2 ],
+      "Scale": [ 0.8, 0.8, 0.8 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 0, 0, -1 ],
+      "Scale": [ 0.9, 0.9, 0.9 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ -1, 0, -3 ],
+      "Scale": [ 0.7, 0.7, 0.7 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 1, 0, -3 ],
+      "Scale": [ 0.7, 0.7, 0.7 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ -3, 0, -4 ],
+      "Scale": [ 0.6, 0.6, 0.6 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 3, 0, -4 ],
+      "Scale": [ 0.6, 0.6, 0.6 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 0, 0, -5 ],
+      "Scale": [ 0.5, 0.5, 0.5 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ -2, 0, -6 ],
+      "Scale": [ 0.65, 0.65, 0.65 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 2, 0, -6 ],
+      "Scale": [ 0.65, 0.65, 0.65 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ -3, 0, -7 ],
+      "Scale": [ 0.75, 0.75, 0.75 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 3, 0, -7 ],
+      "Scale": [ 0.75, 0.75, 0.75 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 0, 0, -8 ],
+      "Scale": [ 0.85, 0.85, 0.85 ]
+    },
+    {
+      "Type": "YellowSphere",
+      "Position": [ 0.5, 1.3, 0 ],
+      "Scale": [ 0.1, 0.1, 0.1 ],
+      "Rotation": [ 0, 0, 1 ]
+    },
+    {
+      "Type": "YellowSphere",
+      "Position": [ -1, 1.2, 0 ],
+      "Scale": [ 0.1, 0.1, 0.1 ],
+      "Rotation": [ 0, 0, 1 ]
+    },
+    {
+      "Type": "GlassCube",
+      "Position": [ 2, -0.5, -0.2 ],
+      "Scale": [ 0.4, 0.4, 0.4 ],
+      "Rotation": [ 0, 0, 1 ]
+    },
+    {
+      "Type": "Floor",
+      "Position": [ 0, -1, 0 ]
     }
   ],
   "Lights": [
@@ -277,8 +444,82 @@ configuration:
     }
   ]
 }
-
 ```
+### Loader classes description and default values
+
+#### Material Class
+Defines the visual characteristics of object surfaces.
+- **Name**: Identifier for the material. Default: "Default".
+- **Color**: Base color of the material, given as `[R, G, B]`. Default: `[1.0, 1.0, 1.0]`.
+- **Ambient**: Ambient reflectance coefficient. Default: `0.1`.
+- **Diffuse**: Diffuse reflectance coefficient. Default: `0.9`.
+- **Specular**: Specular reflectance coefficient. Default: `0.5`.
+- **Shininess**: Sharpness of the specular highlights. Default: `200.0`.
+- **Reflectivity**: Strength of reflections from the surface. Default: `0.0`.
+- **Refractivity**: Index of refraction for the material. Default: `0.0`.
+
+#### PrimitiveObject Class
+Represents basic geometric shapes for constructing objects.
+- **Type**: Type of the primitive object. Default: "Sphere".
+- **Position**: 3D position of the object. Default: `[0.0, 0.0, 0.0]`.
+- **Radius**: Radius, applicable to spheres and cylinders. Default: `1.0`.
+- **Size**: Dimensions, used for cubes. Default: `[1.0, 1.0, 1.0]`.
+- **Normal**: Normal vector, relevant for planes. Default: `[0.0, 1.0, 0.0]`.
+- **Material**: Material assigned to this object. Default: "Default".
+- **RotationAngle**: Rotation angle around the Y-axis, used for cubes. Default: `0.0`.
+- **Height**: Height, used for cylinders. Default: `1.0`.
+- **Scale**: Scaling factors for nested objects. Default: `[1, 1, 1]`.
+- **Rotation**: Rotation angles for nested objects. Default: `[0, 0, 0]`.
+
+#### Object Class
+Represents complex objects composed of one or more `PrimitiveObject`.
+- **Name**: Name of the complex object. Default: "Object".
+- **BasicShapes**: List of `PrimitiveObject` constituting the complex object. Initialized as empty.
+
+#### ObjectInScene Class
+Specifies instances of objects placed within the scene.
+- **Type**: Type of object being placed. Default: "Object".
+- **Position**: 3D position of the object within the scene. Default: `[0, 0, 0]`.
+- **Scale**: Scaling factors applied to the object. Default: `[1, 1, 1]`.
+- **Rotation**: Rotation angles applied to the object. Default: `[0, 0, 0]`.
+
+#### Light Class
+Defines light sources in the scene.
+- **Type**: Type of light. Default: "Point".
+- **Position**: Position of the light. Default: `[0.0, 10.0, 0.0]`.
+- **Color**: Color of the light. Default: `[1.0, 1.0, 1.0]`.
+- **Intensity**: Intensity of the light. Default: `1.0`.
+
+#### CameraSettings Class
+Configuration for the scene's camera.
+- **Position**: Camera's position. Default: `[0.0, 0.0, 5.0]`.
+- **Direction**: Direction the camera is pointing. Default: `[0.0, 0.0, -1.0]`.
+- **BackgroundColor**: Background color for the scene. Default: `[0.2, 0.2, 0.2]`.
+- **FOVAngle**: Field of view angle in degrees. Default: `90.0`.
+
+#### AlgorithmSettings Class
+Defines settings for the rendering algorithm.
+- **ReflectionsEnabled**: Toggles reflections. Default: `true`.
+- **ShadowsEnabled**: Toggles shadows. Default: `true`.
+- **RefractionsEnabled**: Toggles refractions. Default: `true`.
+- **MaxDepth**: Maximum recursion depth for ray tracing. Default: `5`.
+- **SamplesPerPixel**: Number of samples per pixel for anti-aliasing. Default: `1`.
+- **MinimalPerformance**: Performance threshold. Default: `0.0`.
+- **AntiAliasing**: Anti-aliasing algorithm used. Default: "None".
+- **RayTracer**: Type of ray tracer algorithm used. Default: "Basic".
+
+#### SceneConfig Class
+Aggregates all settings and components of the scene.
+- **Materials**: List of materials available in the scene. Initialized with one default material.
+- **Scene**: List of `ObjectInScene` describing objects placed in the scene.
+- **ObjectsInScene**: List of `Object` representing templates of complex objects.
+- **Lights**: List of `Light` representing the light sources in the scene. Initialized with one default light.
+- **CameraSettings**: Settings for the camera.
+- **AlgorithmSettings**: Settings for the rendering algorithm.
+
+### More Images
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/921fc8c6-2bf0-4a01-89be-77cbc9a3d7bc)
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/6ada726b-eeb6-4041-bef3-f3bb80fdf037)
 
 ### Use of AI
 
@@ -286,6 +527,7 @@ AI used for mostly fixing parts of code - debugging and small help.
 
 Checkpoint IV.
 - https://chat.openai.com/share/3253c7c8-56ea-4006-9030-ae4d3c33d87b
+- https://chat.openai.com/share/816487f7-756d-4939-89ea-ff8c373b55ec
 
 Checkpoint III.
 - https://chat.openai.com/share/f69f1015-9448-4923-be62-176c46bcb8c8
