@@ -38,4 +38,14 @@ public static class Vector3dExtensions
     {
         return Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y + vector.Z * vector.Z);
     }
+
+    // rotate a vector according to the matrix
+    public static Vector3d Transform(this Vector3d vector, Matrix3d matrix)
+    {
+        return new Vector3d(
+            vector.X * matrix.M11 + vector.Y * matrix.M21 + vector.Z * matrix.M31,
+            vector.X * matrix.M12 + vector.Y * matrix.M22 + vector.Z * matrix.M32,
+            vector.X * matrix.M13 + vector.Y * matrix.M23 + vector.Z * matrix.M33
+        );
+    }
 }

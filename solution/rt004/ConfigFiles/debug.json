@@ -1,7 +1,7 @@
 ﻿{
-  "Width": 400,
-  "Height": 350,
-  "FileName": "GeneratedImages/image.pfm",
+  "Width": 800,
+  "Height": 650,
+  "FileName": "GeneratedImages/forrest.pfm",
   "CameraSettings": {
     "Position": [ 0.90, 1.00, -5.60 ],
     "Direction": [ 0.00, -0.17, 1.00 ],
@@ -22,6 +22,26 @@
     {
       "Name": "YellowMatt",
       "Color": [ 1.0, 1.0, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.8,
+      "Specular": 0.2,
+      "Shininess": 80,
+      "Reflectivity": 0.05,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Leaves",
+      "Color": [ 0.003921, 0.196, 0.12549 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.6,
+      "Specular": 0.2,
+      "Shininess": 10,
+      "Reflectivity": 0.01,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Trunk",
+      "Color": [ 0.64, 0.2, 0.16 ],
       "Ambient": 0.1,
       "Diffuse": 0.8,
       "Specular": 0.2,
@@ -99,13 +119,25 @@
           "Position": [ 0, -1, 0 ],
           "Height": 1.2,
           "Radius": 0.1,
-          "Material": "BlueReflective"
+          "Material": "Trunk"
         },
         {
           "Type": "Sphere",
           "Position": [ 0, 0.7, 0 ],
           "Radius": 0.8,
-          "Material": "GreenMatt"
+          "Material": "Leaves"
+        },
+        {
+          "Type": "Sphere",
+          "Position": [ 0.5, 0.6, 0 ],
+          "Radius": 0.4,
+          "Material": "Leaves"
+        },
+        {
+          "Type": "Sphere",
+          "Position": [ -0.2, 0.9, 0 ],
+          "Radius": 0.6,
+          "Material": "Leaves"
         }
       ]
     },
@@ -121,18 +153,6 @@
       ]
     },
     {
-      "Name": "GlassCube",
-      "BasicShapes": [
-        {
-          "Type": "Cube",
-          "Position": [ 0, 0, 0 ],
-          "Size": [ 1, 1, 1 ],
-          "Material": "BlueReflective",
-          "Angle": 40
-        }
-      ]
-    },
-    {
       "Name": "Floor",
       "BasicShapes": [
         {
@@ -142,22 +162,53 @@
           "Material": "Black"
         }
       ]
+    },
+    {
+      "Name": "GlassCube",
+      "BasicShapes": [
+        {
+          "Type": "Cube",
+          "Position": [ 0, 0, 0 ],
+          "Size": [ 1, 1, 1 ],
+          "Material": "BlueReflective",
+          "Angle": 30
+        }
+      ]
     }
   ],
   "Scene": [
     {
       "Type": "Tree",
-      "Position": [ 0, 0.5, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ]
+      "Position": [ 0, 0, 0 ],
+      "Scale": [ 1, 1, 1 ]
     },
     {
       "Type": "Tree",
-      "Position": [ 1, 0, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ]
+      "Position": [ 1.5, 0, 0 ],
+      "Scale": [ 0.5, 0.5, 0.5 ],
+      "Rotation": [ 0, 0, 0 ]
+    },
+    {
+      "Type": "YellowSphere",
+      "Position": [ 0.5, 1.3, 0 ],
+      "Scale": [ 0.1, 0.1, 0.1 ],
+      "Rotation": [ 0, 0, 1 ]
+    },
+    {
+      "Type": "YellowSphere",
+      "Position": [ -1.5, 1.5, 0 ],
+      "Scale": [ 0.1, 0.1, 0.1 ],
+      "Rotation": [ 0, 0, 1 ]
     },
     {
       "Type": "GlassCube",
-      "Position": [ 1, 0, 0 ]
+      "Position": [ 2, -0.50, 0 ],
+      "Scale": [ 0.4, 0.4, 0.4 ],
+      "Rotation": [ 0, 0, 1 ]
+    },
+    {
+      "Type": "Floor",
+      "Position": [ 0, -1, 0 ]
     }
   ],
   "Lights": [

@@ -129,35 +129,51 @@ internal class Program
         SaveFile(config.FileName, fi);
     }
 
-    private static void AddSceneObject(PrimitiveObject obj, Dictionary<string, ObjectMaterial> loadedMaterials, List<IHittable> scene, ObjectInScene parent )
+    private static void AddSceneObject(PrimitiveObject obj, Dictionary<string, ObjectMaterial> loadedMaterials, List<IHittable> scene, ObjectInScene parent)
     {
         ObjectMaterial material = loadedMaterials[obj.Material];
         IHittable hittable;
-        Vector3d objPosition = new Vector3d(obj.Position[0] + parent.Position[0], obj.Position[1] + parent.Position[2], obj.Position[2] + parent.Position[2]);
+
+        // Scale and rotate position
+        Vector3d scaledPosition = new Vector3d(obj.Position[0] * parent.Scale[0], obj.Position[1] * parent.Scale[1], obj.Position[2] * parent.Scale[2]);
+        Vector3d rotatedPosition = RotateVector(scaledPosition, new Vector3d(parent.Rotation[0], parent.Rotation[1], parent.Rotation[2])); 
+        Vector3d objPosition = rotatedPosition + new Vector3d(parent.Position[0], parent.Position[1], parent.Position[2]);
+
         switch (obj.Type.ToLower())
         {
             case "sphere":
-              //  hittable = new Sphere(objPosition, obj.Radius * parent.Scale[0], material);
-                hittable = new Sphere(objPosition, obj.Radius, material);
-
+                double scaledRadius = obj.Radius * parent.Scale[0];
+                hittable = new Sphere(objPosition, scaledRadius, material);
                 break;
             case "cube":
-               // Vector3d objSize = new Vector3d(obj.Size[0] * parent.Scale[0], obj.Size[1] * parent.Scale[1], obj.Size[2] * parent.Scale[2]);
-                Vector3d objSize = new Vector3d(obj.Size[0], obj.Size[1], obj.Size[2]);
-                hittable = new Cube(objPosition, objSize, material, obj.RotationAngle);
+                Vector3d objSize = new Vector3d(obj.Size[0] * parent.Scale[0], obj.Size[1] * parent.Scale[1], obj.Size[2] * parent.Scale[2]);
+                hittable = new Cube(objPosition, objSize, material, obj.RotationAngle + parent.Rotation[1]); 
                 break;
             case "plane":
-             //   Vector3d objRotation = new Vector3d(obj.Normal[0] + parent.Rotation[0], obj.Normal[1] + parent.Rotation[1], obj.Normal[2] + parent.Rotation[2]);
-                Vector3d objRotation = new Vector3d(obj.Normal[0], obj.Normal[1], obj.Normal[2]);
-                hittable = new Plane(objPosition, objRotation, material);
+                Vector3d objNormal = RotateVector(new Vector3d(obj.Normal[0], obj.Normal[1], obj.Normal[2]), new Vector3d(parent.Rotation[0], parent.Rotation[1], parent.Rotation[2])); 
+                hittable = new Plane(objPosition, objNormal, material);
                 break;
             case "cylinder":
-                hittable = new Cylinder(objPosition, obj.Height, obj.Radius, material);
+                hittable = new Cylinder(objPosition, obj.Height, obj.Radius * parent.Scale[0], material); 
                 break;
             default:
                 throw new InvalidOperationException("Unknown object type.");
         }
         scene.Add(hittable);
+    }
+
+    private static Vector3d RotateVector(Vector3d vector, Vector3d rotationAngles)
+    {
+        // degrees to radians
+        double radX = rotationAngles.X * Math.PI / 180.0;
+        double radY = rotationAngles.Y * Math.PI / 180.0;
+        double radZ = rotationAngles.Z * Math.PI / 180.0;
+
+        // Rotation matrices for each axis
+        Matrix3d rotationMatrix = Matrix3d.CreateRotationZ(radZ) * Matrix3d.CreateRotationY(radY) * Matrix3d.CreateRotationX(radX);
+        Vector3d rotatedVector = vector.Transform(rotationMatrix);
+
+        return rotatedVector;
     }
 
     private static IAliasingAlgorithm GetAliasingAlgorithm(string aliasType)
