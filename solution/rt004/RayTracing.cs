@@ -10,6 +10,9 @@ public interface IRayTracer
     public Vector3d RayColor(Ray r, List<IHittable> world, List<LightSource> lights);
 }
 
+/// <summary>
+/// Based on Phongs model-ish
+/// </summary>
 public class Raytracer : IRayTracer
 {
     private Vector3d backgroundColor;

@@ -1,4 +1,4 @@
-﻿using CommandLine;
+using CommandLine;
 using System.Text.Json;
 using System.Numerics;
 using Util;
@@ -126,7 +126,7 @@ internal class Program
         IAliasingAlgorithm aliasAlgorithm = GetAliasingAlgorithm(config.AlgorithmSettings.AntiAliasing);
 
         // Generate the picture itself
-        FloatImage fi = GeneratePicture(aliasAlgorithm, config.Width, config.Height, camera, raytracer, config.AlgorithmSettings, sceneObjects, lightSources);
+        FloatImage fi = GeneratePicture(ref aliasAlgorithm,  config.Width,  config.Height, ref camera, ref raytracer,  config.AlgorithmSettings, ref sceneObjects, ref lightSources);
         SaveFile(config.FileName, fi);
     }
 
@@ -140,7 +140,7 @@ internal class Program
 
         // Scale and rotate position
         Vector3d scaledPosition = new Vector3d(obj.Position[0] * parent.Scale[0], obj.Position[1] * parent.Scale[1], obj.Position[2] * parent.Scale[2]);
-        Vector3d rotatedPosition = RotateVector(scaledPosition, new Vector3d(parent.Rotation[0], parent.Rotation[1], parent.Rotation[2]));
+        Vector3d rotatedPosition = RotateVector(scaledPosition, new Vector3d(parent.Rotation[0], parent.Rotation[1], parent.Rotation[2])); 
         Vector3d objPosition = rotatedPosition + new Vector3d(parent.Position[0], parent.Position[1], parent.Position[2]);
 
         switch (obj.Type.ToLower())
@@ -151,14 +151,14 @@ internal class Program
                 break;
             case "cube":
                 Vector3d objSize = new Vector3d(obj.Size[0] * parent.Scale[0], obj.Size[1] * parent.Scale[1], obj.Size[2] * parent.Scale[2]);
-                hittable = new Cube(objPosition, objSize, material, obj.RotationAngle + parent.Rotation[1]);
+                hittable = new Cube(objPosition, objSize, material, obj.RotationAngle + parent.Rotation[1]); 
                 break;
             case "plane":
-                Vector3d objNormal = RotateVector(new Vector3d(obj.Normal[0], obj.Normal[1], obj.Normal[2]), new Vector3d(parent.Rotation[0], parent.Rotation[1], parent.Rotation[2]));
+                Vector3d objNormal = RotateVector(new Vector3d(obj.Normal[0], obj.Normal[1], obj.Normal[2]), new Vector3d(parent.Rotation[0], parent.Rotation[1], parent.Rotation[2])); 
                 hittable = new Plane(objPosition, objNormal, material);
                 break;
             case "cylinder":
-                hittable = new Cylinder(objPosition, obj.Height, obj.Radius * parent.Scale[0], material);
+                hittable = new Cylinder(objPosition, obj.Height, obj.Radius * parent.Scale[0], material); 
                 break;
             default:
                 throw new InvalidOperationException("Unknown object type.");
@@ -199,26 +199,43 @@ internal class Program
         }
     }
 
-    private static FloatImage GeneratePicture(IAliasingAlgorithm aliasAlgorithm, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
+    private static FloatImage GeneratePicture(ref IAliasingAlgorithm aliasAlgorithm, int width, int height, ref ICamera camera, ref IRayTracer raytracer, AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
     {
         FloatImage fi = new FloatImage(width, height, 3);
-        object lockerThingy = new object();
-        //  Parallel.For to spread pixel processing across multiple threads
-        Parallel.For(0, height, j =>
+
+        // Use more controlled task parallelism
+        var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount }; // Limit max threads
+
+        try
         {
-            for (int i = 0; i < width; ++i)
+            Parallel.For(0, height, j =>
             {
-                Vector3d color = new Vector3d(0, 0, 0);
+                Vector3d localColor = new Vector3d(0, 0, 0); // Local copy of color
+                int localI = i; // Local copy of i
+                int localJ = j; // Local copy of j
 
-                color = aliasAlgorithm.PixelAlias(color, i, j, width, height, camera, raytracer, algorithmSettings, scene, lightSources);
+                aliasAlgorithm.PixelAlias(ref localColor, ref localI, ref localJ, ref width, ref height, ref camera, ref raytracer, ref algorithmSettings, ref scene, ref lightSources);
 
-                float[] convertedColor = { (float)color.X / 255.0F, (float)color.Y / 255.0F, (float)color.Z / 255.0F };
-                lock (lockerThingy)
+                lock (fi) 
                 {
-                    fi.PutPixel(i, j, convertedColor);
-                }
-            }
+                    fi.PutPixel(localI, height - localJ - 1, new float[] {
+            (float)localColor.X / 255.0F,
+            (float)localColor.Y / 255.0F,
+            (float)localColor.Z / 255.0F
         });
+                }
+            });
+
+        }
+        catch (AggregateException ae)
+        {
+            // Handle any exceptions that were thrown by tasks
+            foreach (var ex in ae.InnerExceptions)
+            {
+                Console.WriteLine($"Caught exception: {ex.Message}");
+            }
+        }
+
         return fi;
     }
 
@@ -232,7 +249,7 @@ internal class Program
         {
             case ".hdr":
                 // HDR format is still buggy
-                image.SaveHDR(fileName);
+                image.SaveHDR(fileName); 
                 Console.WriteLine($"HDR image '{fileName}' is finished.");
                 break;
             case ".pfm":

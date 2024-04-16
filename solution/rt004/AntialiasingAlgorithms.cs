@@ -9,12 +9,12 @@ using OpenTK.Mathematics;
 
 interface IAliasingAlgorithm
 {
-    public void PixelAlias(ref Vector3d color, ref int i, ref int j, ref int width, ref int height, ref ICamera camera, ref IRayTracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources);
+    public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources);
 
 }
 public class JitteredSamplingAliasing : IAliasingAlgorithm
 {
-    public void PixelAlias(ref Vector3d color, ref int i, ref int j, ref int width, ref int height, ref ICamera camera, ref IRayTracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
+    public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
     {
         int sqrtSamples = (int)Math.Sqrt(algorithmSettings.SamplesPerPixel);
         Random random = new Random();
@@ -26,26 +26,28 @@ public class JitteredSamplingAliasing : IAliasingAlgorithm
             Ray r = camera.GetRay(u, v);
             color += raytracer.TraceRay(r, scene, lightSources, algorithmSettings.MaxDepth);
         }
-
         color /= sqrtSamples;
+        return color;
+
     }
 }
 
 public class NoAliasing : IAliasingAlgorithm
 {
-    public void PixelAlias(ref Vector3d color, ref int i, ref int j, ref int width, ref int height, ref ICamera camera, ref IRayTracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
+    public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
     {
         double u = (double)i / (width - 1);
         double v = (double)j / (height - 1);
         Ray r = camera.GetRay(u, v);
         color += raytracer.TraceRay(r, scene, lightSources, algorithmSettings.MaxDepth);
+        return color;
     }
 
 }
 
 public class SupersamplingAliasing : IAliasingAlgorithm
 {
-    public void PixelAlias(ref Vector3d color, ref int i, ref int j, ref int width, ref int height, ref ICamera camera, ref IRayTracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
+    public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
     {
         int sqrtSamples = (int)Math.Sqrt(algorithmSettings.SamplesPerPixel);
         Random random = new Random();
@@ -62,12 +64,13 @@ public class SupersamplingAliasing : IAliasingAlgorithm
         }
 
         color /= (sqrtSamples * sqrtSamples);
+        return color;
     }
 }
 
 public class HammersleyAliasing : IAliasingAlgorithm
 {
-    public void PixelAlias(ref Vector3d color, ref int i, ref int j, ref int width, ref int height, ref ICamera camera, ref IRayTracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
+    public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
     {
         for (int s = 0; s < algorithmSettings.SamplesPerPixel; s++)
         {
@@ -78,6 +81,7 @@ public class HammersleyAliasing : IAliasingAlgorithm
         }
 
         color /= algorithmSettings.SamplesPerPixel;
+        return color;
     }
 
     // the calculation based on the slides and wikipedia :]
@@ -98,7 +102,7 @@ public class HammersleyAliasing : IAliasingAlgorithm
 
 public class CorrelatedMultiJitteredAliasing : IAliasingAlgorithm
 {
-    public void PixelAlias(ref Vector3d color, ref int i, ref int j, ref int width, ref int height, ref ICamera camera, ref IRayTracer raytracer, ref AlgorithmSettings algorithmSettings, ref List<IHittable> scene, ref List<LightSource> lightSources)
+    public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
     {
         int subPixelGrid = (int)Math.Sqrt(algorithmSettings.SamplesPerPixel);
         Random random = new Random();
@@ -117,5 +121,6 @@ public class CorrelatedMultiJitteredAliasing : IAliasingAlgorithm
         }
 
         color /= algorithmSettings.SamplesPerPixel;
+        return color;
     }
 }
