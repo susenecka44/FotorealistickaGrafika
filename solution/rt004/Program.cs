@@ -137,14 +137,18 @@ internal class Program
         switch (obj.Type.ToLower())
         {
             case "sphere":
-                hittable = new Sphere(objPosition, obj.Radius * parent.Scale[0], material);
+              //  hittable = new Sphere(objPosition, obj.Radius * parent.Scale[0], material);
+                hittable = new Sphere(objPosition, obj.Radius, material);
+
                 break;
             case "cube":
-                Vector3d objSize = new Vector3d(obj.Size[0] * parent.Scale[0], obj.Size[1] * parent.Scale[1], obj.Size[2] * parent.Scale[2]);
+               // Vector3d objSize = new Vector3d(obj.Size[0] * parent.Scale[0], obj.Size[1] * parent.Scale[1], obj.Size[2] * parent.Scale[2]);
+                Vector3d objSize = new Vector3d(obj.Size[0], obj.Size[1], obj.Size[2]);
                 hittable = new Cube(objPosition, objSize, material, obj.RotationAngle);
                 break;
             case "plane":
-                Vector3d objRotation = new Vector3d(obj.Normal[0] + parent.Rotation[0], obj.Normal[1] + parent.Rotation[1], obj.Normal[2] + parent.Rotation[2]);
+             //   Vector3d objRotation = new Vector3d(obj.Normal[0] + parent.Rotation[0], obj.Normal[1] + parent.Rotation[1], obj.Normal[2] + parent.Rotation[2]);
+                Vector3d objRotation = new Vector3d(obj.Normal[0], obj.Normal[1], obj.Normal[2]);
                 hittable = new Plane(objPosition, objRotation, material);
                 break;
             case "cylinder":

@@ -152,12 +152,12 @@
     },
     {
       "Type": "Tree",
-      "Position": [ 0, 2, 0 ],
+      "Position": [ 1, 0, 0 ],
       "Scale": [ 0.5, 0.5, 0.5 ]
     },
     {
-      "Type": "Floor",
-      "Position": [ 0, -1, 0 ]
+      "Type": "GlassCube",
+      "Position": [ 1, 0, 0 ]
     }
   ],
   "Lights": [
