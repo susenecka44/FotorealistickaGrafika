@@ -475,10 +475,16 @@ configuration:
 ### More Images
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/921fc8c6-2bf0-4a01-89be-77cbc9a3d7bc)
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/6ada726b-eeb6-4041-bef3-f3bb80fdf037)
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/9ea9a333-0189-4437-9f03-1212b011f708)
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/d10b1832-286a-415f-a4d4-4ea08c87ba35)
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/103974f3-370c-4aa9-a307-5f8460044a0d)
+
 
 #### Images of ifferent aliasing techniques:
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/9c820704-903d-4baa-9ba2-9837760504bf)*Hammersley antialising*
-
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/2f53ea77-095c-4ec4-aec2-3b5ffe799752)*Correlated Multi-Jittered antialiasing*
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/023f98da-e5b3-470d-a895-c7cf7050c451)*Jitteredsampling antialiasing*
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/a23c00c4-7b1c-48b5-9b40-d8d9b187a3a9)*Supersampling antialiasing*
 
 ### Use of AI
 
