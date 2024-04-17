@@ -85,40 +85,56 @@ In the scene configuration, lights define how objects are illuminated, influenci
 - `Color`: The light's color as `[R, G, B]`. Affects the scene's coloration from the light source. *Default: [1.0, 1.0, 1.0]*
 - `Intensity`: A scalar value that dictates the ambient light's strength. *Default: 1.0*
 
-### Objects in Scene
+### Objects and Scene
 
 Objects constitute the scene's visual elements. Each object is defined by its shape and properties, including size, position, material, and, for some objects, orientation.
 
-#### Types of Objects
+#### Types of Primitive Objects
+
+Represents basic geometric shapes for constructing objects.
 
 - **Sphere**: Defined by a center and radius, perfect for round elements.
-
 - **Cube**: A polyhedron with square faces, useful for creating boxes and other blocky structures.
-
 - **Plane**: An infinite two-dimensional surface, often used for floors, walls, or abstract surfaces.
+- **Cylinder**: An circular tube-like looking shape, often used for columns, glasses, vases etc.
 
-- **Cylinder**: An infinite two-dimensional surface, often used for columns, glasses, vases etc.
+##### Common Properties
 
-#### Common Properties
+- `Type`: The geometric shape of the object (`Sphere`, `Cube`, `Cylinder`, or `Plane`). *Default: Sphere*
+- `Position`: A vector `[x, y, z]` indicating the object's location in the scene. *Default: [0.0, 0.0, 0.0]*
+- `Material`: References one of the materials by `Name defined in the Materials` section, dictating the object's appearance. *Default: Default*
 
-- `Type`: The geometric shape of the object (`Sphere`, `Cube`, or `Plane`).
+##### Specific Properties
 
-- `Position`: A vector `[x, y, z]` indicating the object's location in the scene.
+- `Radius`: (**Sphere** adn **Cylinder** only) `Float` specifying the sphere's size, and the radius of the cylinder. * Default: 1.0*
+- `Size`: (**Cube** only) The cube's dimensions as `[width, height, depth]`. *Default: [1.0, 1.0, 1.0]*
+- `Normal`: (**Plane** only) A vector `[x, y, z]` representing the plane's orientation through its normal vector. *Default: [0.0, 1.0, 0.0]*
+- `Angle`: (**Cube** only) The cube's rotation angle around the Y-axis, allowing for orientation adjustments.*Default: 0.0*
+- `Height`: (**cylinder** only) Height, of the cylinder. *Default: 1.0*.
+- `Scale`: Scaling factors for **nested objects**. *Default: [1, 1, 1]*.
+- `Rotation`: Rotation angles for **nested objects**. *Default: [0, 0, 0]*.
 
-- `Material`: References one of the materials defined in the `Materials` section, dictating the object's appearance.
+#### Objects In Scene
 
-#### Specific Properties
+Represents complex objects composed of one or more `PrimitiveObject`.
 
-- `Radius`: (**Sphere** only) The sphere's size.
+- `Name`: Name of the complex object. *Default: Object*.
+- `BasicShapes`: List of `PrimitiveObject` constituting the complex object. Initialized as empty. *Default: empty*
 
-- `Size`: (**Cube** only) The cube's dimensions as `[width, height, depth]`.
+#### Scene
 
-- `Normal`: (**Plane** only) A vector `[x, y, z]` representing the plane's orientation through its normal vector.
+Specifies instances of objects placed within the scene.
 
-- `Angle`: (**Cube** only) The cube's rotation angle around the Y-axis, allowing for orientation adjustments.
+- `Type`: Type of object being placed. *Default: Object*
+- `Position`: 3D position of the object within the scene. *Default: [0, 0, 0]*
+   - Adds the X, Y and Z values to the parent object defined in `ObjectsInScene`
+- `Scale`: Scaling factors applied to the object. *Default: [1, 1, 1]*
+   - Three dimensional scaling avaiable only for `cubes`, the rest only by the first value
+- `Rotation`: Rotation angles applied to the object. *Default: [0, 0, 0]*
+  - Rotating only around the centers of the `primitive objects`
+
 
 By customizing these properties, you can craft diverse scenes with varied lighting and object arrangements, offering vast creative possibilities in scene design.
-
 
 ## Algorithm
 
@@ -459,6 +475,10 @@ configuration:
 ### More Images
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/921fc8c6-2bf0-4a01-89be-77cbc9a3d7bc)
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/6ada726b-eeb6-4041-bef3-f3bb80fdf037)
+
+#### Images of ifferent aliasing techniques:
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/9c820704-903d-4baa-9ba2-9837760504bf)*Hammersley antialising*
+
 
 ### Use of AI
 
