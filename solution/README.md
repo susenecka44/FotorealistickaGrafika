@@ -142,11 +142,11 @@ Raytracing algorithm in RayTracer.cs, Intersecting with objects and creating a H
 
 ## Bonuses
 
-There are four basic structures - plane, sphere, cylinder and cube.
-There is an option for object hierarchy - no more copying the basic shapes :]
-Four types of antialiasing techniques: Hammersley Aliasing, Correlated Multi-Jittered Aliasing, Supersampling Aliasing and Jittered Sampling Aliasing
-Nicely done glass refractions - correct looking glass described:
-```
+- There are four basic structures - plane, sphere, cylinder and cube.
+- There is an option for object hierarchy - no more copying the basic shapes :]
+- Four types of antialiasing techniques: Hammersley Aliasing, Correlated Multi-Jittered Aliasing, Supersampling Aliasing and Jittered Sampling Aliasing
+- Nicely done glass refractions - correct looking glass described:
+  ```
   "Name": "Glass",
   "Color": [ 0.8, 0.8, 1.0 ],
   "Ambient": 0.0,
@@ -155,7 +155,7 @@ Nicely done glass refractions - correct looking glass described:
   "Shininess": 150,
   "Reflectivity": 0.2,
   "Refractivity": 1.45
-``` 
+   ``` 
 
 
 - Sample Scene:
