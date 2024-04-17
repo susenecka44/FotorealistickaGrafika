@@ -1,14 +1,13 @@
-# Documentation of the r004 RayTracer
+# Documentation of the r004 RayTracer - renderer
 
 ## Author
 
 Julie Vondráčková
 
+# Description
+A program that creates a scene with lights, refractions, shadows.
+
 ---
-
-# Checkpoint IV. (tag `Chk IV`)
-
-Creating a scene with lights, refractions, shadows.
 
 ### Command Line Arguments
 
@@ -21,60 +20,70 @@ List all the arguments here, with default values.
 | `-f`, `--file` | Output file name. | `"picture.pfm"` |
 | `-c`, `--config` | Configuration file path. | `"config.json"` |
 
-## Input Data
-
-#### Command-Line Options
-
-- `-w, --width`: Set the width of the output image (default: 600 pixels).
-- `-h, --height`: Set the height of the output image (default: 400 pixels).
-- `-f, --file`: Specify the output file name (default: `picture.pfm`).
-- `-c, --config`: Path to the configuration file to use (default: `config.json`).
-
 ## Configuration File
 
-The application can be customized using a JSON configuration file. Here's a detailed explanation of the parameters you can set in this file:
+The application can be customized using a JSON configuration file. 
+
+Here's a detailed explanation of the parameters you can set in this file:
+
+*(if some feature is not set, it gets automatically set to its default value)*
 
 ### General Settings
 
-- `Width`: Width of the output image in pixels.
-- `Height`: Height of the output image in pixels.
-- `FileName`: Path and name of the output file, supporting `.hdr` and `.pfm` formats.
+- `Width`: Width of the output image in `pixels`. *Default: 600*
+- `Height`: Height of the output image in `pixels`. *Default: 400*
+- `FileName`: Path and name of the output file, supporting `.hdr` and `.pfm` formats. *Default: picture.pfm*
 
 ### Camera Settings
 
-- `Position`: The camera's position in 3D space `[x, y, z]`.
-- `Direction`: The direction the camera is pointing `[x, y, z]`.
-- `BackgroundColor`: Background color `[R, G, B]` used when rays don't hit any object.
-- `FOVAngle`: Field of view angle in degrees.
+Configuration for the scene's camera.
+- `Position`: The camera's position in 3D space `[x, y, z]`. *Default: [0.0, 0.0, 5.0]*
+- `Direction`: The direction the camera is pointing `[x, y, z]`. *Default: [0.0, 0.0, -1.0]*
+- `BackgroundColor`: Background color `[R, G, B]` used when rays don't hit any object. *Default: [0.2, 0.2, 0.2]*
+- `FOVAngle`: Field of view `angle in degrees`. *Default: 90.0*
 
 ### Algorithm Settings
 
-- `ShadowsEnabled`: Enable/disable shadow rendering.
-- `ReflectionsEnabled`: Enable/disable reflections rendering.
-- `RefractionsEnabled`: Enable/disable refractions rendering.
-- `AntiAliasing`: Chooses the type of Antialiasing algorithm (NoAliasing, HammersleyAliasing, CorrelatedMultiJitteredAliasing, SupersamplingAliasing and JitteredSamplingAliasing).
-- `SamplesPerPixel`: Number of samples per pixel for anti-aliasing.
-- `MaxDepth`: Maximum recursion depth for the ray tracing algorithm.
-- `MinimalPerformance`: Threshold to avoid rendering artifacts.
+Defines settings for the rendering algorithm.
+
+- `ShadowsEnabled`: Enable/disable shadow rendering (`true/false`). *Default: true*
+- `ReflectionsEnabled`: Enable/disable reflections rendering (`true/false`). *Default: true*
+- `RefractionsEnabled`: Enable/disable refractions rendering (`true/false`). *Default: true*
+- `AntiAliasing`: Chooses the type of Antialiasing algorithm *Default: JitteredSamplingAliasing*
+  - `NoAliasing`
+  - `HammersleyAliasing`
+  - `CorrelatedMultiJitteredAliasing`
+  - `SupersamplingAliasing`
+  - `JitteredSamplingAliasing`
+- `SamplesPerPixel`: `Number` of samples per pixel for anti-aliasing. *Default: 5*
+- `MaxDepth`: Maximum `recursion depth` for the ray tracing algorithm. *Default: 5*
+- `MinimalPerformance`: `Threshold` to avoid rendering artifacts. *Default: 0.0*
+- `RayTracer`: `Type` of ray tracer algorithm used.*Default: Basic*
+   - `Basic`
 
 ### Materials
 
-Defines materials with properties like color, reflectivity, and texture:
+Defines the visual characteristics of object surfaces.
 
-- `Name`: Unique identifier.
-- `Color`: Base color `[R, G, B]`.
-- `Ambient`, `Diffuse`, `Specular`: Lighting coefficients.
-- `Shininess`: Specular highlight sharpness.
-- `Reflectivity`: Reflection strength.
-- `Refractivity`: Index of refraction.
+- `Name`: Unique identifier. *Default: Default*
+- `Color`: Base color `[R, G, B]`. *Default: [1.0, 1.0, 1.0]*
+- `Ambient`: Ambient reflectance coefficient. *Default: 0.1*.
+- `Diffuse`: Diffuse reflectance coefficient. *Default: 0.9*.
+- `Specular`: Specular reflectance coefficient. *Default: 0.5*.
+- `Shininess`: Specular highlight sharpness. *Default: 200.0*
+- `Reflectivity`: Reflection strength. *Default: 0.0*
+- `Refractivity`: Index of refraction. *Default: 0.0*
 
 ### Lights
 
 In the scene configuration, lights define how objects are illuminated, influencing shadows, reflections, and refractions. Each light has a specific type and set of properties.
-- `Type`: Identifies the light type (`PointLight` or `AmbientLight`), determining its behavior in the scene.
-- `Position`: (**PointLight** only) A vector `[x, y, z]` defining the light's position.
-- `Color`: The light's color as `[R, G, B]`. Affects the scene's coloration from the light source.
-- `Intensity`: (**AmbientLight** only) A scalar value that dictates the ambient light's strength, influencing the scene's overall brightness.
+
+- `Type`: Identifies the light type, determining its behavior in the scene. *Default: PointLight*
+   - `PointLight`
+   - `AmbientLight`
+- `Position`: (**PointLight** only) A vector `[x, y, z]` defining the light's position. *Default: [0.0, 10.0, 0.0]*
+- `Color`: The light's color as `[R, G, B]`. Affects the scene's coloration from the light source. *Default: [1.0, 1.0, 1.0]*
+- `Intensity`: A scalar value that dictates the ambient light's strength. *Default: 1.0*
 
 ### Objects in Scene
 
@@ -445,77 +454,7 @@ configuration:
   ]
 }
 ```
-### Loader classes description and default values
 
-#### Material Class
-Defines the visual characteristics of object surfaces.
-- **Name**: Identifier for the material. Default: "Default".
-- **Color**: Base color of the material, given as `[R, G, B]`. Default: `[1.0, 1.0, 1.0]`.
-- **Ambient**: Ambient reflectance coefficient. Default: `0.1`.
-- **Diffuse**: Diffuse reflectance coefficient. Default: `0.9`.
-- **Specular**: Specular reflectance coefficient. Default: `0.5`.
-- **Shininess**: Sharpness of the specular highlights. Default: `200.0`.
-- **Reflectivity**: Strength of reflections from the surface. Default: `0.0`.
-- **Refractivity**: Index of refraction for the material. Default: `0.0`.
-
-#### PrimitiveObject Class
-Represents basic geometric shapes for constructing objects.
-- **Type**: Type of the primitive object. Default: "Sphere".
-- **Position**: 3D position of the object. Default: `[0.0, 0.0, 0.0]`.
-- **Radius**: Radius, applicable to spheres and cylinders. Default: `1.0`.
-- **Size**: Dimensions, used for cubes. Default: `[1.0, 1.0, 1.0]`.
-- **Normal**: Normal vector, relevant for planes. Default: `[0.0, 1.0, 0.0]`.
-- **Material**: Material assigned to this object. Default: "Default".
-- **RotationAngle**: Rotation angle around the Y-axis, used for cubes. Default: `0.0`.
-- **Height**: Height, used for cylinders. Default: `1.0`.
-- **Scale**: Scaling factors for nested objects. Default: `[1, 1, 1]`.
-- **Rotation**: Rotation angles for nested objects. Default: `[0, 0, 0]`.
-
-#### Object Class
-Represents complex objects composed of one or more `PrimitiveObject`.
-- **Name**: Name of the complex object. Default: "Object".
-- **BasicShapes**: List of `PrimitiveObject` constituting the complex object. Initialized as empty.
-
-#### ObjectInScene Class
-Specifies instances of objects placed within the scene.
-- **Type**: Type of object being placed. Default: "Object".
-- **Position**: 3D position of the object within the scene. Default: `[0, 0, 0]`.
-- **Scale**: Scaling factors applied to the object. Default: `[1, 1, 1]`.
-- **Rotation**: Rotation angles applied to the object. Default: `[0, 0, 0]`.
-
-#### Light Class
-Defines light sources in the scene.
-- **Type**: Type of light. Default: "Point".
-- **Position**: Position of the light. Default: `[0.0, 10.0, 0.0]`.
-- **Color**: Color of the light. Default: `[1.0, 1.0, 1.0]`.
-- **Intensity**: Intensity of the light. Default: `1.0`.
-
-#### CameraSettings Class
-Configuration for the scene's camera.
-- **Position**: Camera's position. Default: `[0.0, 0.0, 5.0]`.
-- **Direction**: Direction the camera is pointing. Default: `[0.0, 0.0, -1.0]`.
-- **BackgroundColor**: Background color for the scene. Default: `[0.2, 0.2, 0.2]`.
-- **FOVAngle**: Field of view angle in degrees. Default: `90.0`.
-
-#### AlgorithmSettings Class
-Defines settings for the rendering algorithm.
-- **ReflectionsEnabled**: Toggles reflections. Default: `true`.
-- **ShadowsEnabled**: Toggles shadows. Default: `true`.
-- **RefractionsEnabled**: Toggles refractions. Default: `true`.
-- **MaxDepth**: Maximum recursion depth for ray tracing. Default: `5`.
-- **SamplesPerPixel**: Number of samples per pixel for anti-aliasing. Default: `1`.
-- **MinimalPerformance**: Performance threshold. Default: `0.0`.
-- **AntiAliasing**: Anti-aliasing algorithm used. Default: "None".
-- **RayTracer**: Type of ray tracer algorithm used. Default: "Basic".
-
-#### SceneConfig Class
-Aggregates all settings and components of the scene.
-- **Materials**: List of materials available in the scene. Initialized with one default material.
-- **Scene**: List of `ObjectInScene` describing objects placed in the scene.
-- **ObjectsInScene**: List of `Object` representing templates of complex objects.
-- **Lights**: List of `Light` representing the light sources in the scene. Initialized with one default light.
-- **CameraSettings**: Settings for the camera.
-- **AlgorithmSettings**: Settings for the rendering algorithm.
 
 ### More Images
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/921fc8c6-2bf0-4a01-89be-77cbc9a3d7bc)
