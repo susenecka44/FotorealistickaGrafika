@@ -350,8 +350,8 @@ public class Cylinder : IHittable
 public class Torus : IHittable
 {
     public Vector3d Center { get; private set; }
-    public double MajorRadius { get; private set; } // Radius from the center of the torus to the center of the tube
-    public double MinorRadius { get; private set; } // Radius of the tube
+    public double MajorRadius { get; private set; } // Distance from the center of the torus to the center of the tube
+    public double MinorRadius { get; private set; } // Radius of the tube itself
     public ObjectMaterial Material { get; set; }
 
     public Torus(Vector3d center, double majorRadius, double minorRadius, ObjectMaterial material)
@@ -366,20 +366,26 @@ public class Torus : IHittable
     {
         rec = new HitRecord();
         Vector3d oc = r.Origin - Center;
-        double m = oc.LengthSquared();
-        double n = Vector3d.Dot(oc, r.Direction);
-        double a = MajorRadius + MinorRadius;
-        double b = MajorRadius - MinorRadius;
 
-        // Coefficients for the quartic equation
-        double c4 = r.Direction.LengthSquared() * r.Direction.LengthSquared();
-        double c3 = 4 * Vector3d.Dot(r.Direction, oc) * r.Direction.LengthSquared();
-        double c2 = 2 * r.Direction.LengthSquared() * (m - (a * a + b * b)) + 4 * n * n + 4 * a * a * r.Direction.Z * r.Direction.Z;
-        double c1 = 4 * (m - (a * a + b * b)) * n + 8 * a * a * r.Direction.Z * oc.Z;
-        double c0 = (m - (a * a + b * b)) * (m - (a * a + b * b)) - 4 * a * a * (b * b - oc.Z * oc.Z);
+        double G = Vector3d.Dot(r.Direction, r.Direction);
+        double H = 2 * Vector3d.Dot(oc, r.Direction);
+        double I = Vector3d.Dot(oc, oc) + MajorRadius * MajorRadius - MinorRadius * MinorRadius;
+
+        double J = Vector3d.Dot(oc, oc) + MajorRadius * MajorRadius;
+        double K = 4 * MajorRadius * MajorRadius * (r.Direction.X * r.Direction.X + r.Direction.Y * r.Direction.Y);
+
+        double c4 = G * G;
+        double c3 = 2 * G * H;
+        double c2 = H * H + 2 * G * I - K;
+        double c1 = 2 * H * I;
+        double c0 = I * I - K * J;
 
         var roots = CalculationsOfFormulasNeeded.SolveQuartic(c0, c1, c2, c3, c4);
-
+        Console.WriteLine($"Roots found: {roots.Length}");
+        foreach (var root in roots)
+        {
+            Console.WriteLine($"Root: {root}, tMin: {tMin}, tMax: {tMax}");
+        }
         bool hasHit = false;
         double closestT = double.MaxValue;
         foreach (double t in roots)
@@ -404,8 +410,8 @@ public class Torus : IHittable
         }
         return false;
     }
-
 }
+
 
 public static class CalculationsOfFormulasNeeded
 {
