@@ -213,23 +213,41 @@ internal class Program
     {
         Console.WriteLine("Generating... ");
         FloatImage fi = new FloatImage(width, height, 3);
-        object lockerThingy = new object();
-        //  Parallel.For to spread pixel processing across multiple threads
-        Parallel.For(0, height, j =>
+        if (algorithmSettings.Paralellism)
         {
-            for (int i = 0; i < width; ++i)
+            object lockerThingy = new object();
+            //  Parallel.For to spread pixel processing across multiple threads
+            Parallel.For(0, height, j =>
             {
-                Vector3d color = new Vector3d(0, 0, 0);
-
-                color = aliasAlgorithm.PixelAlias(color, i, j, width, height, camera, raytracer, algorithmSettings, scene, lightSources);
-
-                float[] convertedColor = { (float)color.X / 255.0F, (float)color.Y / 255.0F, (float)color.Z / 255.0F };
-                lock (lockerThingy)
+                for (int i = 0; i < width; ++i)
                 {
+                    Vector3d color = new Vector3d(0, 0, 0);
+
+                    color = aliasAlgorithm.PixelAlias(color, i, j, width, height, camera, raytracer, algorithmSettings, scene, lightSources);
+
+                    float[] convertedColor = { (float)color.X / 255.0F, (float)color.Y / 255.0F, (float)color.Z / 255.0F };
+                    lock (lockerThingy)
+                    {
+                        fi.PutPixel(i, j, convertedColor);
+                    }
+                }
+            });
+        }
+        else
+        {
+            for (int j = 0; j < height; ++j)
+            {
+                for (int i = 0; i < width; ++i)
+                {
+                    Vector3d color = new Vector3d(0, 0, 0);
+
+                    color = aliasAlgorithm.PixelAlias(color, i, j, width, height, camera, raytracer, algorithmSettings, scene, lightSources);
+
+                    float[] convertedColor = { (float)color.X / 255.0F, (float)color.Y / 255.0F, (float)color.Z / 255.0F };
                     fi.PutPixel(i, j, convertedColor);
                 }
             }
-        });
+        }
         return fi;
     }
 
