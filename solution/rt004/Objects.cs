@@ -420,8 +420,6 @@ public static class CalculationsOfFormulasNeeded
         // Solve the cubic resolvent
         double p = -b * b / 12 - c;
         double q = -b * b * b / 108 + b * c / 3 - d / 2;
-        double r = -q / 2 + Math.Sqrt(q * q / 4 + p * p * p / 27);
-
         double[] u = SolveCubic(1, 0, p, q);
         if (u.Length == 0) return new double[0]; // No real solution for cubic
 
@@ -442,31 +440,27 @@ public static class CalculationsOfFormulasNeeded
 
         // Combine the roots
         var roots = new List<double>();
-        if (firstPair != null)
-            roots.AddRange(firstPair);
-        if (secondPair != null)
-            roots.AddRange(secondPair);
+        roots.AddRange(firstPair);
+        roots.AddRange(secondPair);
 
         return roots.ToArray();
     }
 
     public static double[] SolveCubic(double a, double b, double c, double d)
     {
-        // normalize 
+        // Normalize coefficients
         double A = b / a;
         double B = c / a;
         double C = d / a;
 
-        // substitute x = y - A/3 to eliminate quadric term: y^3 + 3py + 2q = 0
+        // Use the substitution x = y - A/3 to eliminate the quadratic term: y^3 + 3py + 2q = 0
         double sq_A = A * A;
         double p = 1.0 / 3 * (-1.0 / 3 * sq_A + B);
         double q = 1.0 / 2 * (2.0 / 27 * A * sq_A - 1.0 / 3 * A * B + C);
-         
-        // Cardano's formula
+
+        // Use Cardano's formula
         double cb_p = p * p * p;
         double D = q * q + cb_p;
-
-        if (Double.IsNaN(D)) return new double[0]; // no solution
 
         if (D >= 0)
         {
@@ -483,28 +477,40 @@ public static class CalculationsOfFormulasNeeded
             double t = 2 * Math.Sqrt(-p);
 
             return new double[] {
-            t * Math.Cos(phi) - A / 3,
-            t * Math.Cos(phi + 2 * Math.PI / 3) - A / 3,
-            t * Math.Cos(phi - 2 * Math.PI / 3) - A / 3
-        };
+                t * Math.Cos(phi) - A / 3,
+                t * Math.Cos(phi + 2 * Math.PI / 3) - A / 3,
+                t * Math.Cos(phi - 2 * Math.PI / 3) - A / 3
+            };
         }
     }
 
     public static double[] SolveQuadratic(double a, double b, double c)
     {
+        // Prevent division by a very small number
+        if (Math.Abs(a) < 1e-6)
+        {
+            // In this case, the equation is not quadratic, but linear
+            if (Math.Abs(b) < 1e-6)
+            {
+                return new double[0]; // No solution
+            }
+            return new double[] { -c / b }; // One root
+        }
+
         double discriminant = b * b - 4 * a * c;
         if (discriminant < 0)
         {
-            return new double[0];
+            return new double[0]; // No real solutions
         }
         else if (discriminant == 0)
         {
-            return new double[] { -b / (2 * a) };
+            return new double[] { -b / (2 * a) }; // One real root
         }
         else
         {
             double sqrtD = Math.Sqrt(discriminant);
-            return new double[] { (-b + sqrtD) / (2 * a), (-b - sqrtD) / (2 * a) };
+            return new double[] { (-b + sqrtD) / (2 * a), (-b - sqrtD) / (2 * a) }; // Two real roots
         }
     }
 }
+
