@@ -18,7 +18,7 @@ public class PrimitiveObject
 {
     public string Type { get; set; } = "Sphere";
     public double[] Position { get; set; } = new double[] { 0.0, 0.0, 0.0 };
-    public double Radius { get; set; } = 1.0; // sphere, cylinder
+    public double Radius { get; set; } = 1.0; // sphere, cylinder, torus(outer circle)
     public double[] Size { get; set; } = new double[] { 1.0, 1.0, 1.0 }; 
     public double[] Normal { get; set; } = new double[] { 0.0, 1.0, 0.0 }; // plane
     public string Material { get; set; } = "Default";
@@ -26,6 +26,7 @@ public class PrimitiveObject
     public double Height { get; set; } = 1.0;// cylinder
     public double[] Scale { get; set; } = new double[] { 1, 1, 1 }; // for nested objects
     public double[] Rotation { get; set; } = new double[] { 0, 0, 0 }; // for nested objects
+    public double MinorRadius { get; set; } = 0.5; // torus
 }
 
 public class Object
@@ -68,6 +69,7 @@ public class AlgorithmSettings
     public double MinimalPerformance { get; set; } = 0.0;
     public string AntiAliasing { get; set; } = "None";
     public string RayTracer { get; set; } = "Basic";
+    public bool Paralellism { get; set; } = true;
 }
 
 public class SceneConfig : Options

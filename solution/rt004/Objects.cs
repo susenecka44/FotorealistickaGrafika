@@ -346,3 +346,165 @@ public class Cylinder : IHittable
         return false;
     }
 }
+
+public class Torus : IHittable
+{
+    public Vector3d Center { get; private set; }
+    public double MajorRadius { get; private set; } // Radius from the center of the torus to the center of the tube
+    public double MinorRadius { get; private set; } // Radius of the tube
+    public ObjectMaterial Material { get; set; }
+
+    public Torus(Vector3d center, double majorRadius, double minorRadius, ObjectMaterial material)
+    {
+        Center = center;
+        MajorRadius = majorRadius;
+        MinorRadius = minorRadius;
+        Material = material;
+    }
+
+    public bool Hit(Ray r, double tMin, double tMax, out HitRecord rec)
+    {
+        rec = new HitRecord();
+        Vector3d oc = r.Origin - Center;
+        double m = oc.LengthSquared();
+        double n = Vector3d.Dot(oc, r.Direction);
+        double a = MajorRadius + MinorRadius;
+        double b = MajorRadius - MinorRadius;
+
+        // Coefficients for the quartic equation
+        double c4 = r.Direction.LengthSquared() * r.Direction.LengthSquared();
+        double c3 = 4 * Vector3d.Dot(r.Direction, oc) * r.Direction.LengthSquared();
+        double c2 = 2 * r.Direction.LengthSquared() * (m - (a * a + b * b)) + 4 * n * n + 4 * a * a * r.Direction.Z * r.Direction.Z;
+        double c1 = 4 * (m - (a * a + b * b)) * n + 8 * a * a * r.Direction.Z * oc.Z;
+        double c0 = (m - (a * a + b * b)) * (m - (a * a + b * b)) - 4 * a * a * (b * b - oc.Z * oc.Z);
+
+        var roots = CalculationsOfFormulasNeeded.SolveQuartic(c0, c1, c2, c3, c4);
+
+        bool hasHit = false;
+        double closestT = double.MaxValue;
+        foreach (double t in roots)
+        {
+            if (t < closestT && t > tMin && t < tMax)
+            {
+                closestT = t;
+                hasHit = true;
+            }
+        }
+
+        if (hasHit)
+        {
+            rec.T = closestT;
+            rec.HitPoint = r.PointAtParameter(rec.T);
+            Vector3d hitPointToCenter = rec.HitPoint - Center;
+            Vector3d tubeCenter = hitPointToCenter * (MajorRadius / hitPointToCenter.Length);
+            rec.Normal = (rec.HitPoint - (Center + tubeCenter)).Normalized();
+            rec.Material = Material;
+            rec.SetFaceNormal(r, rec.Normal);
+            return true;
+        }
+        return false;
+    }
+
+}
+
+public static class CalculationsOfFormulasNeeded
+{
+    public static double[] SolveQuartic(double c0, double c1, double c2, double c3, double c4)
+    {
+        // Normalize coefficients
+        double a = c3 / c4;
+        double b = c2 / c4;
+        double c = c1 / c4;
+        double d = c0 / c4;
+
+        // Solve the cubic resolvent
+        double p = -b * b / 12 - c;
+        double q = -b * b * b / 108 + b * c / 3 - d / 2;
+        double r = -q / 2 + Math.Sqrt(q * q / 4 + p * p * p / 27);
+
+        double[] u = SolveCubic(1, 0, p, q);
+        if (u.Length == 0) return new double[0]; // No real solution for cubic
+
+        double y = -5.0 / 6.0 * b + u[0] - p / (3 * u[0]);
+
+        double w = Math.Sqrt(a * a / 4 - b + y);
+        if (double.IsNaN(w))
+        {
+            return new double[0]; // No real solutions
+        }
+
+        double x1 = a / 2 + w;
+        double x2 = a / 2 - w;
+
+        // Solve quadratic factors
+        double[] firstPair = SolveQuadratic(1, x1, y - w * w);
+        double[] secondPair = SolveQuadratic(1, x2, y + w * w);
+
+        // Combine the roots
+        var roots = new List<double>();
+        if (firstPair != null)
+            roots.AddRange(firstPair);
+        if (secondPair != null)
+            roots.AddRange(secondPair);
+
+        return roots.ToArray();
+    }
+
+    public static double[] SolveCubic(double a, double b, double c, double d)
+    {
+        // normalize 
+        double A = b / a;
+        double B = c / a;
+        double C = d / a;
+
+        // substitute x = y - A/3 to eliminate quadric term: y^3 + 3py + 2q = 0
+        double sq_A = A * A;
+        double p = 1.0 / 3 * (-1.0 / 3 * sq_A + B);
+        double q = 1.0 / 2 * (2.0 / 27 * A * sq_A - 1.0 / 3 * A * B + C);
+         
+        // Cardano's formula
+        double cb_p = p * p * p;
+        double D = q * q + cb_p;
+
+        if (Double.IsNaN(D)) return new double[0]; // no solution
+
+        if (D >= 0)
+        {
+            double sqrt_D = Math.Sqrt(D);
+            double u = Math.Cbrt(-q + sqrt_D);
+            double v = Math.Cbrt(-q - sqrt_D);
+            double y = u + v;
+
+            return new double[] { y - A / 3 };
+        }
+        else
+        {
+            double phi = 1.0 / 3 * Math.Acos(-q / Math.Sqrt(-cb_p));
+            double t = 2 * Math.Sqrt(-p);
+
+            return new double[] {
+            t * Math.Cos(phi) - A / 3,
+            t * Math.Cos(phi + 2 * Math.PI / 3) - A / 3,
+            t * Math.Cos(phi - 2 * Math.PI / 3) - A / 3
+        };
+        }
+    }
+
+    public static double[] SolveQuadratic(double a, double b, double c)
+    {
+        double discriminant = b * b - 4 * a * c;
+        if (discriminant < 0)
+        {
+            return new double[0];
+        }
+        else if (discriminant == 0)
+        {
+            return new double[] { -b / (2 * a) };
+        }
+        else
+        {
+            double sqrtD = Math.Sqrt(discriminant);
+            return new double[] { (-b + sqrtD) / (2 * a), (-b - sqrtD) / (2 * a) };
+        }
+    }
+}
