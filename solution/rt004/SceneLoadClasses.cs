@@ -45,7 +45,7 @@ public class ObjectInScene
 
 public class Light
 {
-    public string Type { get; set; } = "Point";
+    public string Type { get; set; } = "PointLight";
     public double[] Position { get; set; } = new double[] { 0.0, 10.0, 0.0 };
     public double[] Color { get; set; } = new double[] { 1.0, 1.0, 1.0 }; 
     public double Intensity { get; set; } = 1.0; 
@@ -65,9 +65,9 @@ public class AlgorithmSettings
     public bool ShadowsEnabled { get; set; } = true;
     public bool RefractionsEnabled { get; set; } = true;
     public int MaxDepth { get; set; } = 5;
-    public int SamplesPerPixel { get; set; } = 1;
+    public int SamplesPerPixel { get; set; } = 5;
     public double MinimalPerformance { get; set; } = 0.0;
-    public string AntiAliasing { get; set; } = "None";
+    public string AntiAliasing { get; set; } = "JitteredSamplingAliasing";
     public string RayTracer { get; set; } = "Basic";
     public bool Paralellism { get; set; } = true;
 }
