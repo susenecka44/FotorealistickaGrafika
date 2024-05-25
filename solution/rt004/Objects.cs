@@ -356,6 +356,7 @@ public class Cone : IHittable
 
     public Cone(Vector3d apex, double height, double radius, ObjectMaterial material)
     {
+        // Set the apex to be the base point now, since the cone is flipped.
         Apex = apex;
         Height = height;
         Radius = radius;
@@ -375,18 +376,45 @@ public class Cone : IHittable
         if (discriminant < 0) return false;
 
         double sqrtDiscriminant = Math.Sqrt(discriminant);
-        double t = (-b - sqrtDiscriminant) / (2 * a);
-        if (t < tMin || t > tMax || !IsWithinConeHeight(r, t)) t = (-b + sqrtDiscriminant) / (2 * a);
-        if (t < tMin || t > tMax || !IsWithinConeHeight(r, t)) return false;
+        double t1 = (-b - sqrtDiscriminant) / (2 * a);
+        double t2 = (-b + sqrtDiscriminant) / (2 * a);
+        bool hitSomething = false;
 
-        rec.T = t;
-        rec.HitPoint = r.PointAtParameter(t);
-        Vector3d outwardNormal = Vector3d.Normalize(Vector3d.Cross(Vector3d.Cross(rec.HitPoint - Apex, Vector3d.UnitY), rec.HitPoint - Apex));
-        rec.SetFaceNormal(r, outwardNormal);
-        rec.Material = Material;
+        // Check if either root is a valid hit
+        double[] roots = { t1, t2 };
+        foreach (var t in roots)
+        {
+            if (t >= tMin && t <= tMax && IsWithinConeHeight(r, t))
+            {
+                rec.T = t;
+                rec.HitPoint = r.PointAtParameter(t);
+                Vector3d outwardNormal = Vector3d.Normalize(Vector3d.Cross(Vector3d.Cross(rec.HitPoint - Apex, Vector3d.UnitY), rec.HitPoint - Apex));
+                rec.SetFaceNormal(r, outwardNormal);
+                rec.Material = Material;
+                hitSomething = true;
+                break;
+            }
+        }
 
-        return true;
+        // Check for top cap
+        Vector3d topCapCenter = Apex + new Vector3d(0, Height, 0);
+        double tTopCap = (topCapCenter.Y - r.Origin.Y) / r.Direction.Y;
+        Vector3d pTopCap = r.PointAtParameter(tTopCap);
+        double radius2TopCap = Vector3d.DistanceSquared(pTopCap, topCapCenter);
+        if (radius2TopCap <= Radius * Radius && tTopCap >= tMin && tTopCap <= tMax)
+        {
+            rec.T = tTopCap;
+            rec.HitPoint = pTopCap;
+            Vector3d normalTopCap = new Vector3d(0, -1, 0);  // Pointing downwards, because the cone is inverted
+            rec.SetFaceNormal(r, normalTopCap);
+            rec.Material = Material;
+            hitSomething = true;
+        }
+
+        return hitSomething;
     }
+
+
     private bool IsWithinConeHeight(Ray r, double t)
     {
         Vector3d point = r.PointAtParameter(t);
@@ -394,6 +422,7 @@ public class Cone : IHittable
         return heightAtPoint >= 0 && heightAtPoint <= Height;
     }
 }
+
 
 
 public static class CalculationsOfFormulasNeeded

@@ -153,14 +153,14 @@
       ]
     },
     {
-      "Name": "GreenCone",
+      "Name": "RedCone",
       "BasicShapes": [
         {
           "Type": "Cone",
           "Position": [ 0, 0, 0 ],
           "Radius": 1,
           "MinorRadius": 0.5,
-          "Material": "GreenMatt"
+          "Material": "RedReflective"
         }
       ]
     },
@@ -190,9 +190,9 @@
   ],
   "Scene": [
     {
-      "Type": "GreenCone",
-      "Position": [ 1, 0, 0 ],
-      "Scale": [ 1,1,1 ]
+      "Type": "RedCone",
+      "Position": [ 1, -0.5, 0 ],
+      "Scale": [ 1.5,1.5,1.5 ]
     },
     {
       "Type": "GlassCube",
