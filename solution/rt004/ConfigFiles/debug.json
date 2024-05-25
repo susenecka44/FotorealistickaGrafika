@@ -61,7 +61,7 @@
       "Refractivity": 0
     },
     {
-      "Name": "BlueReflective",
+      "Name": "Glass",
       "Color": [ 0.8, 0.8, 1.0 ],
       "Ambient": 0.0,
       "Diffuse": 0.0,
@@ -96,6 +96,19 @@
       "SecondaryColor": [ 0.1, 0.1, 0.1 ],
       "Texture": "checker",
       "TextureCoef": 2,
+      "Ambient": 0.1,
+      "Diffuse": 0.9,
+      "Specular": 0.4,
+      "Shininess": 80,
+      "Reflectivity": 0.8,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Wood",
+      "Color": [ 0.34, 0.22, 0.15 ],
+      "SecondaryColor": [ 0.6, 0.4, 0.2 ],
+      "Texture": "wood",
+      "TextureCoef": 20,
       "Ambient": 0.1,
       "Diffuse": 0.9,
       "Specular": 0.4,
@@ -166,18 +179,6 @@
       ]
     },
     {
-      "Name": "RedCone",
-      "BasicShapes": [
-        {
-          "Type": "Cone",
-          "Position": [ 0, 0, 0 ],
-          "Radius": 1,
-          "MinorRadius": 0.5,
-          "Material": "RedReflective"
-        }
-      ]
-    },
-    {
       "Name": "Floor",
       "BasicShapes": [
         {
@@ -195,33 +196,35 @@
           "Type": "Cube",
           "Position": [ 0, 0, 0 ],
           "Size": [ 1, 1, 1 ],
-          "Material": "BlueReflective",
+          "Material": "Glass",
           "Angle": 30
+        }
+      ]
+    },
+    {
+      "Name": "YellowSphere",
+      "BasicShapes": [
+        {
+          "Type": "Sphere",
+          "Position": [ 0, 0, 0 ],
+          "Radius": 1,
+          "Material": "YellowMatt"
         }
       ]
     }
   ],
   "Scene": [
     {
-      "Type": "CheckeredSphere",
-      "Position": [ 1, 1, 0 ],
-      "Scale": [ 1.5, 1.5, 1.5 ]
-    },
-    {
-      "Type": "RedCone",
-      "Position": [ 3, -0.5, 0 ],
-      "Scale": [ 10, 10, 10 ]
+      "Type": "YellowSphere",
+      "Position": [ 0, 0, -0.2 ],
+      "Scale": [ 1, 1, 1 ],
+      "Rotation": [ 0, 0, 1 ]
     },
     {
       "Type": "GlassCube",
       "Position": [ 2, -0.5, -0.2 ],
       "Scale": [ 0.4, 0.4, 0.4 ],
       "Rotation": [ 0, 0, 1 ]
-    },
-    {
-      "Type": "WhiteTorus",
-      "Position": [ 1, 5, 0, -0.2 ],
-      "Scale": [ 0.1, 0.1, 0.1 ]
     },
     {
       "Type": "Floor",

@@ -56,68 +56,7 @@ public class SolidTexture : ITexture
         return normal;
     }
 }
-/*
-public class VerticalStripesTexture : ITexture
-{
-    private Vector3d color1;
-    private Vector3d color2;
-    public double frequency;
-    public bool vertical;
 
-    public VerticalStripesTexture(Vector3d color1, Vector3d color2, double frequency)
-    {
-        this.color1 = color1;
-        this.color2 = color2;
-        this.frequency = frequency;
-    }
-
-    public Vector3d ColorAt(double u, double v, Vector3d p)
-    {
-        // Determine whether to use U or V based on vertical flag
-        double value = p.X;
-        if ((int)(Math.Floor(value * frequency) % 2) == 0)
-            return color1;
-        else
-            return color2;
-    }
-
-    public Vector3d NormalAt(double u, double v, Vector3d p, Vector3d normal)
-    {
-        // No normal modification for stripes
-        return normal;
-    }
-}
-
-public class HorizontalStripesTexture : ITexture
-{
-    private Vector3d color1;
-    private Vector3d color2;
-    public double frequency;
-
-    public HorizontalStripesTexture(Vector3d color1, Vector3d color2, double frequency)
-    {
-        this.color1 = color1;
-        this.color2 = color2;
-        this.frequency = frequency;
-    }
-
-    public Vector3d ColorAt(double u, double v, Vector3d p)
-    {
-        // Determine whether to use U or V based on vertical flag
-        double value = p.Y;
-        if ((int)(Math.Floor(value * frequency) % 2) == 0)
-            return color1;
-        else
-            return color2;
-    }
-
-    public Vector3d NormalAt(double u, double v, Vector3d p, Vector3d normal)
-    {
-        // No normal modification for stripes
-        return normal;
-    }
-}
-*/
 public class WoodTexture : ITexture
 {
     private Vector3d lightColor;
@@ -167,5 +106,6 @@ public class WoodTexture : ITexture
     {
         return a + (b - a) * t;
     }
+    
 }
 
