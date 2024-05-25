@@ -424,7 +424,6 @@ public class Cone : IHittable
 }
 
 
-
 public static class CalculationsOfFormulasNeeded
 {
     public static double[] SolveQuartic(double c0, double c1, double c2, double c3, double c4)
