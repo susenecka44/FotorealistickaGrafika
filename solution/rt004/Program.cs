@@ -93,6 +93,17 @@ internal class Program
                 case "checker":
                     texture = new CheckerTexture(new Vector3d(mat.Color[0], mat.Color[1], mat.Color[2]), new Vector3d(mat.SecondaryColor[0], mat.SecondaryColor[1], mat.SecondaryColor[2]), mat.TextureCoef);
                     break;
+                    /*
+                case "horizontalstripes":
+                    texture = new HorizontalStripesTexture(new Vector3d(mat.Color[0], mat.Color[1], mat.Color[2]), new Vector3d(mat.SecondaryColor[0], mat.SecondaryColor[1], mat.SecondaryColor[2]), mat.TextureCoef);
+                    break;
+                case "verticalstripes":
+                    texture = new VerticalStripesTexture(new Vector3d(mat.Color[0], mat.Color[1], mat.Color[2]), new Vector3d(mat.SecondaryColor[0], mat.SecondaryColor[1], mat.SecondaryColor[2]), mat.TextureCoef);
+                    break;
+                    */
+                case "wood":
+                    texture = new WoodTexture(new Vector3d(mat.Color[0], mat.Color[1], mat.Color[2]), new Vector3d(mat.SecondaryColor[0], mat.SecondaryColor[1], mat.SecondaryColor[2]), mat.TextureCoef);
+                    break;
                 default:
                     texture = new SolidTexture(new Vector3d(mat.Color[0], mat.Color[1], mat.Color[2]));
                     break;

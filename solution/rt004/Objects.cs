@@ -66,8 +66,12 @@ public class Sphere : IHittable
                 rec.T = temp;
                 rec.HitPoint = ray.PointAtParameter(rec.T);
                 Vector3d outwardNormal = (rec.HitPoint - Center) / Radius;
+                // Texture coordinates
                 rec.U = 0.5 + Math.Atan2(outwardNormal.Z, outwardNormal.X) / (2 * Math.PI);
                 rec.V = 0.5 - Math.Asin(outwardNormal.Y) / Math.PI;
+
+                outwardNormal = Material.Texture.NormalAt(rec.U, rec.V, rec.HitPoint, outwardNormal);
+
                 rec.SetFaceNormal(ray, outwardNormal);
                 return true;
             }
@@ -112,8 +116,14 @@ public class Plane : IHittable
             {
                 rec.T = t;
                 rec.HitPoint = r.Origin + t * r.Direction;
-                rec.SetFaceNormal(r, Normal); // Set normal based on the ray direction
+
+                rec.U = Vector3d.Dot(rec.HitPoint, Vector3d.UnitX);
+                rec.V = Vector3d.Dot(rec.HitPoint, Vector3d.UnitZ);
                 rec.Material = Material;
+
+                Normal = Material.Texture.NormalAt(rec.U, rec.V, rec.HitPoint, Normal);
+
+                rec.SetFaceNormal(r, Normal); // Set normal based on the ray direction
                 return true;
             }
         }
@@ -226,6 +236,10 @@ public class Cube : IHittable
         // Transform the normal back to the world space (considering rotation)
         rec.Normal = RotateVectorY(rec.Normal, RotationY);
         rec.Material = Material;
+        rec.U = (rec.HitPoint.X - Min.X) / (Max.X - Min.X);
+        rec.V = (rec.HitPoint.Y - Min.Y) / (Max.Y - Min.Y);
+        rec.Normal = Material.Texture.NormalAt(rec.U, rec.V, rec.HitPoint, rec.Normal);
+
         rec.SetFaceNormal(rotatedRay, rec.Normal); // Ensure normal is correctly oriented with respect to the rotated ray
 
         // Adjust hit point to world space
@@ -269,6 +283,7 @@ public class Cylinder : IHittable
         double a = perpendicular.LengthSquared();
         double b = 2.0 * Vector3d.Dot(perpendicular, ocPerpendicular);
         double c = ocPerpendicular.LengthSquared() - Radius * Radius;
+
 
         double discriminant = b * b - 4 * a * c;
         if (discriminant >= 0)
@@ -342,6 +357,15 @@ public class Cylinder : IHittable
             rec.T = t;
             rec.HitPoint = ray.PointAtParameter(t);
             Vector3d outwardNormal = (rec.HitPoint - (BaseCenter + axis * (z / axisLengthSquared))) / Radius;
+
+
+            // Calculate U, V texture coordinates
+            rec.U = (Math.Atan2(outwardNormal.Z, outwardNormal.X) / (2 * Math.PI) + 0.5);
+            rec.V = Height/2;
+
+            // Apply normal map if any
+            rec.Normal = Material.Texture.NormalAt(rec.U, rec.V, rec.HitPoint, outwardNormal);
+
             rec.SetFaceNormal(ray, outwardNormal);
             rec.Material = Material;
             return true;
@@ -392,6 +416,16 @@ public class Cone : IHittable
                 rec.T = t;
                 rec.HitPoint = r.PointAtParameter(t);
                 Vector3d outwardNormal = Vector3d.Normalize(Vector3d.Cross(Vector3d.Cross(rec.HitPoint - Apex, Vector3d.UnitY), rec.HitPoint - Apex));
+                outwardNormal = Material.Texture.NormalAt(rec.U, rec.V, rec.HitPoint, outwardNormal);
+
+                // Calculate U, V texture coordinates
+                rec.U = 0.5 + Math.Atan2(rec.HitPoint.Z, rec.HitPoint.X) / (2 * Math.PI);
+                rec.V = rec.HitPoint.Y / Height;
+
+                // Apply normal map if any
+                rec.Normal = Material.Texture.NormalAt(rec.U, rec.V, rec.HitPoint, outwardNormal);
+
+
                 rec.SetFaceNormal(r, outwardNormal);
                 rec.Material = Material;
                 hitSomething = true;
@@ -409,6 +443,14 @@ public class Cone : IHittable
             rec.T = tTopCap;
             rec.HitPoint = pTopCap;
             Vector3d normalTopCap = new Vector3d(0, -1, 0);  // Pointing downwards, because the cone is inverted
+            
+            // Calculate U, V texture coordinates
+            rec.U = 0.5 + Math.Atan2(rec.HitPoint.Z, rec.HitPoint.X) / (2 * Math.PI);
+            rec.V = rec.HitPoint.Y / Height;
+
+            // Apply normal map if any
+            rec.Normal = Material.Texture.NormalAt(rec.U, rec.V, rec.HitPoint, normalTopCap);
+
             rec.SetFaceNormal(r, normalTopCap);
             rec.Material = Material;
             hitSomething = true;
