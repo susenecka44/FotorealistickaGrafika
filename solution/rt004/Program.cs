@@ -81,7 +81,23 @@ internal class Program
         Dictionary<string, ObjectMaterial> loadedMaterials = new Dictionary<string, ObjectMaterial>();
         foreach (var mat in config.Materials)
         {
-            loadedMaterials[mat.Name] = new ObjectMaterial(mat.Color, mat.Ambient, mat.Diffuse, mat.Specular, mat.Shininess, mat.Reflectivity, mat.Refractivity);
+            ITexture texture;
+            switch (mat.Texture.ToLower())
+            {
+                case "none":
+                    texture = new SolidTexture(new Vector3d(mat.Color[0], mat.Color[1], mat.Color[2]));
+                    break;
+                case "solid":
+                    texture = new SolidTexture(new Vector3d(mat.Color[0], mat.Color[1], mat.Color[2]));
+                    break;
+                case "checker":
+                    texture = new CheckerTexture(new Vector3d(mat.Color[0], mat.Color[1], mat.Color[2]), new Vector3d(mat.SecondaryColor[0], mat.SecondaryColor[1], mat.SecondaryColor[2]), mat.TextureCoef);
+                    break;
+                default:
+                    texture = new SolidTexture(new Vector3d(mat.Color[0], mat.Color[1], mat.Color[2]));
+                    break;
+            }
+                loadedMaterials[mat.Name] = new ObjectMaterial(mat.Color, mat.SecondaryColor, texture, mat.Ambient, mat.Diffuse, mat.Specular, mat.Shininess, mat.Reflectivity, mat.Refractivity);
         }
 
         // Loading light sources

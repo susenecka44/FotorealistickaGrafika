@@ -1,9 +1,9 @@
 ﻿{
-  "Width": 80,
-  "Height": 65,
-  "FileName": "GeneratedImages/debugNovychobjektu.pfm",
+  "Width": 800,
+  "Height": 650,
+  "FileName": "GeneratedImages/nove.pfm",
   "CameraSettings": {
-    "Position": [ 2, 4, -20 ],
+    "Position": [ 0.90, 1, -7 ],
     "Direction": [ 0.00, -0.17, 1.00 ],
     "BackgroundColor": [ 25, 50, 75 ],
     "FOVAngle": 40
@@ -91,6 +91,19 @@
       "Refractivity": 0
     },
     {
+      "Name": "CheckerBoard",
+      "Color": [ 0.9, 0.9, 0.9 ],
+      "SecondaryColor": [ 0.1, 0.1, 0.1 ],
+      "Texture": "Checker",
+      "TextureCoef": 10,
+      "Ambient": 0.1,
+      "Diffuse": 0.9,
+      "Specular": 0.4,
+      "Shininess": 80,
+      "Reflectivity": 0.8,
+      "Refractivity": 0
+    },
+    {
       "Name": "GreenMatt",
       "Color": [ 0.5, 0.9, 0.5 ],
       "Ambient": 0.2,
@@ -165,25 +178,13 @@
       ]
     },
     {
-      "Name": "WhiteTorus",
-      "BasicShapes": [
-        {
-          "Type": "Torus",
-          "Position": [ 0, 0, 0 ],
-          "Radius": 0.5,
-          "MinorRadius": 0.25,
-          "Material": "WhiteMatt"
-        }
-      ]
-    },
-    {
       "Name": "Floor",
       "BasicShapes": [
         {
           "Type": "Plane",
           "Position": [ 0, 0, 0 ],
           "Normal": [ 0, 1, 0 ],
-          "Material": "Grass"
+          "Material": "CheckerBoard"
         }
       ]
     },
@@ -202,9 +203,14 @@
   ],
   "Scene": [
     {
-      "Type": "RedCone",
-      "Position": [ 1, -0.5, 0 ],
+      "Type": "CheckeredSphere",
+      "Position": [ 1, 1, 0 ],
       "Scale": [ 1.5, 1.5, 1.5 ]
+    },
+    {
+      "Type": "RedCone",
+      "Position": [ 3, -0.5, 0 ],
+      "Scale": [ 10, 10, 10 ]
     },
     {
       "Type": "GlassCube",
@@ -214,7 +220,7 @@
     },
     {
       "Type": "WhiteTorus",
-      "Position": [ 1,5, 0, -0.2 ],
+      "Position": [ 1, 5, 0, -0.2 ],
       "Scale": [ 0.1, 0.1, 0.1 ]
     },
     {

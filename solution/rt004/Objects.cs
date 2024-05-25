@@ -15,6 +15,7 @@ public struct HitRecord
 {
     public Vector3d HitPoint;
     public Vector3d Normal;
+    public double U, V; // Texture coordinates
     public double T;
     public bool FrontFace;
     public ObjectMaterial Material;
@@ -65,6 +66,8 @@ public class Sphere : IHittable
                 rec.T = temp;
                 rec.HitPoint = ray.PointAtParameter(rec.T);
                 Vector3d outwardNormal = (rec.HitPoint - Center) / Radius;
+                rec.U = 0.5 + Math.Atan2(outwardNormal.Z, outwardNormal.X) / (2 * Math.PI);
+                rec.V = 0.5 - Math.Asin(outwardNormal.Y) / Math.PI;
                 rec.SetFaceNormal(ray, outwardNormal);
                 return true;
             }

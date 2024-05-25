@@ -6,6 +6,9 @@ public class Material
 {
     public string Name { get; set; } = "Default";
     public double[] Color { get; set; } = new double[] { 1.0, 1.0, 1.0 };
+    public double[] SecondaryColor { get; set; } = new double[] { 0, 0, 0 };
+    public double TextureCoef { get; set; } = 1;
+    public string Texture { get; set; } = "None";
     public double Ambient { get; set; } = 0.1;
     public double Diffuse { get; set; } = 0.9;
     public double Specular { get; set; } = 0.5;

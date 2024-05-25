@@ -85,6 +85,8 @@ public class Raytracer : IRayTracer
 
         if (WorldHit(world, r, minPerformance, double.MaxValue, out rec))
         {
+            Vector3d materialColor = rec.Material.GetColor(rec.U, rec.V, rec.HitPoint);
+
             foreach (var light in lights)
             {
                 Vector3d lightDir = Vector3d.Normalize(light.Position - rec.HitPoint);
@@ -92,7 +94,7 @@ public class Raytracer : IRayTracer
 
                 if (light is AmbientLight)
                 {
-                    ambientColor += new Vector3d(rec.Material.Color[0], rec.Material.Color[1], rec.Material.Color[2]) * rec.Material.kA * light.Color;
+                    ambientColor += materialColor * rec.Material.kA * light.Color;
                 }
                 else if (light is PointLight && nDotL > 0)
                 {
@@ -103,7 +105,7 @@ public class Raytracer : IRayTracer
                     if (!WorldHit(world, shadowRay, 0.001f, distanceToLight, out _))
                     {
                         // Diffuse
-                        diffuseColor += nDotL * new Vector3d(rec.Material.Color[0], rec.Material.Color[1], rec.Material.Color[2]) * rec.Material.kD * light.Color;
+                        diffuseColor += nDotL * materialColor * rec.Material.kD * light.Color;
 
                         // Specular
                         Vector3d viewDir = Vector3d.Normalize(-r.Direction);
@@ -127,6 +129,7 @@ public class Raytracer : IRayTracer
             {
                 color = ambientColor;
             }
+            // aply texture:
             return color;
         }
         else
