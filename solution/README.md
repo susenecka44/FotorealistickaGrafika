@@ -8,6 +8,8 @@ Julie Vondráčková
 A program that creates a scene with lights, refractions, shadows.
 
 ---
+### New updates
+Added texture mapping :]
 
 ### Command Line Arguments
 
@@ -473,6 +475,7 @@ configuration:
 
 
 ### More Images
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/53346e28-dd0a-449c-aa9a-4d7604b81eec)
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/921fc8c6-2bf0-4a01-89be-77cbc9a3d7bc)
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/6ada726b-eeb6-4041-bef3-f3bb80fdf037)
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/9ea9a333-0189-4437-9f03-1212b011f708)
