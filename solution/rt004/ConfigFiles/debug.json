@@ -1,7 +1,7 @@
 ﻿{
-  "Width": 80,
-  "Height": 65,
-  "FileName": "GeneratedImages/debugTorusu.pfm",
+  "Width": 800,
+  "Height": 650,
+  "FileName": "GeneratedImages/debugNovychobjektu.pfm",
   "CameraSettings": {
     "Position": [ 0.90, 1, -7 ],
     "Direction": [ 0.00, -0.17, 1.00 ],
@@ -153,10 +153,10 @@
       ]
     },
     {
-      "Name": "GreenTorus",
+      "Name": "GreenCone",
       "BasicShapes": [
         {
-          "Type": "Torus",
+          "Type": "Cone",
           "Position": [ 0, 0, 0 ],
           "Radius": 1,
           "MinorRadius": 0.5,
@@ -190,9 +190,9 @@
   ],
   "Scene": [
     {
-      "Type": "GreenTorus",
+      "Type": "GreenCone",
       "Position": [ 1, 0, 0 ],
-      "Scale": [ 0.5, 0.5, 0.5 ]
+      "Scale": [ 1,1,1 ]
     },
     {
       "Type": "GlassCube",

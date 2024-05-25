@@ -167,8 +167,8 @@ internal class Program
             case "cylinder":
                 hittable = new Cylinder(objPosition, obj.Height, obj.Radius * parent.Scale[0], material);
                 break;
-            case "torus":
-                hittable = new Torus(objPosition, obj.Radius, obj.MinorRadius, material); 
+            case "cone":
+                hittable = new Cone(objPosition, obj.Radius, obj.MinorRadius, material); 
                 break;
             default:
                 throw new InvalidOperationException("Unknown object type.");

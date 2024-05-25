@@ -347,68 +347,51 @@ public class Cylinder : IHittable
     }
 }
 
-public class Torus : IHittable
+public class Cone : IHittable
 {
-    public Vector3d Center { get; private set; }
-    public double MajorRadius { get; private set; } // Distance from the center of the torus to the center of the tube
-    public double MinorRadius { get; private set; } // Radius of the tube itself
+    public Vector3d Apex { get; set; }
+    public double Height { get; set; }
+    public double Radius { get; set; }
     public ObjectMaterial Material { get; set; }
 
-    public Torus(Vector3d center, double majorRadius, double minorRadius, ObjectMaterial material)
+    public Cone(Vector3d apex, double height, double radius, ObjectMaterial material)
     {
-        Center = center;
-        MajorRadius = majorRadius;
-        MinorRadius = minorRadius;
+        Apex = apex;
+        Height = height;
+        Radius = radius;
         Material = material;
     }
 
     public bool Hit(Ray r, double tMin, double tMax, out HitRecord rec)
     {
         rec = new HitRecord();
-        Vector3d oc = r.Origin - Center;
+        Vector3d apexToOrigin = r.Origin - Apex;
+        double tanTheta = (Radius / Height);
+        double a = Vector3d.Dot(r.Direction, r.Direction) - (1 + tanTheta * tanTheta) * Math.Pow(Vector3d.Dot(r.Direction, Vector3d.UnitY), 2);
+        double b = 2 * (Vector3d.Dot(r.Direction, apexToOrigin) - (1 + tanTheta * tanTheta) * Vector3d.Dot(r.Direction, Vector3d.UnitY) * Vector3d.Dot(apexToOrigin, Vector3d.UnitY));
+        double c = Vector3d.Dot(apexToOrigin, apexToOrigin) - (1 + tanTheta * tanTheta) * Math.Pow(Vector3d.Dot(apexToOrigin, Vector3d.UnitY), 2);
 
-        double G = Vector3d.Dot(r.Direction, r.Direction);
-        double H = 2 * Vector3d.Dot(oc, r.Direction);
-        double I = Vector3d.Dot(oc, oc) + MajorRadius * MajorRadius - MinorRadius * MinorRadius;
+        double discriminant = b * b - 4 * a * c;
+        if (discriminant < 0) return false;
 
-        double J = Vector3d.Dot(oc, oc) + MajorRadius * MajorRadius;
-        double K = 4 * MajorRadius * MajorRadius * (r.Direction.X * r.Direction.X + r.Direction.Y * r.Direction.Y);
+        double sqrtDiscriminant = Math.Sqrt(discriminant);
+        double t = (-b - sqrtDiscriminant) / (2 * a);
+        if (t < tMin || t > tMax || !IsWithinConeHeight(r, t)) t = (-b + sqrtDiscriminant) / (2 * a);
+        if (t < tMin || t > tMax || !IsWithinConeHeight(r, t)) return false;
 
-        double c4 = G * G;
-        double c3 = 2 * G * H;
-        double c2 = H * H + 2 * G * I - K;
-        double c1 = 2 * H * I;
-        double c0 = I * I - K * J;
+        rec.T = t;
+        rec.HitPoint = r.PointAtParameter(t);
+        Vector3d outwardNormal = Vector3d.Normalize(Vector3d.Cross(Vector3d.Cross(rec.HitPoint - Apex, Vector3d.UnitY), rec.HitPoint - Apex));
+        rec.SetFaceNormal(r, outwardNormal);
+        rec.Material = Material;
 
-        var roots = CalculationsOfFormulasNeeded.SolveQuartic(c0, c1, c2, c3, c4);
-        Console.WriteLine($"Roots found: {roots.Length}");
-        foreach (var root in roots)
-        {
-            Console.WriteLine($"Root: {root}, tMin: {tMin}, tMax: {tMax}");
-        }
-        bool hasHit = false;
-        double closestT = double.MaxValue;
-        foreach (double t in roots)
-        {
-            if (t < closestT && t > tMin && t < tMax)
-            {
-                closestT = t;
-                hasHit = true;
-            }
-        }
-
-        if (hasHit)
-        {
-            rec.T = closestT;
-            rec.HitPoint = r.PointAtParameter(rec.T);
-            Vector3d hitPointToCenter = rec.HitPoint - Center;
-            Vector3d tubeCenter = hitPointToCenter * (MajorRadius / hitPointToCenter.Length);
-            rec.Normal = (rec.HitPoint - (Center + tubeCenter)).Normalized();
-            rec.Material = Material;
-            rec.SetFaceNormal(r, rec.Normal);
-            return true;
-        }
-        return false;
+        return true;
+    }
+    private bool IsWithinConeHeight(Ray r, double t)
+    {
+        Vector3d point = r.PointAtParameter(t);
+        double heightAtPoint = Vector3d.Dot(point - Apex, Vector3d.UnitY);
+        return heightAtPoint >= 0 && heightAtPoint <= Height;
     }
 }
 
