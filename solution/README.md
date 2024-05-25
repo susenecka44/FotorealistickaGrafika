@@ -10,6 +10,8 @@ A program that creates a scene with lights, refractions, shadows.
 ---
 ### New updates
 Added texture mapping :]
+![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/d5f3201f-043a-45ad-acdd-47fb72ce130e)
+
 
 ### Command Line Arguments
 
