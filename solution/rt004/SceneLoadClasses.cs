@@ -73,6 +73,8 @@ public class AlgorithmSettings
     public string AntiAliasing { get; set; } = "JitteredSamplingAliasing";
     public string RayTracer { get; set; } = "Basic";
     public bool Paralellism { get; set; } = true;
+    public double Exposure { get; set; } = 1.0f; // Default exposure
+
 }
 
 public class SceneConfig : Options

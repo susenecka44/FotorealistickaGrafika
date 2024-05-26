@@ -5,7 +5,9 @@ using Util;
 using System.Drawing;
 using System;
 using OpenTK.Mathematics;
-using System.Runtime.Intrinsics.X86;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using OpenTK;
 
 namespace rt004;
 public class Options
@@ -244,10 +246,10 @@ internal class Program
 
                     color = aliasAlgorithm.PixelAlias(color, i, j, width, height, camera, raytracer, algorithmSettings, scene, lightSources);
 
-                    float[] convertedColor = { (float)color.X / 255.0F, (float)color.Y / 255.0F, (float)color.Z / 255.0F };
+                    float[] toneMappedColor = ToneMap(color, algorithmSettings.Exposure);
                     lock (lockerThingy)
                     {
-                        fi.PutPixel(i, j, convertedColor);
+                        fi.PutPixel(i, j, toneMappedColor);
                     }
                 }
             });
@@ -261,15 +263,14 @@ internal class Program
                     Vector3d color = new Vector3d(0, 0, 0);
 
                     color = aliasAlgorithm.PixelAlias(color, i, j, width, height, camera, raytracer, algorithmSettings, scene, lightSources);
-
-                    float[] convertedColor = { (float)color.X / 255.0F, (float)color.Y / 255.0F, (float)color.Z / 255.0F };
-                    fi.PutPixel(i, j, convertedColor);
+                    
+                    float[] toneMappedColor = ToneMap(color, algorithmSettings.Exposure);
+                    fi.PutPixel(i, j, toneMappedColor);
                 }
             }
         }
         return fi;
     }
-
 
     private static void SaveFile(string fileName, FloatImage image)
     {
@@ -293,5 +294,18 @@ internal class Program
                 Console.WriteLine($"PFM image '{fileName}' is finished.");
                 break;
         }
+    }
+
+    public static float[] ToneMap(Vector3d color, double exposure)
+    {
+        float[] toneMappedColor = { ToneMapComponent(color.X, exposure),
+                                    ToneMapComponent(color.Y, exposure),
+                                    ToneMapComponent(color.Z, exposure) };
+        return toneMappedColor;
+    }
+
+    private static float ToneMapComponent(double lw, double lwMax)
+    {
+        return (float)(Math.Log(lw + 1) / Math.Log(lwMax + 1));
     }
 }

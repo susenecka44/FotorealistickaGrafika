@@ -17,7 +17,8 @@
     "MinimalPerformance": 0.001,
     "AntiAliasing": "HammersleyAliasing",
     "RayTracer": "basic",
-    "Paralellism": true
+    "Paralellism": true,
+    "Exposure": 1.0
   },
   "Materials": [
     {
@@ -95,7 +96,7 @@
       "Color": [ 0.9, 0.9, 0.9 ],
       "SecondaryColor": [ 0.1, 0.1, 0.1 ],
       "Texture": "checker",
-      "TextureCoef": 2,
+      "TextureCoef": 20,
       "Ambient": 0.1,
       "Diffuse": 0.9,
       "Specular": 0.4,
@@ -185,7 +186,7 @@
           "Type": "Plane",
           "Position": [ 0, 0, 0 ],
           "Normal": [ 0, 1, 0 ],
-          "Material": "CheckerBoard"
+          "Material": "Leaves"
         }
       ]
     },
@@ -196,7 +197,7 @@
           "Type": "Cube",
           "Position": [ 0, 0, 0 ],
           "Size": [ 1, 1, 1 ],
-          "Material": "Glass",
+          "Material": "CheckerBoard",
           "Angle": 30
         }
       ]

@@ -449,7 +449,7 @@ public class Cone : IHittable
             rec.V = rec.HitPoint.Y / Height;
 
             // Apply normal map if any
-            rec.Normal = Material.Texture.NormalAt(rec.U, rec.V, rec.HitPoint, normalTopCap);
+            normalTopCap = Material.Texture.NormalAt(rec.U, rec.V, rec.HitPoint, normalTopCap);
 
             rec.SetFaceNormal(r, normalTopCap);
             rec.Material = Material;
