@@ -18,7 +18,7 @@
     "AntiAliasing": "HammersleyAliasing",
     "RayTracer": "basic",
     "Paralellism": true,
-    "Exposure": 1.0
+    "Exposure": 60.0
   },
   "Materials": [
     {
