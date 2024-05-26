@@ -209,7 +209,7 @@
           "Type": "Sphere",
           "Position": [ 0, 0, 0 ],
           "Radius": 1,
-          "Material": "YellowMatt"
+          "Material": "Wood"
         }
       ]
     }

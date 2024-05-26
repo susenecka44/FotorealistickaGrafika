@@ -115,19 +115,20 @@ public class Raytracer : IRayTracer
                     }
                 }
             }
-            Vector3d color;
+
+            Vector3d color = rec.Material.GetColor(rec.U, rec.V, rec.HitPoint);
             if (RenderShadows)
             {
                 // Combine all components
-                color = ambientColor + diffuseColor + specularColor;
+                color += ambientColor + diffuseColor + specularColor;
             }
             else if (RenderReflections && !RenderShadows)
             {
-                color = ambientColor + specularColor;
+                color += ambientColor + specularColor;
             }
             else
             {
-                color = ambientColor;
+                color += ambientColor;
             }
             // aply texture:
             return color;
