@@ -116,7 +116,7 @@ public class Raytracer : IRayTracer
                 }
             }
 
-            Vector3d color = rec.Material.GetColor(rec.U, rec.V, rec.HitPoint);
+            Vector3d color = new Vector3d(0, 0, 0);
             if (RenderShadows)
             {
                 // Combine all components
