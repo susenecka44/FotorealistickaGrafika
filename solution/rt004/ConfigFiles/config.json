@@ -1,0 +1,306 @@
+{
+  "Width": 800,
+  "Height": 650,
+  "FileName": "GeneratedImages/forrest.pfm",
+  "CameraSettings": {
+    "Position": [ 0.90, 1, -7 ],
+    "Direction": [ 0.00, -0.17, 1.00 ],
+    "BackgroundColor": [ 25, 50, 75 ],
+    "FOVAngle": 40
+  },
+  "AlgorithmSettings": {
+    "ShadowsEnabled": true,
+    "ReflectionsEnabled": true,
+    "RefractionsEnabled": true,
+    "SamplesPerPixel": 10,
+    "MaxDepth": 7,
+    "MinimalPerformance": 0.001,
+    "AntiAliasing": "HammersleyAliasing",
+    "RayTracer": "basic",
+    "Paralellism": true
+  },
+  "Materials": [
+    {
+      "Name": "YellowMatt",
+      "Color": [ 1.0, 1.0, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.8,
+      "Specular": 0.2,
+      "Shininess": 80,
+      "Reflectivity": 0.05,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Leaves",
+      "Color": [ 0.003921, 0.196, 0.12549 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.9,
+      "Specular": 0.00000001,
+      "Shininess": 10,
+      "Reflectivity": 0,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Trunk",
+      "Color": [ 0.64, 0.2, 0.16 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.8,
+      "Specular": 0.2,
+      "Shininess": 80,
+      "Reflectivity": 0.05,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Grass",
+      "Color": [ 0.329, 0.722, 0.278 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.2,
+      "Specular": 0.02,
+      "Shininess": 1,
+      "Reflectivity": 0.01,
+      "Refractivity": 0
+    },
+    {
+      "Name": "BlueReflective",
+      "Color": [ 0.8, 0.8, 1.0 ],
+      "Ambient": 0.0,
+      "Diffuse": 0.0,
+      "Specular": 0.9,
+      "Shininess": 150,
+      "Reflectivity": 0.2,
+      "Refractivity": 1.45
+    },
+    {
+      "Name": "RedReflective",
+      "Color": [ 0.8, 0.2, 0.2 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.6,
+      "Specular": 0.4,
+      "Shininess": 80,
+      "Reflectivity": 0.110,
+      "Refractivity": 2.1
+    },
+    {
+      "Name": "WhiteMatt",
+      "Color": [ 0.9, 0.9, 0.9 ],
+      "Ambient": 0.1,
+      "Diffuse": 0.9,
+      "Specular": 0.4,
+      "Shininess": 80,
+      "Reflectivity": 0.8,
+      "Refractivity": 0
+    },
+    {
+      "Name": "GreenMatt",
+      "Color": [ 0.5, 0.9, 0.5 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.6,
+      "Specular": 0.2,
+      "Shininess": 150,
+      "Reflectivity": 0.20,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Gold",
+      "Color": [ 0.3, 0.2, 0.0 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.2,
+      "Specular": 0.8,
+      "Shininess": 400,
+      "Reflectivity": 0.90,
+      "Refractivity": 0
+    },
+    {
+      "Name": "Black",
+      "Color": [ 0.01, 0.01, 0.01 ],
+      "Ambient": 0.2,
+      "Diffuse": 0.2,
+      "Specular": 0.2,
+      "Shininess": 20,
+      "Reflectivity": 0.20,
+      "Refractivity": 0
+    }
+  ],
+  "ObjectsInScene": [
+    {
+      "Name": "Tree",
+      "BasicShapes": [
+        {
+          "Type": "Cylinder",
+          "Position": [ 0, -1, 0 ],
+          "Height": 1.2,
+          "Radius": 0.1,
+          "Material": "Trunk"
+        },
+        {
+          "Type": "Sphere",
+          "Position": [ 0, 0.7, 0 ],
+          "Radius": 0.8,
+          "Material": "Leaves"
+        },
+        {
+          "Type": "Sphere",
+          "Position": [ 0.5, 0.6, 0 ],
+          "Radius": 0.4,
+          "Material": "Leaves"
+        },
+        {
+          "Type": "Sphere",
+          "Position": [ -0.2, 0.9, 0 ],
+          "Radius": 0.6,
+          "Material": "Leaves"
+        }
+      ]
+    },
+    {
+      "Name": "YellowSphere",
+      "BasicShapes": [
+        {
+          "Type": "Sphere",
+          "Position": [ 0, 0, 0 ],
+          "Radius": 1,
+          "Material": "YellowMatt"
+        }
+      ]
+    },
+    {
+      "Name": "Floor",
+      "BasicShapes": [
+        {
+          "Type": "Plane",
+          "Position": [ 0, 0, 0 ],
+          "Normal": [ 0, 1, 0 ],
+          "Material": "Grass"
+        }
+      ]
+    },
+    {
+      "Name": "GlassCube",
+      "BasicShapes": [
+        {
+          "Type": "Cube",
+          "Position": [ 0, 0, 0 ],
+          "Size": [ 1, 1, 1 ],
+          "Material": "BlueReflective",
+          "Angle": 30
+        }
+      ]
+    }
+  ],
+  "Scene": [
+    {
+      "Type": "Tree",
+      "Position": [ -2, 0, 0 ],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 2, 0, 0 ],
+      "Scale": [ 1, 1, 1 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ -2, 0, -2 ],
+      "Scale": [ 0.8, 0.8, 0.8 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 2, 0, -2 ],
+      "Scale": [ 0.8, 0.8, 0.8 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 0, 0, -1 ],
+      "Scale": [ 0.9, 0.9, 0.9 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ -1, 0, -3 ],
+      "Scale": [ 0.7, 0.7, 0.7 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 1, 0, -3 ],
+      "Scale": [ 0.7, 0.7, 0.7 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ -3, 0, -4 ],
+      "Scale": [ 0.6, 0.6, 0.6 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 3, 0, -4 ],
+      "Scale": [ 0.6, 0.6, 0.6 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 0, 0, -5 ],
+      "Scale": [ 0.5, 0.5, 0.5 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ -2, 0, -6 ],
+      "Scale": [ 0.65, 0.65, 0.65 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 2, 0, -6 ],
+      "Scale": [ 0.65, 0.65, 0.65 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ -3, 0, -7 ],
+      "Scale": [ 0.75, 0.75, 0.75 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 3, 0, -7 ],
+      "Scale": [ 0.75, 0.75, 0.75 ]
+    },
+    {
+      "Type": "Tree",
+      "Position": [ 0, 0, -8 ],
+      "Scale": [ 0.85, 0.85, 0.85 ]
+    },
+    {
+      "Type": "YellowSphere",
+      "Position": [ 0.5, 1.3, 0 ],
+      "Scale": [ 0.1, 0.1, 0.1 ],
+      "Rotation": [ 0, 0, 1 ]
+    },
+    {
+      "Type": "YellowSphere",
+      "Position": [ -1, 1.2, 0 ],
+      "Scale": [ 0.1, 0.1, 0.1 ],
+      "Rotation": [ 0, 0, 1 ]
+    },
+    {
+      "Type": "GlassCube",
+      "Position": [ 2, -0.5, -0.2 ],
+      "Scale": [ 0.4, 0.4, 0.4 ],
+      "Rotation": [ 0, 0, 1 ]
+    },
+    {
+      "Type": "Floor",
+      "Position": [ 0, -1, 0 ]
+    }
+  ],
+  "Lights": [
+    {
+      "Type": "PointLight",
+      "Position": [ -10.0, 8.0, -6.0 ],
+      "Color": [ 255, 234, 231 ]
+    },
+    {
+      "Type": "PointLight",
+      "Position": [ 0.0, 20.0, -3.0 ],
+      "Color": [ 255, 234, 231 ]
+    },
+    {
+      "Type": "AmbientLight",
+      "Color": [ 234, 234, 220 ],
+      "Intensity": 0.5
+    }
+  ]
+}

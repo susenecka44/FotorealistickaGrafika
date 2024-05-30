@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="demo.pfm" />
+    <None Remove="shared\placeholder" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\shared\FloatImage.cs" Link="shared\FloatImage.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="GeneratedImages\" />
+    <Folder Include="shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="OpenTK.Mathematics" Version="5.0.0-pre.8" />
+    <PackageReference Include="SixLabors.Fonts" Version="2.0.3" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.3" />
+  </ItemGroup>
+
+</Project>

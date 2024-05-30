@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "rt004": {
+      "commandName": "Project",
+      "commandLineArgs": "-c ConfigFiles/debug.json",
+      "workingDirectory": "$(ProjectDir)"
+    }
+  }
+}
