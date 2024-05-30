@@ -2,6 +2,10 @@
 using rt004;
 using System.Collections.Generic;
 
+/// <summary>
+/// Classes used for loading the scene from a JSON file
+/// </summary>
+
 public class Material
 {
     public string Name { get; set; } = "Default";

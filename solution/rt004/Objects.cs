@@ -6,11 +6,24 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 
+/// <summary>
+/// Interface for all objects that can be hit by a ray
+/// </summary>
 public interface IHittable
 {
+    /// <summary>
+    /// Hit function that checks if a ray hits the current object based on mathematic calculations
+    /// </summary>
+    /// <param name="r"> ray with which it is supposed to intersect </param>
+    /// <param name="rec"> the out HitRecord class </param>
+    /// <returns> Hit Record </returns>
     bool Hit(Ray r, double tMin, double tMax, out HitRecord rec);
 }
 
+
+/// <summary>
+/// Hit record struct that stores information about a hit point of a object in scene needed by the raytracer
+/// </summary>
 public struct HitRecord
 {
     public Vector3d HitPoint;
@@ -32,6 +45,9 @@ public struct HitRecord
     }
 }
 
+/// <summary>
+/// Hitable Sphere object
+/// </summary>
 public class Sphere : IHittable
 {
     public Vector3d Center { get; set; }
@@ -89,6 +105,9 @@ public class Sphere : IHittable
     }
 }
 
+/// <summary>
+/// Hitable Plane object
+/// </summary>
 public class Plane : IHittable
 {
     public Vector3d Point { get; set; } // A point on the plane
@@ -132,6 +151,9 @@ public class Plane : IHittable
     }
 }
 
+/// <summary>
+/// Hitable Cube object
+/// </summary>
 public class Cube : IHittable
 {
     public Vector3d Center { get; private set; }
@@ -249,6 +271,9 @@ public class Cube : IHittable
     }
 }
 
+/// <summary>
+/// Hitable Cylinder object
+/// </summary>
 public class Cylinder : IHittable
 {
     public Vector3d BaseCenter { get; private set; } // = Position
@@ -374,6 +399,9 @@ public class Cylinder : IHittable
     }
 }
 
+/// <summary>
+/// Hitable Cone object
+/// </summary>
 public class Cone : IHittable
 {
     public Vector3d Apex { get; set; }
@@ -468,7 +496,9 @@ public class Cone : IHittable
     }
 }
 
-
+/// <summary>
+/// Calculations needed for the hit calculations
+/// </summary>
 public static class CalculationsOfFormulasNeeded
 {
     public static double[] SolveQuartic(double c0, double c1, double c2, double c3, double c4)

@@ -68,8 +68,9 @@ internal class Program
 
 
     /// <summary>
-    /// Creates an image according to json scenes
+    /// Loads the scene configuration and generates the image
     /// </summary>
+    /// <param name="config"> SceneConfig on which you want to generate the image </param>
     private static void ProcessAndGenerateImage(ref SceneConfig config)
     {
         ICamera camera = new PerspectiveCamera(new Vector3d(config.CameraSettings.Position[0], config.CameraSettings.Position[1], config.CameraSettings.Position[2]), config.Width, config.Height, config.CameraSettings.FOVAngle, new Vector3d(config.CameraSettings.Direction[0], config.CameraSettings.Direction[1], config.CameraSettings.Direction[2]));
@@ -157,8 +158,13 @@ internal class Program
     }
 
     /// <summary>
-    /// Helper functions for the main generator
+    /// Adds a scene object to the scene based on parameters
     /// </summary>
+    /// <param name="obj"> object type </param>
+    /// <param name="loadedMaterials"> list of materials for the scene </param>
+    /// <param name="scene"> list of current scene objects </param>
+    /// <param name="parent"> hierarchy parent of the object </param>
+    /// <exception cref="InvalidOperationException"> unknown object type passed to function </exception>
     private static void AddSceneObject(PrimitiveObject obj, Dictionary<string, ObjectMaterial> loadedMaterials, List<IHittable> scene, ObjectInScene parent)
     {
         ObjectMaterial material = loadedMaterials[obj.Material];
@@ -195,6 +201,12 @@ internal class Program
         scene.Add(hittable);
     }
 
+    /// <summary>
+    /// Rotates a vector by the given angles
+    /// </summary>
+    /// <param name="vector"> vector to rotate </param>
+    /// <param name="rotationAngles"> rotation angle </param>
+    /// <returns></returns>
     private static Vector3d RotateVector(Vector3d vector, Vector3d rotationAngles)
     {
         // degrees to radians
@@ -209,6 +221,11 @@ internal class Program
         return rotatedVector;
     }
 
+    /// <summary>
+    /// Gets the aliasing algorithm based on its name in the string passed
+    /// </summary>
+    /// <param name="aliasType"> name of the algorithm </param>
+    /// <returns> antialiasing algorithm </returns>
     private static IAliasingAlgorithm GetAliasingAlgorithm(string aliasType)
     {
         switch (aliasType)
@@ -228,6 +245,18 @@ internal class Program
         }
     }
 
+    /// <summary>
+    /// Generates the picture
+    /// </summary>
+    /// <param name="aliasAlgorithm"> antialias algorithm used for the image </param>
+    /// <param name="width"> width of the image </param>
+    /// <param name="height"> height of the image </param>
+    /// <param name="camera"> camera type used as viewer </param>
+    /// <param name="raytracer"> raytracer type - using specific BRDF </param>
+    /// <param name="algorithmSettings"> algorithm setting </param>
+    /// <param name="scene"> scene objects with all their data </param>
+    /// <param name="lightSources"> lights with all their data </param>
+    /// <returns> FloatImage generated with the settings passed to this function </returns>
     private static FloatImage GeneratePicture(IAliasingAlgorithm aliasAlgorithm, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
     {
         Console.WriteLine("Generating... ");
@@ -270,7 +299,11 @@ internal class Program
         return fi;
     }
 
-
+    /// <summary>
+    /// Saves the image to a file
+    /// </summary>
+    /// <param name="fileName"> name of file </param>
+    /// <param name="image"> the image to be saved </param>
     private static void SaveFile(string fileName, FloatImage image)
     {
         // Check the file extension

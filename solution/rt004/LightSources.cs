@@ -6,6 +6,9 @@ using System.Numerics;
 using OpenTK.Mathematics;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Light source abstract class for all light sources
+/// </summary>
 public abstract class LightSource
 {
     public Vector3d Position { get; set; }
@@ -13,6 +16,10 @@ public abstract class LightSource
 
 }
 
+/// <summary>
+/// Ambient light source class
+/// -> light source that illuminates all objects in the scene equally
+/// </summary>
 public class AmbientLight : LightSource
 {
     public AmbientLight(Vector3d color, double intensity) {
@@ -23,6 +30,11 @@ public class AmbientLight : LightSource
         Color = new Vector3d(cX, cY, cZ);
     }
 }
+
+/// <summary>
+/// Directional light source class
+/// -> light source that illuminates objects from a specific direction
+/// </summary>
 public class PointLight : LightSource
 {
     public PointLight(Vector3d position, Vector3d color, double intensity)

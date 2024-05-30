@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 
+/// <summary>
+/// Vector3dExtensions class that contains extension methods for the Vector3d class based on methods from the Vector3 class in OpenTK.Mathematics
+/// </summary>
 // previous code based on Vector3 based on floats - these are extensions for the methods that arent avaiable in OpenTK.Mathematics, but are in Vecotr3
 public static class Vector3dExtensions
 {

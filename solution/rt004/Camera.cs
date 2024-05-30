@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 
+/// <summary>
+/// Ray class that represents a ray in 3D space
+/// </summary>
 public class Ray
 {
     public Vector3d Origin { get; set; }
@@ -22,13 +25,18 @@ public class Ray
     }
 }
 
-
+/// <summary>
+/// Interface for all cameras
+/// </summary>
 public interface ICamera
 {
     public Ray GetRay(double u, double v);
 }
 
 
+/// <summary>
+/// Perspective camera class using a perspective projection
+/// </summary>
 public class PerspectiveCamera : ICamera
 {
     public Vector3d LowerLeftCorner { get; set; }

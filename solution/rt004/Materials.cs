@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Mathematics;
 
-
+/// <summary>
+/// Object material class that represents the material of an object
+/// -> all the properties of the material are stored in this class
+/// </summary>
 public class ObjectMaterial
 {
     //  “ kA + kD + kS = 1“ (to avoid overflow)
@@ -31,6 +34,14 @@ public class ObjectMaterial
         Reflectivity = reflectivity;
         Refractivity = refractivity;
     }
+
+    /// <summary>
+    /// Returns the color of the object material at the given point
+    /// </summary>
+    /// <param name="u"> coordinate of the point </param>
+    /// <param name="v"> coordinate of the point </param>
+    /// <param name="p"> used for texture </param>
+    /// <returns></returns>
     public Vector3d GetColor(double u, double v, Vector3d p)
     {
         if (Texture != null)

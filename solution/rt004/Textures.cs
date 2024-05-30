@@ -5,19 +5,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Interface for all textures
+/// </summary>
 public interface ITexture
 {
     Vector3d ColorAt(double u, double v, Vector3d p);
     Vector3d NormalAt(double u, double v, Vector3d p, Vector3d normal);
 }
 
+/// <summary>
+/// Checker texture class that creates a checker pattern
+/// using only color mapping (no normal mapping)
+/// </summary>
 public class CheckerTexture : ITexture
 {
     private Vector3d color1;
     private Vector3d color2;
     public double size;
 
-    // biggger size = smaller squares
+    /// <summary>
+    /// Defines a checker texture with two colors and a size
+    /// </summary>
+    /// <param name="color1"> first color of the pattern</param>
+    /// <param name="color2"> second color of the pattern</param>
+    /// <param name="size"> biggger size = smaller squares </param>
     public CheckerTexture(Vector3d color1, Vector3d color2, double size)
     {
         this.color1 = color1;
@@ -37,6 +49,9 @@ public class CheckerTexture : ITexture
     }
 }
 
+/// <summary>
+/// Solid texture class that creates a solid color texture (no color mapping, no normal mapping)
+/// </summary>
 public class SolidTexture : ITexture
 {
     private Vector3d color;
@@ -57,6 +72,10 @@ public class SolidTexture : ITexture
     }
 }
 
+
+/// <summary>
+/// Creates a wood-like texture ( color mapping and normal mapping usin Perlin noise )
+/// </summary>
 public class WoodTexture : ITexture
 {
     private Vector3d lightColor;
@@ -64,6 +83,12 @@ public class WoodTexture : ITexture
     public double ringFrequency;
     public double grainFrequency;
 
+    /// <summary>
+    /// Wood texture constructor with light and dark color and ring frequency
+    /// </summary>
+    /// <param name="lightColor"> lighter color of wood </param>
+    /// <param name="darkColor"> darker color of wood </param>
+    /// <param name="ringFrequency"> frequency of ring generation </param>
     public WoodTexture(Vector3d lightColor, Vector3d darkColor, double ringFrequency)
     {
         this.lightColor = lightColor;

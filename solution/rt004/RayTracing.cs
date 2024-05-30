@@ -4,6 +4,9 @@ using System.Numerics;
 using OpenTK.Mathematics;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Interface for all raytracers
+/// </summary>
 public interface IRayTracer
 {
     public Vector3d TraceRay(Ray r, List<IHittable> world, List<LightSource> lights, int depth);
@@ -11,7 +14,8 @@ public interface IRayTracer
 }
 
 /// <summary>
-/// Based on Phongs model-ish
+/// Basic raytracer class that traces rays and computes the color of the pixel
+/// uses Phong shading model
 /// </summary>
 public class Raytracer : IRayTracer
 {
@@ -31,6 +35,15 @@ public class Raytracer : IRayTracer
         this.RenderShadows = shadows;
         this.RenderRefractions = refractions;
     }
+
+    /// <summary>
+    ///  The raytracing algorithm that traces the ray and computes the color of the pixel
+    /// </summary>
+    /// <param name="r"> ray casted to the scene </param>
+    /// <param name="world"> list of objects in scene </param>
+    /// <param name="lights"> list of lights in scene </param>
+    /// <param name="depth"> maximum on reflections/bounces of ray in scene </param>
+    /// <returns> color </returns>
     public Vector3d TraceRay(Ray r, List<IHittable> world, List<LightSource> lights, int depth)
     {
         depth = Math.Min(depth, maxDepth);
@@ -76,6 +89,13 @@ public class Raytracer : IRayTracer
         }
     }
 
+    /// <summary>
+    ///  Returns ray color
+    /// </summary>
+    /// <param name="r"> casted ray </param>
+    /// <param name="world"> objects in scene </param>
+    /// <param name="lights"> lights in scene </param>
+    /// <returns> color </returns>
     public Vector3d RayColor(Ray r, List<IHittable> world, List<LightSource> lights)
     {
         HitRecord rec;
@@ -140,6 +160,15 @@ public class Raytracer : IRayTracer
         }
     }
 
+    /// <summary>
+    /// creates HitRecord for the object that is hit if any
+    /// </summary>
+    /// <param name="world"> objects in scene </param>
+    /// <param name="r"> casted ray </param>
+    /// <param name="tMin"></param>
+    /// <param name="tMax"></param>
+    /// <param name="rec"> HitRecord with the object hit data </param>
+    /// <returns></returns>
     bool WorldHit(List<IHittable> world, Ray r, double tMin, double tMax, out HitRecord rec)
     {
         rec = new HitRecord();
@@ -158,6 +187,11 @@ public class Raytracer : IRayTracer
         return hitAnything;
     }
 
+    /// <summary>
+    /// Computes the background color of the scene
+    /// </summary>
+    /// <param name="direction"> direction of the gradient </param>
+    /// <returns> color </returns>
     private Vector3d ComputeBackgroundColor(Vector3d direction)
     {
         Vector3d unitDirection = Vector3d.Normalize(direction);
@@ -166,9 +200,19 @@ public class Raytracer : IRayTracer
     }
 }
 
-// calculatios for refractions
+/// <summary>
+/// Calculates the refracted direction of a ray
+/// </summary>
 public class Calculations
 {
+    /// <summary>
+    /// Computes the refracted direction of a ray
+    /// </summary>
+    /// <param name="direction"> direction of the current ray </param>
+    /// <param name="normal"> current normal </param>
+    /// <param name="refractivity"> refractive coeficient </param>
+    /// <param name="isOutside"> indicator if the hit is in the inside or outside of some object </param>
+    /// <returns></returns>
     public static Vector3d ComputeRefractedDirection(Vector3d direction, Vector3d normal, double refractivity, bool isOutside)
     {
         double n12 = isOutside ? 1 / refractivity : refractivity;

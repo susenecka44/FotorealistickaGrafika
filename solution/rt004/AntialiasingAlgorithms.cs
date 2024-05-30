@@ -6,12 +6,33 @@ using System.Drawing;
 using System;
 using OpenTK.Mathematics;
 
-
+/// <summary>
+/// Interface for all antialiasing algorithms
+/// </summary>
 interface IAliasingAlgorithm
 {
+    /// <summary>
+    /// Anti-aliasing algorithm that returns the color of the pixel based on the algorithm
+    /// </summary>
+    /// <param name="color"> final color </param>
+    /// <param name="i"> pixel coordinate </param>
+    /// <param name="j"> pixel coordinate </param>
+    /// <param name="width"> image width </param>
+    /// <param name="height"> image height </param>
+    /// <param name="camera"> camera used </param>
+    /// <param name="raytracer"> raytracer used </param>
+    /// <param name="algorithmSettings"> algorithm settings used </param>
+    /// <param name="scene"> objects in scene </param>
+    /// <param name="lightSources"> lights in scene </param>
+    /// <returns></returns>
     public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources);
 
 }
+
+/// <summary>
+/// Jittered sampling antialiasing algorithm
+/// -> jittered sampling is a technique that randomly samples the pixel multiple times and averages the result
+/// </summary>
 public class JitteredSamplingAliasing : IAliasingAlgorithm
 {
     public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
@@ -32,6 +53,9 @@ public class JitteredSamplingAliasing : IAliasingAlgorithm
     }
 }
 
+/// <summary>
+/// No aliasing algorithm
+/// </summary>
 public class NoAliasing : IAliasingAlgorithm
 {
     public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
@@ -45,6 +69,10 @@ public class NoAliasing : IAliasingAlgorithm
 
 }
 
+/// <summary>
+/// Supersampling antialiasing algorithm
+/// -> supersampling is a technique that samples the pixel multiple times and averages the result
+/// </summary>
 public class SupersamplingAliasing : IAliasingAlgorithm
 {
     public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
@@ -68,6 +96,10 @@ public class SupersamplingAliasing : IAliasingAlgorithm
     }
 }
 
+/// <summary>
+/// Hammersley aliasing algorithm
+/// -> Hammersley is a technique that samples the pixel methodically multiple times and averages the result
+/// </summary>
 public class HammersleyAliasing : IAliasingAlgorithm
 {
     public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
@@ -100,6 +132,10 @@ public class HammersleyAliasing : IAliasingAlgorithm
     }
 }
 
+/// <summary>
+/// Correlated multi-jittered aliasing algorithm
+/// -> Correlated multi-jittered is a technique that samples the pixel randomly multiple times and averages the result
+/// </summary>
 public class CorrelatedMultiJitteredAliasing : IAliasingAlgorithm
 {
     public Vector3d PixelAlias(Vector3d color, int i, int j, int width, int height, ICamera camera, IRayTracer raytracer, AlgorithmSettings algorithmSettings, List<IHittable> scene, List<LightSource> lightSources)
