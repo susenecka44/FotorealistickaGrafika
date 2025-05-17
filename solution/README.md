@@ -495,13 +495,3 @@ configuration:
 ### Use of AI
 
 AI used for mostly fixing parts of code - debugging and small help.
-
-Checkpoint IV.
-- https://chat.openai.com/share/3253c7c8-56ea-4006-9030-ae4d3c33d87b
-- https://chat.openai.com/share/816487f7-756d-4939-89ea-ff8c373b55ec
-
-Checkpoint III.
-- https://chat.openai.com/share/f69f1015-9448-4923-be62-176c46bcb8c8
-- https://chat.openai.com/share/af8f2f21-3dc3-4ae0-be45-cb0791f8a29c
-- https://chat.openai.com/share/7a216118-ae1c-43f5-8079-bb3a7cce1a35
-- https://chat.openai.com/share/8c335fb4-eeb5-4717-b9da-51d143d67c62
