@@ -482,6 +482,7 @@ configuration:
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/6ada726b-eeb6-4041-bef3-f3bb80fdf037)
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/9ea9a333-0189-4437-9f03-1212b011f708)
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/d10b1832-286a-415f-a4d4-4ea08c87ba35)
+![image](https://github.com/user-attachments/assets/87b66251-db7b-401e-8874-6a42f06b106e)
 ![image](https://github.com/susenecka44/FotorealistickaGrafika/assets/97854742/103974f3-370c-4aa9-a307-5f8460044a0d)
 
 
